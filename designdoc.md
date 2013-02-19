@@ -8,11 +8,13 @@ powerful than DiabloDrops.
 
 ## Goals of Development
 * General
-** Customizable
-** Flexible
-** Powerful
-** Easily Usable
-** Extendable
+  * Customizable
+  * Flexible
+  * Powerful
+  * Easily Usable
+  * Extendable
+* Compatibility
+  * Fully compatible with Heroes
 
 ## Stages of Development
 MythicDrops is going to follow the standard stages of initial development: Pre-Alpha, Alpha, Beta, and Release. There will
