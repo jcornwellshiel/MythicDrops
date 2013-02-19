@@ -1,6 +1,6 @@
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
+/javadoc
+/.settings
+/bin
+/dist
+/server
+.class
