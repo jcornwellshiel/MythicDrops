@@ -39,6 +39,7 @@ Tiers are ways for the user to design items without having to hand-make each ite
 * Automatic Enchantments: Enchantments that are always applied to items from this tier, no matter what
 * Items in Tier: A list of item ids that can be from this tier
 * Chance: The chance that this tier will be the one that drops.
+
 ### Custom Items
 Custom items are entirely self-designed items. They have custom names, lores, enchantments, damages, etc.
 ### Abilities
