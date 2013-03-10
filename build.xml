@@ -57,7 +57,7 @@
 
     <target name="package" depends="document" description="Make the distributable jar file">
         <copy todir="bin" overwrite="true">
-        	<fileset dir="resources" includes="*" />
+        	<fileset dir="resources" includes="**/*" />
             <filterset>
                 <filter token="VERSION" value="${env.BUILD_NUMBER}" />
             </filterset>
