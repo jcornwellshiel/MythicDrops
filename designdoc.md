@@ -13,8 +13,6 @@ powerful than DiabloDrops.
   * Powerful
   * Easily Usable
   * Extendable
-* Compatibility
-  * Fully compatible with Heroes
 
 ## Stages of Development
 MythicDrops is going to follow the standard stages of initial development: Pre-Alpha, Alpha, Beta, and Release. There will
@@ -39,14 +37,3 @@ Tiers are ways for the user to design items without having to hand-make each ite
 * Automatic Enchantments: Enchantments that are always applied to items from this tier, no matter what
 * Items in Tier: A list of item ids that can be from this tier
 * Chance: The chance that this tier will be the one that drops.
-
-### Custom Items
-Custom items are entirely self-designed items. They have custom names, lores, enchantments, damages, etc.
-### Abilities
-As of right now, there is only one kind of ability for items. These abilities are activated on contact. Here are a few suggested abilties for the plugin.
-* Flame (set enemies on fire)
-* Shock (strike enemies with lightning)
-* Freeze (surround enemies with ice)
-* Quake (damage enemies within a radius)
-* Vampirism (drain health from the enemy to gain health yourself)
-* Healing (heal yourself on hit)

@@ -1,0 +1,78 @@
+ids:
+  toolIDs:
+    sword:
+    - 267
+    - 268
+    - 272
+    - 276
+    - 283
+    axe:
+    - 258
+    - 271
+    - 275
+    - 279
+    - 286
+    pickaxe:
+    - 257
+    - 270
+    - 274
+    - 278
+    - 285
+    shovel:
+    - 256
+    - 269
+    - 273
+    - 277
+    - 284
+    hoe:
+    - 290
+    - 291
+    - 292
+    - 293
+    - 294
+    misc:
+    - 261
+    - 346
+    - 359
+  armorIDs:
+    helmet:
+    - 298
+    - 302
+    - 306
+    - 310
+    - 314
+    chestplate:
+    - 299
+    - 303
+    - 307
+    - 311
+    - 315
+    leggings:
+    - 300
+    - 304
+    - 308
+    - 312
+    - 316
+    boots:
+    - 301
+    - 305
+    - 309
+    - 313
+    - 317
+mobs:
+  spawnWithItemChance:
+    CREEPER: 1.0
+    SKELETON: 1.0
+    SPIDER: 1.0
+    GIANT: 1.0
+    ZOMBIE: 1.0
+    GHAST: 1.0
+    PIG_ZOMBIE: 1.0
+    ENDERMAN: 1.0
+    CAVE_SPIDER: 1.0
+    SILVERFISH: 1.0
+    BLAZE: 1.0
+    MAGMA_CUBE: 1.0
+    ENDER_DRAGON: 1.0
+    WITHER: 1.0
+    WITCH: 1.0

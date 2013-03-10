@@ -1,0 +1,14 @@
+display:
+  itemNameFormat: '%material%'
+percentages:
+  mobSpawnWithItemChance: 0.25
+worlds:
+  enabled: false
+  generate:
+  - world
+  - world_nether
+  - world_the_end
+  use:
+  - world
+  - world_nether
+  - world_the_end

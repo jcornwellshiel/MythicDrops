@@ -1,0 +1,6 @@
+main: com.conventnunnery.plugins.MythicDrops.MythicDrops
+name: MythicDrops
+version: 1.0.0b@VERSION@
+author: ToppleTheNun
+commands:
+permissions:
