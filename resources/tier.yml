@@ -4,7 +4,7 @@ example:
   identifier: WHITE
   enchantment:
     amount: 1
-    levels: 1
+    level: 1
     automatic:
       SHARPNESS: 1
     natural:
@@ -19,4 +19,6 @@ example:
     - sword
     - axe
     - misc
+    ids:
+    - 257
   chanceToBeGiven: 0.1

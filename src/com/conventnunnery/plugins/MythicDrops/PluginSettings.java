@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.configuration.ConfigurationSection;
+
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 
 public class PluginSettings {
@@ -16,12 +18,7 @@ public class PluginSettings {
 	private boolean worldsEnabled;
 	private List<String> worldsGenerate;
 	private List<String> worldsUse;
-	private List<String> idsToolIdsSwords;
-	private List<String> idsToolIdsAxes;
-	private List<String> idsToolIdsPickaxes;
-	private List<String> idsToolIdsShovels;
-	private List<String> idsToolIdsHoes;
-	private List<String> idsToolIdsMisc;
+	private HashMap<String, List<String>> ids;
 	private Map<String, Double> advanced_mobSpawnWithItemChance;
 
 	public PluginSettings(MythicDrops plugin) {
@@ -36,28 +33,8 @@ public class PluginSettings {
 		return displayItemNameFormat;
 	}
 
-	public List<String> getIdsToolIdsAxes() {
-		return idsToolIdsAxes;
-	}
-
-	public List<String> getIdsToolIdsHoes() {
-		return idsToolIdsHoes;
-	}
-
-	public List<String> getIdsToolIdsMisc() {
-		return idsToolIdsMisc;
-	}
-
-	public List<String> getIdsToolIdsPickaxes() {
-		return idsToolIdsPickaxes;
-	}
-
-	public List<String> getIdsToolIdsShovels() {
-		return idsToolIdsShovels;
-	}
-
-	public List<String> getIdsToolIdsSwords() {
-		return idsToolIdsSwords;
+	public HashMap<String, List<String>> getIDs() {
+		return ids;
 	}
 
 	public double getPercentageMobSpawnWithItemChance() {
@@ -78,6 +55,29 @@ public class PluginSettings {
 
 	public boolean isWorldsEnabled() {
 		return worldsEnabled;
+	}
+
+	private void loadIDs() {
+		ConfigurationSection cs = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
+				.getConfigurationSection("ids.toolIDs");
+		for (String toolKind : cs.getKeys(false)) {
+			List<String> idList;
+			idList = cs.getStringList(toolKind);
+			if (idList == null)
+				idList = new ArrayList<String>();
+			ids.put(toolKind.toLowerCase(), idList);
+		}
+		cs = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
+				.getConfigurationSection("ids.armorIDs");
+		for (String armorKind : cs.getKeys(false)) {
+			List<String> idList;
+			idList = cs.getStringList(armorKind);
+			if (idList == null)
+				idList = new ArrayList<String>();
+			ids.put(armorKind.toLowerCase(), idList);
+		}
 	}
 
 	public void loadPluginSettings() {
@@ -101,36 +101,7 @@ public class PluginSettings {
 				.getStringList("worlds.use"));
 		if (getWorldsUse() == null)
 			setWorldsUse(new ArrayList<String>());
-		setIdsToolIdsSwords(getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getStringList("ids.toolIDs.sword"));
-		if (getIdsToolIdsSwords() == null)
-			setIdsToolIdsSwords(new ArrayList<String>());
-		setIdsToolIdsAxes(getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getStringList("ids.toolIDs.axe"));
-		if (getIdsToolIdsAxes() == null)
-			setIdsToolIdsAxes(new ArrayList<String>());
-		setIdsToolIdsPickaxes(getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getStringList("ids.toolIDs.pickaxe"));
-		if (getIdsToolIdsPickaxes() == null)
-			setIdsToolIdsPickaxes(new ArrayList<String>());
-		setIdsToolIdsShovels(getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getStringList("ids.toolIDs.shovel"));
-		if (getIdsToolIdsShovels() == null)
-			setIdsToolIdsShovels(new ArrayList<String>());
-		setIdsToolIdsHoes(getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getStringList("ids.toolIDs.hoe"));
-		if (getIdsToolIdsHoes() == null)
-			setIdsToolIdsHoes(new ArrayList<String>());
-		setIdsToolIdsMisc(getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getStringList("ids.toolIDs.misc"));
-		if (getIdsToolIdsMisc() == null)
-			setIdsToolIdsMisc(new ArrayList<String>());
+		loadIDs();
 		Map<String, Double> map = new HashMap<String, Double>();
 		for (String creature : getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
@@ -154,28 +125,8 @@ public class PluginSettings {
 		this.displayItemNameFormat = displayItemNameFormat;
 	}
 
-	public void setIdsToolIdsAxes(List<String> idsToolIdsAxes) {
-		this.idsToolIdsAxes = idsToolIdsAxes;
-	}
-
-	public void setIdsToolIdsHoes(List<String> idsToolIdsHoes) {
-		this.idsToolIdsHoes = idsToolIdsHoes;
-	}
-
-	public void setIdsToolIdsMisc(List<String> idsToolIdsMisc) {
-		this.idsToolIdsMisc = idsToolIdsMisc;
-	}
-
-	public void setIdsToolIdsPickaxes(List<String> idsToolIdsPickaxes) {
-		this.idsToolIdsPickaxes = idsToolIdsPickaxes;
-	}
-
-	public void setIdsToolIdsShovels(List<String> idsToolIdsShovels) {
-		this.idsToolIdsShovels = idsToolIdsShovels;
-	}
-
-	public void setIdsToolIdsSwords(List<String> idsToolIdsSwords) {
-		this.idsToolIdsSwords = idsToolIdsSwords;
+	public void setIDs(HashMap<String, List<String>> ids) {
+		this.ids = ids;
 	}
 
 	public void setPercentageMobSpawnWithItemChance(
