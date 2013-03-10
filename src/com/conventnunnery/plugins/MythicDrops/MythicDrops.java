@@ -1,5 +1,7 @@
 package com.conventnunnery.plugins.MythicDrops;
 
+import java.util.Random;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.conventnunnery.plugins.MythicDrops.api.NameAPI;
@@ -14,6 +16,8 @@ public class MythicDrops extends JavaPlugin {
 	private TierAPI tierAPI;
 	private NameAPI nameAPI;
 	private Debugger debug;
+
+	public Random random = new Random();
 
 	public ConfigurationManager getConfigurationManager() {
 		return configurationManager;
