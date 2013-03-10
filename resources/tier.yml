@@ -1,0 +1,22 @@
+example:
+  displayname: simpledisplayname
+  color: WHITE
+  identifier: WHITE
+  enchantment:
+    amount: 1
+    levels: 1
+    automatic:
+      SHARPNESS: 1
+    natural:
+      KNOCKBACK: 1
+      THORNS: 1
+    allowedEnchants:
+    - SHARPNESS
+    - KNOCKBACK
+    - THORNS
+  items:
+    types:
+    - sword
+    - axe
+    - misc
+  chanceToBeGiven: 0.1
