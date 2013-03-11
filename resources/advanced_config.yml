@@ -76,3 +76,7 @@ mobs:
     ENDER_DRAGON: 1.0
     WITHER: 1.0
     WITCH: 1.0
+tooltips:
+  format:
+    lines:
+    - 'Type: %mythicmaterial%'

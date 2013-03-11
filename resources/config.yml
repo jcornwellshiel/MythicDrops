@@ -6,10 +6,11 @@
 # %itemtype% - The type of item it is (sword/axe/helmet/boots/misc, etc.)
 # %basicprefix% - A random basic prefix from prefix.txt
 # %basicsuffix% - A random basic suffix from suffix.txt
+# %tiername% - The name of the item's tier.
 #
 ####################################################
 display:
-  itemNameFormat: '%basematerial%'
+  itemNameFormat: '%tiername% %itemtype%'
 percentages:
   mobSpawnWithItemChance: 0.25
 worlds:

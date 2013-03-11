@@ -20,6 +20,7 @@ public class PluginSettings {
 	private List<String> worldsUse = new ArrayList<String>();
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
 	private Map<String, Double> advanced_mobSpawnWithItemChance = new HashMap<String, Double>();
+	private List<String> advanced_toolTipFormat = new ArrayList<String>();
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
@@ -27,6 +28,10 @@ public class PluginSettings {
 
 	public Map<String, Double> getAdvancedMobSpawnWithItemChanceMap() {
 		return advanced_mobSpawnWithItemChance;
+	}
+
+	public List<String> getAdvancedToolTipFormat() {
+		return advanced_toolTipFormat;
 	}
 
 	public String getDisplayItemNameFormat() {
@@ -114,11 +119,26 @@ public class PluginSettings {
 							.getConfigurationSection("mobs.spawnWithItemChance")
 							.getDouble(creature, 1.0));
 		}
+		List<String> toolTipFormat = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
+				.getStringList("tooltips.format.lines");
+		if (toolTipFormat == null) {
+			toolTipFormat = new ArrayList<String>();
+			getPlugin().getConfigurationManager()
+					.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
+					.set("tooltips.format.lines", toolTipFormat);
+		}
+		setAdvancedToolTipFormat(toolTipFormat);
+		getPlugin().getConfigurationManager().saveConfig();
 	}
 
 	public void setAdvancedMobSpawnWithItemChanceMap(
 			Map<String, Double> advanced_mobSpawnWithItemChance) {
 		this.advanced_mobSpawnWithItemChance = advanced_mobSpawnWithItemChance;
+	}
+
+	public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
+		this.advanced_toolTipFormat = advanced_toolTipFormat;
 	}
 
 	public void setDisplayItemNameFormat(String displayItemNameFormat) {

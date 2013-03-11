@@ -1,24 +1,48 @@
-example:
-  displayname: simpledisplayname
+common:
+  displayName: Common
   color: WHITE
+  identifier: WHITE
+  enchantment:
+    amount: 0
+    level: 0
+  chanceToBeGiven: 0.8
+uncommon:
+  displayName: Uncommon
+  color: BLUE
   identifier: WHITE
   enchantment:
     amount: 1
     level: 1
-    automatic:
-      SHARPNESS: 1
-    natural:
-      KNOCKBACK: 1
-      THORNS: 1
-    allowedEnchants:
-    - SHARPNESS
-    - KNOCKBACK
-    - THORNS
-  items:
-    types:
-    - sword
-    - axe
-    - misc
-    ids:
-    - 257
-  chanceToBeGiven: 0.1
+  chanceToBeGiven: 0.6
+rare:
+  displayName: Rare
+  color: LIGHT_PURPLE
+  identifier: WHITE
+  enchantment:
+    amount: 2
+    level: 2
+  chanceToBeGiven: 0.4
+terric:
+  displayName: Terric
+  color: GREEN
+  identifier: WHITE
+  enchantment:
+    amount: 3
+    level: 3
+  chanceToBeGiven: 0.3
+netheric:
+  displayName: Netheric
+  color: RED
+  identifier: WHITE
+  enchantment:
+    amount: 4
+    level: 4
+  chanceToBeGiven: 0.25
+endric:
+  displayName: Endric
+  color: YELLOW
+  identifier: WHITE
+  enchantment:
+    amount: 5
+    level: 5
+  chanceToBeGiven: 0.2

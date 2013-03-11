@@ -1,8 +1,11 @@
 package com.conventnunnery.plugins.MythicDrops.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -40,9 +43,8 @@ public class DropAPI {
 			im = itemstack.getItemMeta();
 		else
 			im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
-		im.setDisplayName(tier.getColor()
-				+ getPlugin().getNameAPI().randomFormattedName(
-						itemstack.getData()) + tier.getIdentifier());
+		im.setDisplayName(getPlugin().getNameAPI().randomFormattedName(
+				itemstack.getData(), tier));
 		for (Entry<Enchantment, Integer> e : tier.getAutomaticEnchantments()
 				.entrySet()) {
 			if (e.getValue() > 0)
@@ -62,6 +64,28 @@ public class DropAPI {
 			if (ench.canEnchantItem(itemstack))
 				im.addEnchant(ench, lev, true);
 		}
+		List<String> toolTips = getPlugin().getPluginSettings()
+				.getAdvancedToolTipFormat();
+		List<String> tt = new ArrayList<String>();
+		for (String s : toolTips) {
+			tt.add(ChatColor.translateAlternateColorCodes(
+					'&',
+					s.replace("%itemtype%",
+							getPlugin().getNameAPI().getItemTypeName(matData))
+							.replace("%tiername%",
+									tier.getColor() + tier.getDisplayName())
+							.replace(
+									"%basematerial%",
+									getPlugin().getNameAPI()
+											.getMinecraftMaterialName(
+													itemstack.getType()))
+							.replace(
+									"%mythicmaterial%",
+									getPlugin().getNameAPI()
+											.getMythicMaterialName(
+													itemstack.getData()))));
+		}
+		im.setLore(tt);
 		itemstack.setItemMeta(im);
 		return itemstack;
 	}

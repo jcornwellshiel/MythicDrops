@@ -32,15 +32,16 @@ public class TierBuilder {
 			String displayName = cs.getString("displayName", tierName);
 			ChatColor color;
 			try {
-				color = ChatColor.valueOf(fc.getString("color", "RESET"));
+				color = ChatColor.valueOf(cs.getString("color", "RESET")
+						.toUpperCase());
 			}
 			catch (Exception e) {
 				color = ChatColor.RESET;
 			}
 			ChatColor identifier;
 			try {
-				identifier = ChatColor.valueOf(fc.getString("identifier",
-						"RESET"));
+				identifier = ChatColor.valueOf(cs.getString("identifier",
+						"RESET").toUpperCase());
 			}
 			catch (Exception e) {
 				identifier = ChatColor.RESET;
@@ -115,6 +116,8 @@ public class TierBuilder {
 				itemTypes = fc.getStringList(tierName + ".items.types");
 			}
 			else {
+				itemTypes.addAll(getPlugin().getPluginSettings().getIDs()
+						.keySet());
 				fc.set(tierName + ".items.types", itemTypes);
 			}
 			List<String> itemIDs = new ArrayList<String>();
@@ -133,6 +136,7 @@ public class TierBuilder {
 					itemIDs, chanceToBeGiven);
 			getPlugin().getTierAPI().addTier(tier);
 		}
+		getPlugin().getConfigurationManager().saveConfig();
 	}
 
 	/**

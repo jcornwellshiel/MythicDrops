@@ -86,8 +86,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		event.getPlayer().getInventory()
-				.addItem(dropAPI.constructItemStack(tierAPI.randomTier()));
+		event.getPlayer().getInventory().addItem(dropAPI.constructItemStack());
 	}
 
 }
