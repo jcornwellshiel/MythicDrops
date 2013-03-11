@@ -55,12 +55,18 @@ public class DropAPI {
 			if (e.getKey().canEnchantItem(itemstack))
 				im.addEnchant(e.getKey(), e.getValue(), true);
 		}
-		for (int i = 0; i < tier.getMaxNumberOfRandomEnchantments(); i++) {
+		for (int i = 0; i < getPlugin().random.nextInt(tier
+				.getMaxNumberOfRandomEnchantments()); i++) {
 			int lev = getPlugin().random.nextInt(tier
 					.getMaxLevelOfRandomEnchantments()) + 1;
-			Enchantment ench = tier.getAllowedEnchantments().get(
-					getPlugin().random.nextInt(tier.getAllowedEnchantments()
-							.size()));
+			if (lev <= 0)
+				continue;
+			List<Enchantment> enchs = tier.getAllowedEnchantments();
+			if (enchs.size() == Enchantment.values().length) {
+				enchs = getEnchantStack(itemstack);
+			}
+			Enchantment ench = enchs.get(getPlugin().random.nextInt(enchs
+					.size()));
 			if (ench.canEnchantItem(itemstack))
 				im.addEnchant(ench, lev, true);
 		}
@@ -88,6 +94,15 @@ public class DropAPI {
 		im.setLore(tt);
 		itemstack.setItemMeta(im);
 		return itemstack;
+	}
+
+	public List<Enchantment> getEnchantStack(final ItemStack ci) {
+		List<Enchantment> set = new ArrayList<Enchantment>();
+		for (Enchantment e : Enchantment.values())
+			if (e.canEnchantItem(ci)) {
+				set.add(e);
+			}
+		return set;
 	}
 
 	/**
