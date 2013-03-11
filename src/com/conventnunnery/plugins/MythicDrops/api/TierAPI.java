@@ -46,6 +46,23 @@ public class TierAPI {
 		return tiers;
 	}
 
+	public Tier randomTier() {
+		return tiers.get(getPlugin().random.nextInt(tiers.size()));
+	}
+
+	public Tier randomTierWithChance() {
+		Tier tier = null;
+		if (tiers.isEmpty() || tiers == null)
+			return tier;
+		while (tier == null) {
+			for (Tier t : tiers) {
+				if (plugin.random.nextDouble() <= t.getChanceToBeGiven())
+					tier = t;
+			}
+		}
+		return tier;
+	}
+
 	public void removeTier(Tier tier) {
 		if (tiers.contains(tier))
 			tiers.remove(tier);

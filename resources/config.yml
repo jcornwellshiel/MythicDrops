@@ -1,5 +1,15 @@
+####################################################
+#
+# ITEM DISPLAY FORMAT VARIABLES
+# %basematerial% - The name of the item's material in Minecraft
+# %mythicmaterial% - The name of the item's material defined in language.yml
+# %itemtype% - The type of item it is (sword/axe/helmet/boots/misc, etc.)
+# %basicprefix% - A random basic prefix from prefix.txt
+# %basicsuffix% - A random basic suffix from suffix.txt
+#
+####################################################
 display:
-  itemNameFormat: '%material%'
+  itemNameFormat: '%basematerial%'
 percentages:
   mobSpawnWithItemChance: 0.25
 worlds:

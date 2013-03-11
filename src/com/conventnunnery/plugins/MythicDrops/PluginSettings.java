@@ -16,10 +16,10 @@ public class PluginSettings {
 	private String displayItemNameFormat;
 	private double percentageMobSpawnWithItemChance;
 	private boolean worldsEnabled;
-	private List<String> worldsGenerate;
-	private List<String> worldsUse;
-	private HashMap<String, List<String>> ids;
-	private Map<String, Double> advanced_mobSpawnWithItemChance;
+	private List<String> worldsGenerate = new ArrayList<String>();
+	private List<String> worldsUse = new ArrayList<String>();
+	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
+	private Map<String, Double> advanced_mobSpawnWithItemChance = new HashMap<String, Double>();
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
@@ -33,7 +33,7 @@ public class PluginSettings {
 		return displayItemNameFormat;
 	}
 
-	public HashMap<String, List<String>> getIDs() {
+	public Map<String, List<String>> getIDs() {
 		return ids;
 	}
 

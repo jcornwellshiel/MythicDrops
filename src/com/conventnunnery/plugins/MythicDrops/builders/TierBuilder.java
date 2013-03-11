@@ -1,6 +1,7 @@
 package com.conventnunnery.plugins.MythicDrops.builders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -105,6 +106,9 @@ public class TierBuilder {
 			}
 			else {
 				enchCS.set("allowedEnchants", new ArrayList<String>());
+			}
+			if (allowedEnchantments.isEmpty()) {
+				allowedEnchantments.addAll(Arrays.asList(Enchantment.values()));
 			}
 			List<String> itemTypes = new ArrayList<String>();
 			if (fc.contains(tierName + ".items.types")) {

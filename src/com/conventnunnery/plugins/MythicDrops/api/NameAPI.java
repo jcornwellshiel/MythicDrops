@@ -40,14 +40,34 @@ public class NameAPI {
 		return basicSuffixes;
 	}
 
+	public String getItemTypeName(MaterialData matData) {
+		String itemType = getPlugin().getItemAPI().itemTypeFromMatData(matData);
+		if (itemType == null)
+			return null;
+		String mythicMatName = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.LANGUAGE)
+				.getString(itemType.toLowerCase());
+		if (mythicMatName == null)
+			mythicMatName = itemType.substring(0, 1).toUpperCase()
+					+ itemType.substring(1, itemType.length()).toLowerCase();
+		return mythicMatName;
+	}
+
 	public String getMinecraftMaterialName(Material material) {
 		String prettyMaterialName = "";
 		String matName = material.name();
 		String[] split = matName.split("_");
 		for (String s : split) {
-			prettyMaterialName = prettyMaterialName
-					+ (s.substring(0, 1).toUpperCase() + s.substring(1,
-							s.length()).toLowerCase()) + " ";
+			if (s != split[split.length - 1]) {
+				prettyMaterialName = prettyMaterialName
+						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
+								s.length()).toLowerCase()) + " ";
+			}
+			else {
+				prettyMaterialName = prettyMaterialName
+						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
+								s.length()).toLowerCase());
+			}
 		}
 		return ChatColor.RESET + prettyMaterialName;
 	}
@@ -112,5 +132,17 @@ public class NameAPI {
 	public String randomBasicSuffix() {
 		return basicSuffixes.get(getPlugin().random.nextInt(basicSuffixes
 				.size()));
+	}
+
+	public String randomFormattedName(MaterialData matData) {
+		String format = getPlugin().getPluginSettings()
+				.getDisplayItemNameFormat();
+		return format
+				.replace("%basematerial%",
+						getMinecraftMaterialName(matData.getItemType()))
+				.replace("%mythicmaterial%", getMythicMaterialName(matData))
+				.replace("%basicprefix%", randomBasicPrefix())
+				.replace("%basicsuffix%", randomBasicSuffix())
+				.replace("%itemtype%", getItemTypeName(matData));
 	}
 }
