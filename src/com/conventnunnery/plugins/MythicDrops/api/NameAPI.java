@@ -3,7 +3,6 @@ package com.conventnunnery.plugins.MythicDrops.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
@@ -70,7 +69,7 @@ public class NameAPI {
 								s.length()).toLowerCase());
 			}
 		}
-		return ChatColor.RESET + prettyMaterialName;
+		return prettyMaterialName;
 	}
 
 	public String getMythicMaterialName(MaterialData matData) {
@@ -92,7 +91,7 @@ public class NameAPI {
 			if (mythicMatName == null)
 				mythicMatName = getMinecraftMaterialName(matData.getItemType());
 		}
-		return ChatColor.RESET + mythicMatName;
+		return mythicMatName;
 	}
 
 	/**
@@ -138,35 +137,29 @@ public class NameAPI {
 	public String randomFormattedName(MaterialData matData, Tier tier) {
 		String format = getPlugin().getPluginSettings()
 				.getDisplayItemNameFormat();
-		return tier.getColor()
-				+ ChatColor
-						.translateAlternateColorCodes(
-								'&',
-								format.replace(
-										"%basematerial%",
-										tier.getColor()
-												+ getMinecraftMaterialName(matData
-														.getItemType()))
-										.replace(
-												"%mythicmaterial%",
-												tier.getColor()
-														+ getMythicMaterialName(matData))
-										.replace(
-												"%basicprefix%",
-												tier.getColor()
-														+ randomBasicPrefix())
-										.replace(
-												"%basicsuffix%",
-												tier.getColor()
-														+ randomBasicSuffix())
-										.replace(
-												"%itemtype%",
-												tier.getColor()
-														+ getItemTypeName(matData))
-										.replace(
-												"%tiername%",
-												tier.getColor()
-														+ tier.getDisplayName()))
-				+ tier.getIdentifier();
+		String name = format
+				.replace(
+						"%basematerial%",
+						tier.getColor()
+								+ getMinecraftMaterialName(matData
+										.getItemType()) + tier.getColor())
+				.replace(
+						"%mythicmaterial%",
+						tier.getColor() + getMythicMaterialName(matData)
+								+ tier.getColor())
+				.replace("%basicprefix%",
+						tier.getColor() + randomBasicPrefix() + tier.getColor())
+				.replace("%basicsuffix%",
+						tier.getColor() + randomBasicSuffix() + tier.getColor())
+				.replace(
+						"%itemtype%",
+						tier.getColor() + getItemTypeName(matData)
+								+ tier.getColor())
+				.replace(
+						"%tiername%",
+						tier.getColor() + tier.getDisplayName()
+								+ tier.getColor()).replace('&', '\u00A7')
+				.replace("\u00A7\u00A7", "&");
+		return tier.getColor() + name + tier.getIdentifier();
 	}
 }

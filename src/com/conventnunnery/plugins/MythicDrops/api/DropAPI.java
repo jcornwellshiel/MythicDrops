@@ -55,20 +55,20 @@ public class DropAPI {
 			if (e.getKey().canEnchantItem(itemstack))
 				im.addEnchant(e.getKey(), e.getValue(), true);
 		}
-		for (int i = 0; i < getPlugin().random.nextInt(tier
-				.getMaxNumberOfRandomEnchantments()); i++) {
-			int lev = getPlugin().random.nextInt(tier
-					.getMaxLevelOfRandomEnchantments()) + 1;
-			if (lev <= 0)
-				continue;
-			List<Enchantment> enchs = tier.getAllowedEnchantments();
-			if (enchs.size() == Enchantment.values().length) {
-				enchs = getEnchantStack(itemstack);
+		if (tier.getMaxNumberOfRandomEnchantments() > 0) {
+			for (int i = 0; i < getPlugin().random.nextInt(tier
+					.getMaxNumberOfRandomEnchantments()); i++) {
+				int lev = Math.abs(getPlugin().random.nextInt(tier
+						.getMaxLevelOfRandomEnchantments() + 1)) + 1;
+				List<Enchantment> enchs = tier.getAllowedEnchantments();
+				if (enchs.size() == Enchantment.values().length) {
+					enchs = getEnchantStack(itemstack);
+				}
+				Enchantment ench = enchs.get(getPlugin().random.nextInt(enchs
+						.size()));
+				if (ench.canEnchantItem(itemstack))
+					im.addEnchant(ench, lev, true);
 			}
-			Enchantment ench = enchs.get(getPlugin().random.nextInt(enchs
-					.size()));
-			if (ench.canEnchantItem(itemstack))
-				im.addEnchant(ench, lev, true);
 		}
 		List<String> toolTips = getPlugin().getPluginSettings()
 				.getAdvancedToolTipFormat();

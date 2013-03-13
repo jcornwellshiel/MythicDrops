@@ -3,4 +3,8 @@ name: MythicDrops
 version: 1.0.0b@VERSION@
 author: ToppleTheNun
 commands:
+    mythicdrops:
+        description: Gives user a MythicDrops item.
+        aliases: [md,mythic]
+        usage: /<command>
 permissions:

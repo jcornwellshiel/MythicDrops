@@ -2,6 +2,10 @@ package com.conventnunnery.plugins.MythicDrops;
 
 import java.util.Random;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -14,7 +18,8 @@ import com.conventnunnery.plugins.MythicDrops.api.TierAPI;
 import com.conventnunnery.plugins.MythicDrops.builders.TierBuilder;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
 
-public class MythicDrops extends JavaPlugin implements Listener {
+public class MythicDrops extends JavaPlugin implements Listener,
+		CommandExecutor {
 
 	private ConfigurationManager configurationManager;
 	private PluginSettings pluginSettings;
@@ -67,6 +72,25 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	 */
 	public TierAPI getTierAPI() {
 		return tierAPI;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command command,
+			String commandLabel, String[] args) {
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			if (args.length == 0)
+				p.getInventory().addItem(getDropAPI().constructItemStack());
+			else {
+				int amt = NumberUtils.getInt(args[0], 1);
+				if (amt > 36)
+					amt = 36;
+				for (int i = 0; i < amt; i++) {
+					p.getInventory().addItem(getDropAPI().constructItemStack());
+				}
+			}
+		}
+		return true;
 	}
 
 	@Override
