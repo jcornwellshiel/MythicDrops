@@ -45,31 +45,6 @@ public class DropAPI {
 			im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
 		im.setDisplayName(getPlugin().getNameAPI().randomFormattedName(
 				itemstack.getData(), tier));
-		for (Entry<Enchantment, Integer> e : tier.getAutomaticEnchantments()
-				.entrySet()) {
-			if (e.getValue() > 0)
-				im.addEnchant(e.getKey(), e.getValue(), true);
-		}
-		for (Entry<Enchantment, Integer> e : tier.getNaturalEnchantments()
-				.entrySet()) {
-			if (e.getKey().canEnchantItem(itemstack))
-				im.addEnchant(e.getKey(), e.getValue(), true);
-		}
-		if (tier.getMaxNumberOfRandomEnchantments() > 0) {
-			for (int i = 0; i < getPlugin().random.nextInt(tier
-					.getMaxNumberOfRandomEnchantments()); i++) {
-				int lev = Math.abs(getPlugin().random.nextInt(tier
-						.getMaxLevelOfRandomEnchantments() + 1)) + 1;
-				List<Enchantment> enchs = tier.getAllowedEnchantments();
-				if (enchs.size() == Enchantment.values().length) {
-					enchs = getEnchantStack(itemstack);
-				}
-				Enchantment ench = enchs.get(getPlugin().random.nextInt(enchs
-						.size()));
-				if (ench.canEnchantItem(itemstack))
-					im.addEnchant(ench, lev, true);
-			}
-		}
 		List<String> toolTips = getPlugin().getPluginSettings()
 				.getAdvancedToolTipFormat();
 		List<String> tt = new ArrayList<String>();
@@ -90,6 +65,51 @@ public class DropAPI {
 									getPlugin().getNameAPI()
 											.getMythicMaterialName(
 													itemstack.getData()))));
+		}
+
+		for (Entry<Enchantment, Integer> e : tier.getAutomaticEnchantments()
+				.entrySet()) {
+			if (e == null)
+				continue;
+			if (e.getKey() == null || e.getValue() == null)
+				continue;
+			im.addEnchant(e.getKey(),
+					(e.getValue() == 0) ? 1 : Math.abs(e.getValue()), true);
+		}
+		for (Entry<Enchantment, Integer> e : tier.getNaturalEnchantments()
+				.entrySet()) {
+			if (e == null)
+				continue;
+			if (e.getKey() == null || e.getValue() == null)
+				continue;
+			if (e.getKey().canEnchantItem(itemstack))
+				im.addEnchant(e.getKey(),
+						(e.getValue() == 0) ? 1 : Math.abs(e.getValue()), true);
+		}
+		if (tier.getMaxNumberOfRandomEnchantments() > 0) {
+			int randEnchs = getPlugin().random.nextInt(Math.abs(tier
+					.getMaxNumberOfRandomEnchantments()) + 1);
+			for (int i = 0; i < randEnchs; i++) {
+				int lev = Math.abs(getPlugin().random.nextInt(tier
+						.getMaxLevelOfRandomEnchantments() + 1)) + 1;
+				List<Enchantment> allowEnchs = tier.getAllowedEnchantments();
+				List<Enchantment> stackEnchs = getEnchantStack(itemstack);
+				List<Enchantment> actual = new ArrayList<Enchantment>();
+				for (Enchantment e : Enchantment.values()) {
+					if (allowEnchs.contains(e) && stackEnchs.contains(e)) {
+						actual.add(e);
+					}
+				}
+				if (actual.size() > 0) {
+					Enchantment ench = actual.get(getPlugin().random
+							.nextInt(actual.size()));
+					if (ench == null)
+						continue;
+					if (ench.canEnchantItem(itemstack))
+						im.addEnchant(ench, (lev == 0) ? 1 : Math.abs(lev),
+								true);
+				}
+			}
 		}
 		im.setLore(tt);
 		itemstack.setItemMeta(im);

@@ -32,8 +32,9 @@ ids:
     - 294
     bow:
     - 261    
-    misc:
+    fishing rod:
     - 346
+    shears:
     - 359
   armorIDs:
     helmet:
