@@ -24,7 +24,7 @@ public class TierAPI {
 		getPlugin().getDebug().debug("Amount of loaded tiers: " + tiers.size());
 		List<String> tierNames = new ArrayList<String>();
 		for (Tier t : tiers) {
-			tierNames.add(t.getName());
+			tierNames.add(t.getName() + " (" + t.getChanceToBeGiven() + ")");
 		}
 		getPlugin().getDebug().debug(
 				"Loaded tier names: "
