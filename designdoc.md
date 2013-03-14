@@ -38,3 +38,24 @@ Tiers are ways for the user to design items without having to hand-make each ite
 * Items in Tier: A list of item ids that can be from this tier
 * Chance To Be Given: The chance that this tier will be the one that is given to a mob.
 * Chance To Drop: The chance that this tier will be dropped when equipped.
+
+## Abilities
+### Contact Abilities
+#### Armor
+* Self-Immolation (sets wearer on fire)
+* Immolation (sits hitter on fire)
+* Self-Flight (launches wearer into the air)
+* Flight (launches hitter into the air)
+* Self-Blink (teleports wearer to nearby location)
+* Blink (teleports hitter to a nearby location)
+#### Tools
+* Self-Immolation (sets wielder on fire)
+* Immolation (sets target on fire)
+* Self-Flight (launches wielder into the air)
+* Flight (launches target into the air)
+* Self-Blink (teleports wielder to nearby location)
+* Blink (teleports target to a nearby location)
+* Self-Poison (poisons the wielder)
+* Poison (poisons the target)
+* Self-Invisibility (makes the wielder invisible)
+* Invisibility (makes the target invisible)
