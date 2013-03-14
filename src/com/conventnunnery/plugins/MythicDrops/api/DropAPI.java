@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
@@ -66,25 +67,20 @@ public class DropAPI {
 											.getMythicMaterialName(
 													itemstack.getData()))));
 		}
-
+		im.setLore(tt);
+		itemstack.setItemMeta(im);
 		for (Entry<Enchantment, Integer> e : tier.getAutomaticEnchantments()
 				.entrySet()) {
-			if (e == null)
-				continue;
-			if (e.getKey() == null || e.getValue() == null)
-				continue;
-			im.addEnchant(e.getKey(),
-					(e.getValue() == 0) ? 1 : Math.abs(e.getValue()), true);
+			if (e.getKey() != null)
+				itemstack.addUnsafeEnchantment(e.getKey(),
+						(e.getValue() == 0) ? 1 : Math.abs(e.getValue()));
 		}
 		for (Entry<Enchantment, Integer> e : tier.getNaturalEnchantments()
 				.entrySet()) {
-			if (e == null)
-				continue;
-			if (e.getKey() == null || e.getValue() == null)
-				continue;
-			if (e.getKey().canEnchantItem(itemstack))
-				im.addEnchant(e.getKey(),
-						(e.getValue() == 0) ? 1 : Math.abs(e.getValue()), true);
+			if (e.getKey() != null)
+				if (e.getKey().canEnchantItem(itemstack))
+					itemstack.addUnsafeEnchantment(e.getKey(),
+							(e.getValue() == 0) ? 1 : Math.abs(e.getValue()));
 		}
 		if (tier.getMaxNumberOfRandomEnchantments() > 0) {
 			int randEnchs = getPlugin().random.nextInt(Math.abs(tier
@@ -103,25 +99,46 @@ public class DropAPI {
 				if (actual.size() > 0) {
 					Enchantment ench = actual.get(getPlugin().random
 							.nextInt(actual.size()));
-					if (ench == null)
-						continue;
-					if (ench.canEnchantItem(itemstack))
-						im.addEnchant(ench, (lev == 0) ? 1 : Math.abs(lev),
-								true);
+					if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
+						itemstack.addEnchantment(
+								ench,
+								getAcceptableEnchantmentLevel(ench,
+										(lev == 0) ? 1 : Math.abs(lev)));
+					}
+					else
+						itemstack.addUnsafeEnchantment(ench, (lev == 0) ? 1
+								: Math.abs(lev));
 				}
 			}
 		}
-		im.setLore(tt);
-		itemstack.setItemMeta(im);
 		return itemstack;
+	}
+
+	public int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
+		EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
+		int i = level;
+		if (i > ew.getMaxLevel()) {
+			i = ew.getMaxLevel();
+		}
+		else if (i < ew.getStartLevel()) {
+			i = ew.getStartLevel();
+		}
+		return i;
 	}
 
 	public List<Enchantment> getEnchantStack(final ItemStack ci) {
 		List<Enchantment> set = new ArrayList<Enchantment>();
-		for (Enchantment e : Enchantment.values())
-			if (e.canEnchantItem(ci)) {
+		boolean bln = getPlugin().getPluginSettings().isSafeEnchantsOnly();
+		for (Enchantment e : Enchantment.values()) {
+			if (bln) {
+				if (e.canEnchantItem(ci)) {
+					set.add(e);
+				}
+			}
+			else {
 				set.add(e);
 			}
+		}
 		return set;
 	}
 

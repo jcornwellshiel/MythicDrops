@@ -16,6 +16,7 @@ public class PluginSettings {
 	private String displayItemNameFormat;
 	private double percentageMobSpawnWithItemChance;
 	private boolean worldsEnabled;
+	private boolean safeEnchantsOnly;
 	private List<String> worldsGenerate = new ArrayList<String>();
 	private List<String> worldsUse = new ArrayList<String>();
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
@@ -58,6 +59,13 @@ public class PluginSettings {
 		return worldsUse;
 	}
 
+	/**
+	 * @return the safeEnchantsOnly
+	 */
+	public boolean isSafeEnchantsOnly() {
+		return safeEnchantsOnly;
+	}
+
 	public boolean isWorldsEnabled() {
 		return worldsEnabled;
 	}
@@ -86,6 +94,9 @@ public class PluginSettings {
 	}
 
 	public void loadPluginSettings() {
+		setSafeEnchantsOnly(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("options.safeEnchantsOnly", true));
 		setDisplayItemNameFormat(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getString("display.itemNameFormat", "%material%"));
@@ -152,6 +163,14 @@ public class PluginSettings {
 	public void setPercentageMobSpawnWithItemChance(
 			double percentageMobSpawnWithItemChance) {
 		this.percentageMobSpawnWithItemChance = percentageMobSpawnWithItemChance;
+	}
+
+	/**
+	 * @param safeEnchantsOnly
+	 *            the safeEnchantsOnly to set
+	 */
+	public void setSafeEnchantsOnly(boolean safeEnchantsOnly) {
+		this.safeEnchantsOnly = safeEnchantsOnly;
 	}
 
 	public void setWorldsEnabled(boolean worldsEnabled) {

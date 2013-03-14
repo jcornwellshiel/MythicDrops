@@ -9,6 +9,8 @@
 # %tiername% - The name of the item's tier.
 #
 ####################################################
+options:
+  safeEnchantsOnly: true
 display:
   itemNameFormat: '%tiername% %itemtype%'
 percentages:

@@ -26,9 +26,9 @@ public class TierBuilder {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.TIER);
 		for (String tierName : fc.getKeys(false)) {
-			ConfigurationSection cs = fc.getConfigurationSection(tierName);
-			if (cs == null)
+			if (!fc.isConfigurationSection(tierName))
 				continue;
+			ConfigurationSection cs = fc.getConfigurationSection(tierName);
 			String displayName = cs.getString("displayName", tierName);
 			ChatColor color;
 			try {
@@ -46,33 +46,45 @@ public class TierBuilder {
 			catch (Exception e) {
 				identifier = ChatColor.RESET;
 			}
+
+			if (!cs.isConfigurationSection("enchantment")) {
+				cs.createSection("enchantment");
+				continue;
+			}
 			ConfigurationSection enchCS = cs
 					.getConfigurationSection("enchantment");
 			int maxNumberOfRandomEnchantments = enchCS.getInt("amount", 0);
 			int maxLevelOfRandomEnchantments = enchCS.getInt("level", 0);
+
 			HashMap<Enchantment, Integer> automaticEnchantments = new HashMap<Enchantment, Integer>();
-			if (enchCS.contains("automatic")) {
-				for (String enchantmentName : enchCS.getConfigurationSection(
-						"automatic").getKeys(false)) {
-					Enchantment ench;
-					try {
-						ench = Enchantment.getByName(enchantmentName
-								.toUpperCase());
+			if (enchCS.isConfigurationSection("automatic")) {
+				ConfigurationSection autoCS = enchCS
+						.getConfigurationSection("automatic");
+				for (String enchantmentName : autoCS.getKeys(false)) {
+					Enchantment ench = null;
+					for (Enchantment ec : Enchantment.values()) {
+						if (ec.getName().equalsIgnoreCase(enchantmentName)) {
+							ench = ec;
+							break;
+						}
 					}
-					catch (Exception e) {
+					if (ench == null)
 						continue;
-					}
-					automaticEnchantments.put(ench,
-							enchCS.getInt("automatic" + enchantmentName, 0));
+					int level = autoCS.getInt(enchantmentName, 0);
+					getPlugin().getDebug().debug(
+							"Tier: " + tierName + " | Enchantment: "
+									+ ench.getName() + " | Level: " + level);
+					automaticEnchantments.put(ench, level);
 				}
 			}
 			else {
 				enchCS.createSection("automatic");
 			}
 			HashMap<Enchantment, Integer> naturalEnchantments = new HashMap<Enchantment, Integer>();
-			if (enchCS.contains("natural")) {
-				for (String enchantmentName : enchCS.getConfigurationSection(
-						"natural").getKeys(false)) {
+			if (enchCS.isConfigurationSection("natural")) {
+				ConfigurationSection naturalCS = enchCS
+						.getConfigurationSection("natural");
+				for (String enchantmentName : naturalCS.getKeys(false)) {
 					Enchantment ench;
 					try {
 						ench = Enchantment.getByName(enchantmentName
@@ -81,10 +93,8 @@ public class TierBuilder {
 					catch (Exception e) {
 						continue;
 					}
-					automaticEnchantments.put(
-							ench,
-							fc.getInt(tierName + ".enchantment.natural."
-									+ enchantmentName, 0));
+					int level = naturalCS.getInt(enchantmentName, 0);
+					naturalEnchantments.put(ench, level);
 				}
 			}
 			else {
