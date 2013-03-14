@@ -19,6 +19,7 @@ public class Tier {
 	private final List<String> itemTypes;
 	private final List<String> itemIDs;
 	private final double chanceToBeGiven;
+	private final float chanceToDrop;
 
 	public Tier(String name, String displayName, ChatColor color,
 			ChatColor identifier, int maxNumberOfRandomEnchantments,
@@ -26,7 +27,7 @@ public class Tier {
 			Map<Enchantment, Integer> automaticEnchantments,
 			Map<Enchantment, Integer> naturalEnchantments,
 			List<Enchantment> allowedEnchantments, List<String> itemTypes,
-			List<String> itemIDs, double chanceToBeGiven) {
+			List<String> itemIDs, double chanceToBeGiven, float chanceToDrop) {
 		this.name = name;
 		this.displayName = displayName;
 		this.color = color;
@@ -39,7 +40,7 @@ public class Tier {
 		this.itemTypes = itemTypes;
 		this.itemIDs = itemIDs;
 		this.chanceToBeGiven = chanceToBeGiven;
-
+		this.chanceToDrop = chanceToDrop;
 	}
 
 	/**
@@ -61,6 +62,13 @@ public class Tier {
 	 */
 	public double getChanceToBeGiven() {
 		return chanceToBeGiven;
+	}
+
+	/**
+	 * @return the chanceToDrop
+	 */
+	public float getChanceToDrop() {
+		return chanceToDrop;
 	}
 
 	/**

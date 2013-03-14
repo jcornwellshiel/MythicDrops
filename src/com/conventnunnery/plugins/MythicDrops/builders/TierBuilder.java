@@ -139,11 +139,13 @@ public class TierBuilder {
 			}
 			double chanceToBeGiven = fc.getDouble(
 					tierName + ".chanceToBeGiven", 0.0);
+			float chanceToDrop = (float) fc.getDouble(tierName
+					+ ".chanceToDrop", 1.0);
 			Tier tier = new Tier(tierName, displayName, color, identifier,
 					maxNumberOfRandomEnchantments,
 					maxLevelOfRandomEnchantments, automaticEnchantments,
 					naturalEnchantments, allowedEnchantments, itemTypes,
-					itemIDs, chanceToBeGiven);
+					itemIDs, chanceToBeGiven, chanceToDrop);
 			getPlugin().getTierAPI().addTier(tier);
 		}
 		getPlugin().getConfigurationManager().saveConfig();

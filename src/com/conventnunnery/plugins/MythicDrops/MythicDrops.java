@@ -2,21 +2,26 @@ package com.conventnunnery.plugins.MythicDrops;
 
 import java.util.Random;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.conventnunnery.plugins.MythicDrops.api.DropAPI;
+import com.conventnunnery.plugins.MythicDrops.api.EntityAPI;
 import com.conventnunnery.plugins.MythicDrops.api.ItemAPI;
 import com.conventnunnery.plugins.MythicDrops.api.NameAPI;
 import com.conventnunnery.plugins.MythicDrops.api.TierAPI;
 import com.conventnunnery.plugins.MythicDrops.builders.TierBuilder;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
+import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class MythicDrops extends JavaPlugin implements Listener,
 		CommandExecutor {
@@ -27,6 +32,7 @@ public class MythicDrops extends JavaPlugin implements Listener,
 	private NameAPI nameAPI;
 	private ItemAPI itemAPI;
 	private DropAPI dropAPI;
+	private EntityAPI entityAPI;
 	private Debugger debug;
 
 	public Random random = new Random();
@@ -47,6 +53,13 @@ public class MythicDrops extends JavaPlugin implements Listener,
 	 */
 	public DropAPI getDropAPI() {
 		return dropAPI;
+	}
+
+	/**
+	 * @return the entityAPI
+	 */
+	public EntityAPI getEntityAPI() {
+		return entityAPI;
 	}
 
 	/**
@@ -79,6 +92,10 @@ public class MythicDrops extends JavaPlugin implements Listener,
 			String commandLabel, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
+			if (!p.hasPermission("mythicdrops.command")) {
+				p.sendMessage(ChatColor.RED + "You don't have permission!");
+				return true;
+			}
 			if (args.length == 0)
 				p.getInventory().addItem(getDropAPI().constructItemStack());
 			else {
@@ -103,14 +120,33 @@ public class MythicDrops extends JavaPlugin implements Listener,
 		nameAPI = new NameAPI(this);
 		itemAPI = new ItemAPI(this);
 		dropAPI = new DropAPI(this);
+		entityAPI = new EntityAPI(this);
 		new TierBuilder(this).build();
 		getTierAPI().debugTiers();
 		getServer().getPluginManager().registerEvents(this, this);
 	}
 
 	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		event.getPlayer().getInventory().addItem(dropAPI.constructItemStack());
+	public void onEntitySpawn(CreatureSpawnEvent event) {
+		EntityType entType = event.getEntityType();
+		double globalChanceToSpawn = getPluginSettings()
+				.getPercentageMobSpawnWithItemChance();
+		double mobChanceToSpawn = 0.0;
+		if (getPluginSettings().getAdvancedMobSpawnWithItemChanceMap()
+				.containsKey(entType.name())) {
+			mobChanceToSpawn = getPluginSettings()
+					.getAdvancedMobSpawnWithItemChanceMap().get(entType.name());
+		}
+		double chance = globalChanceToSpawn * mobChanceToSpawn;
+		for (int i = 0; i < 5; i++) {
+			if (random.nextDouble() < chance) {
+				Tier t = getTierAPI().randomTierWithChance();
+				ItemStack itemstack = getDropAPI().constructItemStack(t);
+				getEntityAPI().equipEntity(event.getEntity(), itemstack, t);
+				chance *= 0.5;
+				continue;
+			}
+			break;
+		}
 	}
-
 }
