@@ -48,6 +48,7 @@ Tiers are ways for the user to design items without having to hand-make each ite
 * Flight (launches hitter into the air)
 * Self-Blink (teleports wearer to nearby location)
 * Blink (teleports hitter to a nearby location)
+
 #### Tools
 * Self-Immolation (sets wielder on fire)
 * Immolation (sets target on fire)
