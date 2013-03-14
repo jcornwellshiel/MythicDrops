@@ -128,6 +128,11 @@ public class MythicDrops extends JavaPlugin implements Listener,
 
 	@EventHandler
 	public void onEntitySpawn(CreatureSpawnEvent event) {
+		if (getPluginSettings().isWorldsEnabled()
+				&& !getPluginSettings().getWorldsGenerate().contains(
+						event.getEntity().getWorld().getName())) {
+			return;
+		}
 		EntityType entType = event.getEntityType();
 		double globalChanceToSpawn = getPluginSettings()
 				.getPercentageMobSpawnWithItemChance();
