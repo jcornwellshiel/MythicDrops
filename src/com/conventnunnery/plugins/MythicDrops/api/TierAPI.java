@@ -39,6 +39,15 @@ public class TierAPI {
 		return plugin;
 	}
 
+	public Tier getTierFromName(String name) {
+		for (Tier t : tiers) {
+			if (t.getName().equalsIgnoreCase(name)) {
+				return t;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @return the tiers
 	 */

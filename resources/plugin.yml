@@ -8,3 +8,12 @@ commands:
         aliases: [md,mythic]
         usage: /<command>
 permissions:
+    mythicdrops.command.spawn:
+       description: Allows user to use "/md spawn [tier|*] [amount]"
+       default: op
+    mythicdrops.command.give:
+       description: Allows user to use "/md give <player> [tier|*] [amount]"
+       default: op
+    mythicdrops.command.reload:
+       description: Allows user to use "/md reload"
+       default: op
