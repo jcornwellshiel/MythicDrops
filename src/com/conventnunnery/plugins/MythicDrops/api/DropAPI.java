@@ -11,6 +11,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.material.MaterialData;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
@@ -68,7 +69,14 @@ public class DropAPI {
 													itemstack.getData()))));
 		}
 		im.setLore(tt);
-		itemstack.setItemMeta(im);
+		if (im instanceof Repairable) {
+			Repairable r = (Repairable) im;
+			r.setRepairCost(1000);
+			itemstack.setItemMeta((ItemMeta) r);
+		}
+		else {
+			itemstack.setItemMeta(im);
+		}
 		for (Entry<Enchantment, Integer> e : tier.getAutomaticEnchantments()
 				.entrySet()) {
 			if (e.getKey() != null)

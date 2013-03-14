@@ -129,6 +129,7 @@ public class PluginSettings {
 							.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
 							.getConfigurationSection("mobs.spawnWithItemChance")
 							.getDouble(creature, 1.0));
+			setAdvancedMobSpawnWithItemChanceMap(map);
 		}
 		List<String> toolTipFormat = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
