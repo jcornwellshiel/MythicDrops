@@ -40,6 +40,7 @@ Tiers are ways for the user to design items without having to hand-make each ite
 * Chance To Drop: The chance that this tier will be dropped when equipped.
 
 ## Abilities
+Abilities are not implemented yet.
 ### Contact Abilities
 #### Armor
 * Self-Immolation (sets wearer on fire)
