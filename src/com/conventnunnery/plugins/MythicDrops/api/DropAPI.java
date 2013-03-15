@@ -19,7 +19,7 @@ import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class DropAPI {
 	private final MythicDrops plugin;
-	private final List<ItemStack> customItemStacks;
+	private List<ItemStack> customItemStacks;
 
 	public DropAPI(MythicDrops plugin) {
 		this.plugin = plugin;
