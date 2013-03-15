@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 
@@ -22,6 +23,7 @@ public class PluginSettings {
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
 	private Map<String, Double> advanced_mobSpawnWithItemChance = new HashMap<String, Double>();
 	private List<String> advanced_toolTipFormat = new ArrayList<String>();
+	private List<ItemStack> customItemStacks = new ArrayList<ItemStack>();
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
@@ -33,6 +35,13 @@ public class PluginSettings {
 
 	public List<String> getAdvancedToolTipFormat() {
 		return advanced_toolTipFormat;
+	}
+
+	/**
+	 * @return the customItemStacks
+	 */
+	public List<ItemStack> getCustomItemStacks() {
+		return customItemStacks;
 	}
 
 	public String getDisplayItemNameFormat() {
@@ -151,6 +160,14 @@ public class PluginSettings {
 
 	public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
 		this.advanced_toolTipFormat = advanced_toolTipFormat;
+	}
+
+	/**
+	 * @param customItemStacks
+	 *            the customItemStacks to set
+	 */
+	public void setCustomItemStacks(List<ItemStack> customItemStacks) {
+		this.customItemStacks = customItemStacks;
 	}
 
 	public void setDisplayItemNameFormat(String displayItemNameFormat) {

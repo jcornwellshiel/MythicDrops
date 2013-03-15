@@ -13,7 +13,8 @@ public class ConfigurationManager {
 	public enum ConfigurationFile {
 
 		CONFIG("config.yml"), ADVANCED_CONFIG("advanced_config.yml"), LANGUAGE(
-				"language.yml"), TIER("tier.yml");
+				"language.yml"), TIER("tier.yml"), CUSTOM_ITEM(
+				"custom_item.yml");
 
 		public final String filename;
 
@@ -65,6 +66,13 @@ public class ConfigurationManager {
 						new File(plugin.getDataFolder(), config.filename));
 				saveDefaults(language, config);
 				configurations.put(config, language);
+				break;
+
+			case CUSTOM_ITEM:
+				CommentedYamlConfiguration custom_item = new CommentedYamlConfiguration(
+						new File(plugin.getDataFolder(), config.filename));
+				saveDefaults(custom_item, config);
+				configurations.put(config, custom_item);
 				break;
 
 			default:

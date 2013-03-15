@@ -1,0 +1,8 @@
+Notchian Sword:
+  materialID: 276
+  displayName: '&6Notchian &7Sword'
+  enchantments:
+    ALL_DAMAGE: 10
+  lore:
+  - '&FThis &7sword&F came from the hands of Notch himself.'
+  - '&FBe careful with it, it is sharp.'
