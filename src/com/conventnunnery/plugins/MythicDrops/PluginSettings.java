@@ -23,7 +23,6 @@ public class PluginSettings {
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
 	private Map<String, Double> advanced_mobSpawnWithItemChance = new HashMap<String, Double>();
 	private List<String> advanced_toolTipFormat = new ArrayList<String>();
-	private List<ItemStack> customItemStacks = new ArrayList<ItemStack>();
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
@@ -35,13 +34,6 @@ public class PluginSettings {
 
 	public List<String> getAdvancedToolTipFormat() {
 		return advanced_toolTipFormat;
-	}
-
-	/**
-	 * @return the customItemStacks
-	 */
-	public List<ItemStack> getCustomItemStacks() {
-		return customItemStacks;
 	}
 
 	public String getDisplayItemNameFormat() {
@@ -68,9 +60,6 @@ public class PluginSettings {
 		return worldsUse;
 	}
 
-	/**
-	 * @return the safeEnchantsOnly
-	 */
 	public boolean isSafeEnchantsOnly() {
 		return safeEnchantsOnly;
 	}
@@ -162,14 +151,6 @@ public class PluginSettings {
 		this.advanced_toolTipFormat = advanced_toolTipFormat;
 	}
 
-	/**
-	 * @param customItemStacks
-	 *            the customItemStacks to set
-	 */
-	public void setCustomItemStacks(List<ItemStack> customItemStacks) {
-		this.customItemStacks = customItemStacks;
-	}
-
 	public void setDisplayItemNameFormat(String displayItemNameFormat) {
 		this.displayItemNameFormat = displayItemNameFormat;
 	}
@@ -183,10 +164,6 @@ public class PluginSettings {
 		this.percentageMobSpawnWithItemChance = percentageMobSpawnWithItemChance;
 	}
 
-	/**
-	 * @param safeEnchantsOnly
-	 *            the safeEnchantsOnly to set
-	 */
 	public void setSafeEnchantsOnly(boolean safeEnchantsOnly) {
 		this.safeEnchantsOnly = safeEnchantsOnly;
 	}
