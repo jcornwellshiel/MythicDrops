@@ -1,9 +1,11 @@
 package com.conventnunnery.plugins.MythicDrops;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.BukkitMetricsLite;
 
 import com.conventnunnery.plugins.MythicDrops.api.DropAPI;
 import com.conventnunnery.plugins.MythicDrops.api.EntityAPI;
@@ -94,6 +96,16 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
 		getServer().getPluginManager().registerEvents(new EntityListener(this),
 				this);
+		startStatistics();
+	}
+
+	private void startStatistics() {
+		try {
+			BukkitMetricsLite metrics = new BukkitMetricsLite(this);
+			metrics.start();
+		}
+		catch (IOException e) {
+		}
 	}
 
 }
