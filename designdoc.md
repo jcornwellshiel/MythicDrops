@@ -18,6 +18,8 @@ powerful than DiabloDrops.
 MythicDrops is going to follow the standard stages of initial development: Pre-Alpha, Alpha, Beta, and Release. There will
 be development builds available in the future for any and all wishing to test the plugin.
 
+Development builds are available here: [MythicDrops Jenkins](https://topplethenun.ci.cloudbees.com/job/MythicDrops/lastSuccessfulBuild/)
+
 Below is a general idea of what is planned to be done in each stage.
 
 - [x] Pre-Alpha: The base coding for the system, as outlined in this design document. Configuration and randomization are the focus.
