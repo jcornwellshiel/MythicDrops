@@ -13,6 +13,7 @@ options:
   safeEnchantsOnly: true
   customItemsSpawn: false
   customItemsOnly: false
+  autoUpdate: false
 display:
   itemNameFormat: '%tiername% %itemtype%'
 percentages:

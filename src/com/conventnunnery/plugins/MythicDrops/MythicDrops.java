@@ -27,6 +27,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	private DropAPI dropAPI;
 	private EntityAPI entityAPI;
 	private Debugger debug;
+	private Updater updater;
 
 	public Random random = new Random();
 
@@ -80,6 +81,13 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		return tierAPI;
 	}
 
+	/**
+	 * @return the updater
+	 */
+	public Updater getUpdater() {
+		return updater;
+	}
+
 	@Override
 	public void onEnable() {
 		debug = new Debugger(this);
@@ -96,6 +104,10 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
 		getServer().getPluginManager().registerEvents(new EntityListener(this),
 				this);
+		if (getPluginSettings().isAutomaticUpdate()) {
+			updater = new Updater(this, "mythicdrops", this.getFile(),
+					Updater.UpdateType.DEFAULT, false);
+		}
 		startStatistics();
 	}
 

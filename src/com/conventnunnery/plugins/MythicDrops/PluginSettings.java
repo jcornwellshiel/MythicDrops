@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
 
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 
@@ -17,6 +16,7 @@ public class PluginSettings {
 	private String displayItemNameFormat;
 	private double percentageMobSpawnWithItemChance;
 	private boolean worldsEnabled;
+	private boolean automaticUpdate;
 	private boolean safeEnchantsOnly;
 	private List<String> worldsGenerate = new ArrayList<String>();
 	private List<String> worldsUse = new ArrayList<String>();
@@ -60,6 +60,13 @@ public class PluginSettings {
 		return worldsUse;
 	}
 
+	/**
+	 * @return the automaticUpdate
+	 */
+	public boolean isAutomaticUpdate() {
+		return automaticUpdate;
+	}
+
 	public boolean isSafeEnchantsOnly() {
 		return safeEnchantsOnly;
 	}
@@ -92,6 +99,9 @@ public class PluginSettings {
 	}
 
 	public void loadPluginSettings() {
+		setAutomaticUpdate(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("options.autoUpdate", false));
 		setSafeEnchantsOnly(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getBoolean("options.safeEnchantsOnly", true));
@@ -149,6 +159,14 @@ public class PluginSettings {
 
 	public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
 		this.advanced_toolTipFormat = advanced_toolTipFormat;
+	}
+
+	/**
+	 * @param automaticUpdate
+	 *            the automaticUpdate to set
+	 */
+	public void setAutomaticUpdate(boolean automaticUpdate) {
+		this.automaticUpdate = automaticUpdate;
 	}
 
 	public void setDisplayItemNameFormat(String displayItemNameFormat) {
