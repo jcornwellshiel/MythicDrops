@@ -14,7 +14,7 @@ public class ConfigurationManager {
 
 		CONFIG("config.yml"), ADVANCED_CONFIG("advanced_config.yml"), LANGUAGE(
 				"language.yml"), TIER("tier.yml"), CUSTOM_ITEM(
-				"custom_item.yml");
+				"custom_items.yml");
 
 		public final String filename;
 
