@@ -4,6 +4,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.ItemStack;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
@@ -30,6 +31,12 @@ public class EntityListener implements Listener {
 						.contains(event.getEntity().getWorld().getName())) {
 			return;
 		}
+		if (event.getSpawnReason() == SpawnReason.SPAWNER
+				&& getPlugin().getPluginSettings().isPreventSpawner())
+			return;
+		if (event.getSpawnReason() == SpawnReason.SPAWNER_EGG
+				&& getPlugin().getPluginSettings().isPreventSpawnEgg())
+			return;
 		EntityType entType = event.getEntityType();
 		double globalChanceToSpawn = getPlugin().getPluginSettings()
 				.getPercentageMobSpawnWithItemChance();

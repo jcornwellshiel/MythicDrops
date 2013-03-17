@@ -18,6 +18,8 @@ public class PluginSettings {
 	private boolean worldsEnabled;
 	private boolean automaticUpdate;
 	private boolean safeEnchantsOnly;
+	private boolean preventSpawnEgg;
+	private boolean preventSpawner;
 	private List<String> worldsGenerate = new ArrayList<String>();
 	private List<String> worldsUse = new ArrayList<String>();
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
@@ -80,6 +82,20 @@ public class PluginSettings {
 		return automaticUpdate;
 	}
 
+	/**
+	 * @return the preventSpawnEgg
+	 */
+	public boolean isPreventSpawnEgg() {
+		return preventSpawnEgg;
+	}
+
+	/**
+	 * @return the preventSpawner
+	 */
+	public boolean isPreventSpawner() {
+		return preventSpawner;
+	}
+
 	public boolean isSafeEnchantsOnly() {
 		return safeEnchantsOnly;
 	}
@@ -121,6 +137,12 @@ public class PluginSettings {
 		setDisplayItemNameFormat(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getString("display.itemNameFormat", "%material%"));
+		setPreventSpawnEgg(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("spawnPrevention.spawnEgg", true));
+		setPreventSpawner(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("spawnPrevention.spawner", true));
 		setPercentageMobSpawnWithItemChance(getPlugin()
 				.getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
@@ -193,6 +215,22 @@ public class PluginSettings {
 	public void setPercentageMobSpawnWithItemChance(
 			double percentageMobSpawnWithItemChance) {
 		this.percentageMobSpawnWithItemChance = percentageMobSpawnWithItemChance;
+	}
+
+	/**
+	 * @param preventSpawnEgg
+	 *            the preventSpawnEgg to set
+	 */
+	public void setPreventSpawnEgg(boolean preventSpawnEgg) {
+		this.preventSpawnEgg = preventSpawnEgg;
+	}
+
+	/**
+	 * @param preventSpawner
+	 *            the preventSpawner to set
+	 */
+	public void setPreventSpawner(boolean preventSpawner) {
+		this.preventSpawner = preventSpawner;
 	}
 
 	public void setSafeEnchantsOnly(boolean safeEnchantsOnly) {
