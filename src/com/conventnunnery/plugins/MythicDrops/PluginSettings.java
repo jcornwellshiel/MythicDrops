@@ -28,6 +28,19 @@ public class PluginSettings {
 		this.plugin = plugin;
 	}
 
+	public void debugSettings() {
+		getPlugin().getDebug().debug("Auto Update: " + isAutomaticUpdate(),
+				"Safe Enchants Only: " + isSafeEnchantsOnly(),
+				"Multiworld Support Enabled: " + isWorldsEnabled());
+		if (isWorldsEnabled()) {
+			getPlugin().getDebug().debug(
+					"Generate Worlds: " + getWorldsGenerate(),
+					"Use Worlds: " + getWorldsUse());
+		}
+		getPlugin().getDebug().debug(
+				"Global Spawn Rate: " + getPercentageMobSpawnWithItemChance());
+	}
+
 	public Map<String, Double> getAdvancedMobSpawnWithItemChanceMap() {
 		return advanced_mobSpawnWithItemChance;
 	}

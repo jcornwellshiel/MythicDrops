@@ -94,6 +94,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		configurationManager = new ConfigurationManager(this);
 		pluginSettings = new PluginSettings(this);
 		pluginSettings.loadPluginSettings();
+		pluginSettings.debugSettings();
 		tierAPI = new TierAPI(this);
 		nameAPI = new NameAPI(this);
 		itemAPI = new ItemAPI(this);

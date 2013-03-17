@@ -19,7 +19,7 @@ public class Debugger {
 		this.dataFolder = plugin.getDataFolder();
 	}
 
-	public void debug(String message) {
+	public void debug(String... messages) {
 		try {
 			if (!dataFolder.exists()) {
 				dataFolder.mkdirs();
@@ -30,8 +30,10 @@ public class Debugger {
 			}
 			FileWriter fw = new FileWriter(saveTo, true);
 			PrintWriter pw = new PrintWriter(fw);
-			pw.println(Calendar.getInstance().getTime().toString() + " | "
-					+ message);
+			for (String message : messages) {
+				pw.println(Calendar.getInstance().getTime().toString() + " | "
+						+ message);
+			}
 			pw.flush();
 			pw.close();
 		}
