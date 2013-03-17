@@ -1,5 +1,6 @@
 Notchian Sword:
   materialID: 276
+  materialData: 0
   displayName: '&6Notchian &7Sword'
   enchantments:
     ALL_DAMAGE: 10

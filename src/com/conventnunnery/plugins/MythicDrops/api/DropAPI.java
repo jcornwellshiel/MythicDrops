@@ -15,28 +15,39 @@ import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.material.MaterialData;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class DropAPI {
 	private final MythicDrops plugin;
-	private List<ItemStack> customItemStacks;
+	private List<CustomItem> customItems;
 
 	public DropAPI(MythicDrops plugin) {
 		this.plugin = plugin;
-		customItemStacks = new ArrayList<ItemStack>();
-	}
-	
-	public List<ItemStack> getCustomItemStacks(){
-		return customItemStacks;
-	}
-	
-	public void setCustomItemStacks(List<ItemStack> customItemStacks){
-		this.customItemStacks = customItemStacks;
+		customItems = new ArrayList<CustomItem>();
 	}
 
-	public ItemStack constructItemStack() {
-		return constructItemStack(getPlugin().getTierAPI()
-				.randomTierWithChance());
+	public ItemStack constructItemStack(boolean spawnOnMob) {
+		if (spawnOnMob) {
+			if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
+					&& (getPlugin().random.nextDouble() < getPlugin()
+							.getPluginSettings().getPercentageCustomDrop())) {
+				if (!customItems.isEmpty()) {
+					return customItems.get(
+							getPlugin().random.nextInt(customItems.size()))
+							.toItemStack();
+				}
+			}
+			if (!getPlugin().getPluginSettings().isOnlyCustomItems()) {
+				return constructItemStack(getPlugin().getTierAPI()
+						.randomTierWithChance());
+			}
+		}
+		else {
+			return constructItemStack(getPlugin().getTierAPI()
+					.randomTierWithChance());
+		}
+		return null;
 	}
 
 	public ItemStack constructItemStack(Tier tier) {
@@ -144,6 +155,10 @@ public class DropAPI {
 		return i;
 	}
 
+	public List<CustomItem> getCustomItems() {
+		return customItems;
+	}
+
 	public List<Enchantment> getEnchantStack(final ItemStack ci) {
 		List<Enchantment> set = new ArrayList<Enchantment>();
 		boolean bln = getPlugin().getPluginSettings().isSafeEnchantsOnly();
@@ -165,5 +180,9 @@ public class DropAPI {
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
+	}
+
+	public void setCustomItems(List<CustomItem> customItemStacks) {
+		this.customItems = customItemStacks;
 	}
 }

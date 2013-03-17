@@ -40,7 +40,8 @@ public class MythicDropsCommand implements CommandExecutor {
 						}
 						Player player = (Player) sender;
 						player.getInventory().addItem(
-								getPlugin().getDropAPI().constructItemStack());
+								getPlugin().getDropAPI().constructItemStack(
+										false));
 						player.sendMessage(ChatColor.GREEN
 								+ "You were given a random MythicDrops item.");
 						break;
@@ -80,7 +81,7 @@ public class MythicDropsCommand implements CommandExecutor {
 						if (args[1].equalsIgnoreCase("*")) {
 							player.getInventory().addItem(
 									getPlugin().getDropAPI()
-											.constructItemStack());
+											.constructItemStack(false));
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a random MythicDrops item.");
 							break;
@@ -118,7 +119,8 @@ public class MythicDropsCommand implements CommandExecutor {
 							break;
 						}
 						player.getInventory().addItem(
-								getPlugin().getDropAPI().constructItemStack());
+								getPlugin().getDropAPI().constructItemStack(
+										false));
 						player.sendMessage(ChatColor.GREEN
 								+ "You were given a random MythicDrops item.");
 						sender.sendMessage(ChatColor.GREEN + "You gave "
@@ -151,7 +153,7 @@ public class MythicDropsCommand implements CommandExecutor {
 							for (int i = 0; i < amt; i++) {
 								player.getInventory().addItem(
 										getPlugin().getDropAPI()
-												.constructItemStack());
+												.constructItemStack(false));
 							}
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given " + String.valueOf(amt)
@@ -196,7 +198,7 @@ public class MythicDropsCommand implements CommandExecutor {
 						if (args[2].equalsIgnoreCase("*")) {
 							player.getInventory().addItem(
 									getPlugin().getDropAPI()
-											.constructItemStack());
+											.constructItemStack(false));
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a random MythicDrops item.");
 							break;
@@ -248,7 +250,7 @@ public class MythicDropsCommand implements CommandExecutor {
 							for (int i = 0; i < amt; i++) {
 								player.getInventory().addItem(
 										getPlugin().getDropAPI()
-												.constructItemStack());
+												.constructItemStack(false));
 							}
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given " + String.valueOf(amt)

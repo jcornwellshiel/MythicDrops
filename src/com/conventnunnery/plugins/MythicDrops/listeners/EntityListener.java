@@ -31,6 +31,19 @@ public class EntityListener implements Listener {
 						.contains(event.getEntity().getWorld().getName())) {
 			return;
 		}
+		if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
+				&& (getPlugin().random.nextDouble() < getPlugin()
+						.getPluginSettings().getPercentageCustomDrop())) {
+			if (!getPlugin().getDropAPI().getCustomItems().isEmpty()) {
+				getPlugin()
+						.getDropAPI()
+						.getCustomItems()
+						.get(getPlugin().random.nextInt(getPlugin()
+								.getDropAPI().getCustomItems().size()))
+						.toItemStack();
+
+			}
+		}
 		if (event.getSpawnReason() == SpawnReason.SPAWNER
 				&& getPlugin().getPluginSettings().isPreventSpawner())
 			return;
@@ -50,12 +63,34 @@ public class EntityListener implements Listener {
 		double chance = globalChanceToSpawn * mobChanceToSpawn;
 		for (int i = 0; i < 5; i++) {
 			if (getPlugin().random.nextDouble() < chance) {
-				Tier t = getPlugin().getTierAPI().randomTierWithChance();
-				ItemStack itemstack = getPlugin().getDropAPI()
-						.constructItemStack(t);
-				getPlugin().getEntityAPI().equipEntity(event.getEntity(),
-						itemstack, t);
-				chance *= 0.5;
+				if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
+						&& (getPlugin().random.nextDouble() < getPlugin()
+								.getPluginSettings().getPercentageCustomDrop())) {
+					if (!getPlugin().getDropAPI().getCustomItems().isEmpty()) {
+						getPlugin()
+								.getEntityAPI()
+								.equipEntity(
+										event.getEntity(),
+										getPlugin()
+												.getDropAPI()
+												.getCustomItems()
+												.get(getPlugin().random
+														.nextInt(getPlugin()
+																.getDropAPI()
+																.getCustomItems()
+																.size()))
+												.toItemStack(), null);
+						chance *= 0.5;
+					}
+				}
+				if (!getPlugin().getPluginSettings().isOnlyCustomItems()) {
+					Tier t = getPlugin().getTierAPI().randomTierWithChance();
+					ItemStack itemstack = getPlugin().getDropAPI()
+							.constructItemStack(t);
+					getPlugin().getEntityAPI().equipEntity(event.getEntity(),
+							itemstack, t);
+					chance *= 0.5;
+				}
 				continue;
 			}
 			break;

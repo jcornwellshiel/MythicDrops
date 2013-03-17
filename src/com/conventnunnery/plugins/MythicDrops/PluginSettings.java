@@ -15,11 +15,14 @@ public class PluginSettings {
 
 	private String displayItemNameFormat;
 	private double percentageMobSpawnWithItemChance;
+	private double percentageCustomDrop;
 	private boolean worldsEnabled;
 	private boolean automaticUpdate;
 	private boolean safeEnchantsOnly;
 	private boolean preventSpawnEgg;
 	private boolean preventSpawner;
+	private boolean allowCustomToSpawn;
+	private boolean onlyCustomItems;
 	private List<String> worldsGenerate = new ArrayList<String>();
 	private List<String> worldsUse = new ArrayList<String>();
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
@@ -59,6 +62,13 @@ public class PluginSettings {
 		return ids;
 	}
 
+	/**
+	 * @return the percentageCustomDrop
+	 */
+	public double getPercentageCustomDrop() {
+		return percentageCustomDrop;
+	}
+
 	public double getPercentageMobSpawnWithItemChance() {
 		return percentageMobSpawnWithItemChance;
 	}
@@ -76,10 +86,24 @@ public class PluginSettings {
 	}
 
 	/**
+	 * @return the allowCustomToSpawn
+	 */
+	public boolean isAllowCustomToSpawn() {
+		return allowCustomToSpawn;
+	}
+
+	/**
 	 * @return the automaticUpdate
 	 */
 	public boolean isAutomaticUpdate() {
 		return automaticUpdate;
+	}
+
+	/**
+	 * @return the onlyCustomItems
+	 */
+	public boolean isOnlyCustomItems() {
+		return onlyCustomItems;
 	}
 
 	/**
@@ -131,9 +155,18 @@ public class PluginSettings {
 		setAutomaticUpdate(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getBoolean("options.autoUpdate", false));
+		setPercentageCustomDrop(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getDouble("options.customDropChance", 0.1));
 		setSafeEnchantsOnly(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getBoolean("options.safeEnchantsOnly", true));
+		setOnlyCustomItems(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("options.customItemsOnly", false));
+		setAllowCustomToSpawn(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("options.customItemsSpawn", false));
 		setDisplayItemNameFormat(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getString("display.itemNameFormat", "%material%"));
@@ -197,6 +230,14 @@ public class PluginSettings {
 	}
 
 	/**
+	 * @param allowCustomToSpawn
+	 *            the allowCustomToSpawn to set
+	 */
+	public void setAllowCustomToSpawn(boolean allowCustomToSpawn) {
+		this.allowCustomToSpawn = allowCustomToSpawn;
+	}
+
+	/**
 	 * @param automaticUpdate
 	 *            the automaticUpdate to set
 	 */
@@ -210,6 +251,22 @@ public class PluginSettings {
 
 	public void setIDs(HashMap<String, List<String>> ids) {
 		this.ids = ids;
+	}
+
+	/**
+	 * @param onlyCustomItems
+	 *            the onlyCustomItems to set
+	 */
+	public void setOnlyCustomItems(boolean onlyCustomItems) {
+		this.onlyCustomItems = onlyCustomItems;
+	}
+
+	/**
+	 * @param percentageCustomDrop
+	 *            the percentageCustomDrop to set
+	 */
+	public void setPercentageCustomDrop(double percentageCustomDrop) {
+		this.percentageCustomDrop = percentageCustomDrop;
 	}
 
 	public void setPercentageMobSpawnWithItemChance(
