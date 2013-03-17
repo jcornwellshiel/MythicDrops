@@ -65,8 +65,11 @@ public class TierAPI {
 			return tier;
 		while (tier == null) {
 			for (Tier t : tiers) {
-				if (plugin.random.nextDouble() <= t.getChanceToBeGiven())
+				double d = plugin.random.nextDouble();
+				if (d <= t.getChanceToBeGiven()) {
 					tier = t;
+					break;
+				}
 			}
 		}
 		return tier;
