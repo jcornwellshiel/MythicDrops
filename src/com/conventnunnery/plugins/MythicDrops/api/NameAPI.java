@@ -58,7 +58,7 @@ public class NameAPI {
 		String matName = material.name();
 		String[] split = matName.split("_");
 		for (String s : split) {
-			if (s != split[split.length - 1]) {
+			if (s.equals(split[split.length - 1])) {
 				prettyMaterialName = prettyMaterialName
 						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
 								s.length()).toLowerCase()) + " ";

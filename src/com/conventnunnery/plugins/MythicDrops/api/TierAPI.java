@@ -66,7 +66,7 @@ public class TierAPI {
 
 	public Tier randomTierWithChance() {
 		Tier tier = null;
-		if (tiers.isEmpty() || tiers == null)
+		if (tiers == null || tiers.isEmpty())
 			return tier;
 		while (tier == null) {
 			for (Tier t : tiers) {
