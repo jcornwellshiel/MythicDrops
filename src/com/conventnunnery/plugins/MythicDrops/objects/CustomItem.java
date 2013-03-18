@@ -16,14 +16,20 @@ public class CustomItem {
 	private final List<String> lore;
 	private final Map<Enchantment, Integer> enchantments;
 	private final MaterialData matData;
+	private final double chance;
 
 	public CustomItem(String name, String displayName, List<String> lore,
-			Map<Enchantment, Integer> enchantments, MaterialData matData) {
+			Map<Enchantment, Integer> enchantments, MaterialData matData, double chance) {
 		this.name = name;
 		this.displayName = displayName;
 		this.lore = lore;
 		this.enchantments = enchantments;
 		this.matData = matData;
+		this.chance = chance;
+	}
+	
+	public double getChance() {
+		return chance;
 	}
 
 	public String getDisplayName() {
