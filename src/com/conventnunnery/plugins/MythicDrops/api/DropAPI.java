@@ -35,9 +35,7 @@ public class DropAPI {
 					&& (getPlugin().random.nextDouble() < getPlugin()
 							.getPluginSettings().getPercentageCustomDrop())) {
 				if (!customItems.isEmpty()) {
-					return customItems.get(
-							getPlugin().random.nextInt(customItems.size()))
-							.toItemStack();
+					return randomCustomItemWithChance().toItemStack();
 				}
 			}
 			if (!getPlugin().getPluginSettings().isOnlyCustomItems()) {
@@ -182,6 +180,26 @@ public class DropAPI {
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
+	}
+
+	public CustomItem randomCustomItem() {
+		return customItems.get(getPlugin().random.nextInt(customItems.size()));
+	}
+
+	public CustomItem randomCustomItemWithChance() {
+		CustomItem ci = null;
+		if (customItems == null || customItems.isEmpty())
+			return ci;
+		while (ci == null) {
+			for (CustomItem c : customItems) {
+				double d = plugin.random.nextDouble();
+				if (d <= c.getChance()) {
+					ci = c;
+					break;
+				}
+			}
+		}
+		return ci;
 	}
 
 	public void saveCustomItems() {
