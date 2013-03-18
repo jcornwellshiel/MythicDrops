@@ -41,6 +41,13 @@ Tiers are ways for the user to design items without having to hand-make each ite
 * Chance To Be Given: The chance that this tier will be the one that is given to a mob.
 * Chance To Drop: The chance that this tier will be dropped when equipped.
 
+### Custom Items
+Custom Items are specially designed items. They have special values that distinguish them.
+* Name: Name of the item
+* Display Name: Display name of the item
+* Enchantments: The enchantments that go on the item
+* Lore: The lore of the item
+
 ## Abilities
 Abilities are not implemented yet.
 ### Contact Abilities
