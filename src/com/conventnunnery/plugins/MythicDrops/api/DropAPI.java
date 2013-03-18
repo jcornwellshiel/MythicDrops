@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.inventory.ItemStack;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.material.MaterialData;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
@@ -180,6 +182,23 @@ public class DropAPI {
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
+	}
+
+	public void saveCustomItems() {
+		FileConfiguration fc = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.TIER);
+		for (CustomItem c : customItems) {
+			fc.set(c.getName() + ".displayName", c.getDisplayName());
+			fc.set(c.getName() + ".lore", c.getLore());
+			fc.set(c.getName() + ".materialId", c.getMatData().getItemTypeId());
+			fc.set(c.getName() + ".materialData", (int) c.getMatData()
+					.getData());
+			for (Entry<Enchantment, Integer> e : c.getEnchantments().entrySet()) {
+				fc.set(c.getName() + ".enchantments." + e.getKey().getName(),
+						e.getValue());
+			}
+		}
+		getPlugin().getConfigurationManager().saveConfig();
 	}
 
 	public void setCustomItems(List<CustomItem> customItemStacks) {

@@ -71,9 +71,6 @@ public class TierBuilder {
 					if (ench == null)
 						continue;
 					int level = autoCS.getInt(enchantmentName, 0);
-					getPlugin().getDebug().debug(
-							"Tier: " + tierName + " | Enchantment: "
-									+ ench.getName() + " | Level: " + level);
 					automaticEnchantments.put(ench, level);
 				}
 			}
@@ -116,7 +113,11 @@ public class TierBuilder {
 				}
 			}
 			else {
-				enchCS.set("allowedEnchants", new ArrayList<String>());
+				List<String> enchs = new ArrayList<String>();
+				for (Enchantment ench : Enchantment.values()) {
+					enchs.add(ench.getName());
+				}
+				enchCS.set("allowedEnchants", enchs);
 			}
 			if (allowedEnchantments.isEmpty()) {
 				allowedEnchantments.addAll(Arrays.asList(Enchantment.values()));

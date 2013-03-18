@@ -89,6 +89,12 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	}
 
 	@Override
+	public void onDisable() {
+		getDropAPI().saveCustomItems();
+		getTierAPI().saveTiers();
+	}
+
+	@Override
 	public void onEnable() {
 		debug = new Debugger(this);
 		configurationManager = new ConfigurationManager(this);

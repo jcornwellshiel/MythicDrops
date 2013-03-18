@@ -22,6 +22,7 @@ public class CustomBuilder {
 	}
 
 	public void build() {
+		getPlugin().getDropAPI().getCustomItems().clear();
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CUSTOM_ITEM);
 		for (String s : fc.getKeys(false)) {

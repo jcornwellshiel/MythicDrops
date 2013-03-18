@@ -2,8 +2,13 @@ package com.conventnunnery.plugins.MythicDrops.api;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class TierAPI {
@@ -78,6 +83,35 @@ public class TierAPI {
 	public void removeTier(Tier tier) {
 		if (tiers.contains(tier))
 			tiers.remove(tier);
+	}
+
+	public void saveTiers() {
+		FileConfiguration fc = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.TIER);
+		for (Tier t : tiers) {
+			fc.set(t.getName() + ".displayName", t.getDisplayName());
+			List<String> allowedEnchs = new ArrayList<String>();
+			for (Enchantment ench : t.getAllowedEnchantments()) {
+				allowedEnchs.add(ench.getName());
+			}
+			fc.set(t.getName() + ".enchantment.allowed", allowedEnchs);
+			for (Entry<Enchantment, Integer> e : t.getAutomaticEnchantments()
+					.entrySet()) {
+				fc.set(t + ".enchantment.automatic." + e.getKey().getName(),
+						e.getValue());
+			}
+			for (Entry<Enchantment, Integer> e : t.getNaturalEnchantments()
+					.entrySet()) {
+				fc.set(t + ".enchantment.natural." + e.getKey().getName(),
+						e.getValue());
+			}
+			fc.set(t.getName() + ".identifier", t.getIdentifier().name());
+			fc.set(t.getName() + ".color", t.getColor().name());
+			fc.set(t.getName() + ".chanceToBeGiven", t.getChanceToBeGiven());
+			fc.set(t.getName() + ".chanceToDrop",
+					Float.valueOf(t.getChanceToDrop()).doubleValue());
+		}
+		getPlugin().getConfigurationManager().saveConfig();
 	}
 
 }

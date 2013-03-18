@@ -50,7 +50,8 @@ public class CustomItem {
 		ItemStack is = matData.toItemStack(1);
 		ItemMeta im = Bukkit.getItemFactory()
 				.getItemMeta(matData.getItemType());
-		im.setDisplayName(getDisplayName());
+		im.setDisplayName(getDisplayName().replace('&', '\u00A7').replace(
+				"\u00A7\u00A7", "&"));
 		im.setLore(getLore());
 		is.setItemMeta(im);
 		is.addUnsafeEnchantments(getEnchantments());
