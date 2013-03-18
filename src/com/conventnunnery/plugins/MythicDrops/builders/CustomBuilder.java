@@ -53,11 +53,12 @@ public class CustomBuilder {
 			}
 			int matId = cs.getInt("materialId", 0);
 			byte matData = (byte) cs.getInt("materialData", 0);
+			double chance = cs.getDouble("chance",0.0);
 			getPlugin()
 					.getDropAPI()
 					.getCustomItems()
 					.add(new CustomItem(name, displayName, lore, map,
-							new MaterialData(matId, matData)));
+							new MaterialData(matId, matData), chance));
 		}
 	}
 
