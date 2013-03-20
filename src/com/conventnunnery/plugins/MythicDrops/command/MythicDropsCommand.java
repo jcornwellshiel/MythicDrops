@@ -1,15 +1,15 @@
 package com.conventnunnery.plugins.MythicDrops.command;
 
+import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.NumberUtils;
+import com.conventnunnery.plugins.MythicDrops.api.DropAPI;
+import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.conventnunnery.plugins.MythicDrops.MythicDrops;
-import com.conventnunnery.plugins.MythicDrops.NumberUtils;
-import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class MythicDropsCommand implements CommandExecutor {
 
@@ -28,7 +28,7 @@ public class MythicDropsCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
-			String commandLabel, String[] args) {
+	                         String commandLabel, String[] args) {
 		switch (args.length) {
 			case 1:
 				if (args[0].equalsIgnoreCase("spawn")) {
@@ -41,31 +41,27 @@ public class MythicDropsCommand implements CommandExecutor {
 						Player player = (Player) sender;
 						player.getInventory().addItem(
 								getPlugin().getDropAPI().constructItemStack(
-										false));
+										DropAPI.GenerationReason.COMMAND));
 						player.sendMessage(ChatColor.GREEN
 								+ "You were given a random MythicDrops item.");
 						break;
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else if (args[0].equalsIgnoreCase("reload")) {
+				} else if (args[0].equalsIgnoreCase("reload")) {
 					if (sender.hasPermission("mythicdrops.command.spawn")) {
 						getPlugin().getPluginSettings().loadPluginSettings();
 						sender.sendMessage(ChatColor.GREEN
 								+ "MythicDrops configuration reloaded.");
 						break;
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else {
+				} else {
 					showHelp(sender);
 					break;
 				}
@@ -81,12 +77,11 @@ public class MythicDropsCommand implements CommandExecutor {
 						if (args[1].equalsIgnoreCase("*")) {
 							player.getInventory().addItem(
 									getPlugin().getDropAPI()
-											.constructItemStack(false));
+											.constructItemStack(DropAPI.GenerationReason.COMMAND));
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a random MythicDrops item.");
 							break;
-						}
-						else {
+						} else {
 							Tier t = getPlugin().getTierAPI().getTierFromName(
 									args[1]);
 							if (t == null) {
@@ -96,21 +91,19 @@ public class MythicDropsCommand implements CommandExecutor {
 							}
 							player.getInventory().addItem(
 									getPlugin().getDropAPI()
-											.constructItemStack(t));
+											.constructItemStack(t, DropAPI.GenerationReason.COMMAND));
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a " + t.getColor()
 									+ t.getDisplayName() + ChatColor.GREEN
 									+ " MythicDrops item.");
 							break;
 						}
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else if (args[0].equalsIgnoreCase("give")) {
+				} else if (args[0].equalsIgnoreCase("give")) {
 					if (sender.hasPermission("mythicdrops.command.give")) {
 						Player player = Bukkit.getPlayer(args[1]);
 						if (player == null || !player.isOnline()) {
@@ -120,7 +113,7 @@ public class MythicDropsCommand implements CommandExecutor {
 						}
 						player.getInventory().addItem(
 								getPlugin().getDropAPI().constructItemStack(
-										false));
+										DropAPI.GenerationReason.COMMAND));
 						player.sendMessage(ChatColor.GREEN
 								+ "You were given a random MythicDrops item.");
 						sender.sendMessage(ChatColor.GREEN + "You gave "
@@ -128,14 +121,12 @@ public class MythicDropsCommand implements CommandExecutor {
 								+ ChatColor.GREEN
 								+ " a random MythicDrops item.");
 						break;
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else {
+				} else {
 					showHelp(sender);
 					break;
 				}
@@ -153,14 +144,13 @@ public class MythicDropsCommand implements CommandExecutor {
 							for (int i = 0; i < amt; i++) {
 								player.getInventory().addItem(
 										getPlugin().getDropAPI()
-												.constructItemStack(false));
+												.constructItemStack(DropAPI.GenerationReason.COMMAND));
 							}
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given " + String.valueOf(amt)
 									+ " random MythicDrops item.");
 							break;
-						}
-						else {
+						} else {
 							Tier t = getPlugin().getTierAPI().getTierFromName(
 									args[1]);
 							if (t == null) {
@@ -172,7 +162,7 @@ public class MythicDropsCommand implements CommandExecutor {
 							for (int i = 0; i < amt; i++) {
 								player.getInventory().addItem(
 										getPlugin().getDropAPI()
-												.constructItemStack(t));
+												.constructItemStack(t, DropAPI.GenerationReason.COMMAND));
 							}
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given " + String.valueOf(amt)
@@ -180,14 +170,12 @@ public class MythicDropsCommand implements CommandExecutor {
 									+ ChatColor.GREEN + " MythicDrops item.");
 							break;
 						}
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else if (args[0].equalsIgnoreCase("give")) {
+				} else if (args[0].equalsIgnoreCase("give")) {
 					if (sender.hasPermission("mythicdrops.command.give")) {
 						Player player = Bukkit.getPlayer(args[1]);
 						if (player == null || !player.isOnline()) {
@@ -198,12 +186,11 @@ public class MythicDropsCommand implements CommandExecutor {
 						if (args[2].equalsIgnoreCase("*")) {
 							player.getInventory().addItem(
 									getPlugin().getDropAPI()
-											.constructItemStack(false));
+											.constructItemStack(DropAPI.GenerationReason.COMMAND));
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a random MythicDrops item.");
 							break;
-						}
-						else {
+						} else {
 							Tier t = getPlugin().getTierAPI().getTierFromName(
 									args[2]);
 							if (t == null) {
@@ -213,7 +200,7 @@ public class MythicDropsCommand implements CommandExecutor {
 							}
 							player.getInventory().addItem(
 									getPlugin().getDropAPI()
-											.constructItemStack(t));
+											.constructItemStack(t, DropAPI.GenerationReason.COMMAND));
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a " + t.getColor()
 									+ t.getDisplayName() + ChatColor.GREEN
@@ -225,14 +212,12 @@ public class MythicDropsCommand implements CommandExecutor {
 									+ " MythicDrops item.");
 							break;
 						}
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else {
+				} else {
 					showHelp(sender);
 					break;
 				}
@@ -250,14 +235,13 @@ public class MythicDropsCommand implements CommandExecutor {
 							for (int i = 0; i < amt; i++) {
 								player.getInventory().addItem(
 										getPlugin().getDropAPI()
-												.constructItemStack(false));
+												.constructItemStack(DropAPI.GenerationReason.COMMAND));
 							}
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given " + String.valueOf(amt)
 									+ " random MythicDrops item.");
 							break;
-						}
-						else {
+						} else {
 							Tier t = getPlugin().getTierAPI().getTierFromName(
 									args[2]);
 							if (t == null) {
@@ -269,7 +253,7 @@ public class MythicDropsCommand implements CommandExecutor {
 							for (int i = 0; i < amt; i++) {
 								player.getInventory().addItem(
 										getPlugin().getDropAPI()
-												.constructItemStack(t));
+												.constructItemStack(t, DropAPI.GenerationReason.COMMAND));
 							}
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given " + String.valueOf(amt)
@@ -283,14 +267,12 @@ public class MythicDropsCommand implements CommandExecutor {
 									+ " MythicDrops item.");
 							break;
 						}
-					}
-					else {
+					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
 						break;
 					}
-				}
-				else {
+				} else {
 					showHelp(sender);
 					break;
 				}
