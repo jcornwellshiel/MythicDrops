@@ -35,8 +35,7 @@ public class PluginSettings {
 	public void debugSettings() {
 		getPlugin().getDebug().debug("Auto Update: " + isAutomaticUpdate(),
 				"Safe Enchants Only: " + isSafeEnchantsOnly(),
-				"Multiworld Support Enabled: " + isWorldsEnabled(), "Item Name Format: " + getDisplayItemNameFormat(),
-				"Item Types: " + getIDs().keySet().toString().replace("[", "").replace("]", ""));
+				"Multiworld Support Enabled: " + isWorldsEnabled(), "Item Name Format: " + getDisplayItemNameFormat());
 		if (isWorldsEnabled()) {
 			getPlugin().getDebug().debug(
 					"Generate Worlds: " + getWorldsGenerate(),
@@ -44,6 +43,11 @@ public class PluginSettings {
 		}
 		getPlugin().getDebug().debug(
 				"Global Spawn Rate: " + getPercentageMobSpawnWithItemChance());
+		String s = "";
+		for (Map.Entry<String, List<String>> e : getIDs().entrySet()) {
+			s = s + e.getKey() + "(" + e.getValue().toString().replace("[", "").replace("]", "") + ")";
+		}
+		getPlugin().getDebug().debug(s);
 	}
 
 	public Map<String, Double> getAdvancedMobSpawnWithItemChanceMap() {

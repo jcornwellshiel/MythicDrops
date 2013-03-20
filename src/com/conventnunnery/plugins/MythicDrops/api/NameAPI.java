@@ -60,11 +60,11 @@ public class NameAPI {
 			if (s.equals(split[split.length - 1])) {
 				prettyMaterialName = prettyMaterialName
 						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
-						s.length()).toLowerCase()) + " ";
+						s.length()).toLowerCase());
 			} else {
 				prettyMaterialName = prettyMaterialName
 						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
-						s.length()).toLowerCase());
+						s.length()).toLowerCase()) + " ";
 			}
 		}
 		return prettyMaterialName;

@@ -1,12 +1,13 @@
 package com.conventnunnery.plugins.MythicDrops;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
-
-import org.bukkit.plugin.Plugin;
 
 public class Debugger {
 
@@ -36,9 +37,8 @@ public class Debugger {
 			}
 			pw.flush();
 			pw.close();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			Bukkit.getLogger().severe(e.getMessage());
 		}
 	}
 

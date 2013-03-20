@@ -28,27 +28,34 @@ public class DropAPI {
 		customItems = new ArrayList<CustomItem>();
 	}
 
-	public ItemStack constructItemStack(boolean spawnOnMob) {
-		if (spawnOnMob) {
-			if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
-					&& (getPlugin().getRandom().nextDouble() < getPlugin()
-					.getPluginSettings().getPercentageCustomDrop())) {
-				if (!customItems.isEmpty()) {
-					return randomCustomItemWithChance().toItemStack();
+	public ItemStack constructItemStack(GenerationReason reason) {
+		switch (reason) {
+			case MOB_SPAWN:
+				if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
+						&& (getPlugin().getRandom().nextDouble() < getPlugin()
+						.getPluginSettings().getPercentageCustomDrop())) {
+					if (!customItems.isEmpty()) {
+						return randomCustomItemWithChance().toItemStack();
+					}
 				}
-			}
-			if (!getPlugin().getPluginSettings().isOnlyCustomItems()) {
+				if (!getPlugin().getPluginSettings().isOnlyCustomItems()) {
+					return constructItemStack(getPlugin().getTierAPI()
+							.randomTierWithChance(), reason);
+				}
+				return null;
+			case COMMAND:
 				return constructItemStack(getPlugin().getTierAPI()
-						.randomTierWithChance());
-			}
-		} else {
-			return constructItemStack(getPlugin().getTierAPI()
-					.randomTierWithChance());
+						.randomTierWithChance(), reason);
+			case EXTERNAL:
+				return constructItemStack(getPlugin().getTierAPI()
+						.randomTierWithChance(), reason);
+			default:
+				return constructItemStack(getPlugin().getTierAPI()
+						.randomTierWithChance(), reason);
 		}
-		return null;
 	}
 
-	public ItemStack constructItemStack(Tier tier) {
+	public ItemStack constructItemStack(Tier tier, GenerationReason reason) {
 		ItemStack itemstack = null;
 		MaterialData matData = null;
 		int attempts = 0;
@@ -59,9 +66,11 @@ public class DropAPI {
 				|| matData.getItemType() == Material.AIR)
 			return itemstack;
 		itemstack = matData.toItemStack(1);
-		short ranSize = (short) (itemstack.getType().getMaxDurability() * (1.0 - tier.getDurability()));
-		short dura = (short) getPlugin().getRandom().nextInt(ranSize);
-		itemstack.setDurability(dura);
+		if (reason != null && reason != GenerationReason.COMMAND) {
+			short ranSize = (short) (itemstack.getType().getMaxDurability() * Math.min(Math.max(1.0 - tier.getDurability(), 0.0), 1.0));
+			short dura = (short) getPlugin().getRandom().nextInt(Math.abs(ranSize) + 1);
+			itemstack.setDurability(dura);
+		}
 		ItemMeta im;
 		if (itemstack.hasItemMeta())
 			im = itemstack.getItemMeta();
@@ -218,5 +227,9 @@ public class DropAPI {
 			}
 		}
 		getPlugin().getConfigurationManager().saveConfig();
+	}
+
+	public enum GenerationReason {
+		MOB_SPAWN, COMMAND, EXTERNAL;
 	}
 }

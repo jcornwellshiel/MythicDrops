@@ -132,11 +132,12 @@ public class ItemAPI {
 		} else {
 			comb2 = comb;
 		}
+		String comb3 = String.valueOf(matData.getItemTypeId());
 		Map<String, List<String>> ids = getPlugin().getPluginSettings()
 				.getIDs();
 		for (Entry<String, List<String>> e : ids.entrySet()) {
 			if (containsIgnoreCase(e.getValue(), comb)
-					|| containsIgnoreCase(e.getValue(), comb2)) {
+					|| containsIgnoreCase(e.getValue(), comb2) || containsIgnoreCase(e.getValue(), comb3)) {
 				return e.getKey();
 			}
 		}

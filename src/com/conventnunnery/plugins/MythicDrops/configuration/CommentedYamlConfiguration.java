@@ -18,16 +18,16 @@
 
 package com.conventnunnery.plugins.MythicDrops.configuration;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-
+import com.google.common.io.Files;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.google.common.io.Files;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
 
 /*
  * Based on CommentedYamlConfiguration by dumptruckman
@@ -50,11 +50,9 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 	/**
 	 * Adds a comment just before the specified path. The comment can be
 	 * multiple lines. An empty string will indicate a blank line.
-	 * 
-	 * @param path
-	 *            Configuration path to add comment.
-	 * @param commentLines
-	 *            Comments to add. One String per line.
+	 *
+	 * @param path         Configuration path to add comment.
+	 * @param commentLines Comments to add. One String per line.
 	 */
 	public void addComment(String path, String... commentLines) {
 		StringBuilder commentstring = new StringBuilder();
@@ -125,15 +123,13 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 					if (currentPath.toString().isEmpty()) {
 						currentPath = new StringBuilder(
 								line.substring(0, index));
-					}
-					else {
+					} else {
 						// Calculate the whitespace preceding the node name
 						int whiteSpace = 0;
 						for (int n = 0; n < line.length(); n++) {
 							if (line.charAt(n) == ' ') {
 								whiteSpace++;
-							}
-							else {
+							} else {
 								break;
 							}
 						}
@@ -144,8 +140,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 							currentPath.append(".").append(
 									line.substring(whiteSpace, index));
 							depth++;
-						}
-						else if (whiteSpace / 2 < depth) {
+						} else if (whiteSpace / 2 < depth) {
 							// Path is shallower, calculate current depth from
 							// whitespace (whitespace / 2) and subtract that
 							// many levels from the currentPath
@@ -161,8 +156,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 								// if there isn't a final period, set the
 								// current path to nothing because we're at root
 								currentPath = new StringBuilder();
-							}
-							else {
+							} else {
 								// If there is a final period, replace
 								// everything after it with nothing
 								currentPath.replace(
@@ -174,8 +168,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 									.substring(whiteSpace, index));
 							// Reset the depth
 							depth = newDepth;
-						}
-						else {
+						} else {
 							// Path is same depth, replace the last path node
 							// name to the current node name
 							int lastIndex = currentPath.lastIndexOf(".");
@@ -183,8 +176,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 								// if there isn't a final period, set the
 								// current path to nothing because we're at root
 								currentPath = new StringBuilder();
-							}
-							else {
+							} else {
 								// If there is a final period, replace
 								// everything after it with nothing
 								currentPath.replace(
@@ -198,8 +190,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 									.substring(whiteSpace, index));
 						}
 					}
-				}
-				else {
+				} else {
 					node = false;
 				}
 				StringBuilder newLine = new StringBuilder(line);
@@ -232,9 +223,8 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 		try {
 			load(file);
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			Bukkit.getLogger().severe(e.getMessage());
 			return false;
 		}
 	}
@@ -243,9 +233,8 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 		try {
 			save(file);
 			return true;
-		}
-		catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			Bukkit.getLogger().severe(e.getMessage());
 			return false;
 		}
 	}
@@ -264,8 +253,7 @@ public class CommentedYamlConfiguration extends YamlConfiguration {
 
 		try {
 			writer.write(data);
-		}
-		finally {
+		} finally {
 			writer.close();
 		}
 	}
