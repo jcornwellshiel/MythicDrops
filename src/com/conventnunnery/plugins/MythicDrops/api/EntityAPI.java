@@ -1,10 +1,9 @@
 package com.conventnunnery.plugins.MythicDrops.api;
 
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemStack;
-
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 
 public class EntityAPI {
 	private final MythicDrops plugin;
@@ -17,30 +16,23 @@ public class EntityAPI {
 		float f = 1.0F;
 		if (tier != null)
 			f = tier.getChanceToDrop();
-		if (getPlugin().getItemAPI().itemTypeFromMatData(itemstack.getData())
-				.equalsIgnoreCase("boots")) {
+		String itemType = getPlugin().getItemAPI().itemTypeFromMatData(itemstack.getData());
+		if (itemType != null && itemType.equalsIgnoreCase("boots")) {
 			entity.getEquipment().setBoots(itemstack);
 			entity.getEquipment().setBootsDropChance(f);
-		}
-		else if (getPlugin().getItemAPI()
-				.itemTypeFromMatData(itemstack.getData())
+		} else if (itemType != null && itemType
 				.equalsIgnoreCase("leggings")) {
 			entity.getEquipment().setLeggings(itemstack);
 			entity.getEquipment().setLeggingsDropChance(f);
-		}
-		else if (getPlugin().getItemAPI()
-				.itemTypeFromMatData(itemstack.getData())
+		} else if (itemType != null && itemType
 				.equalsIgnoreCase("chestplate")) {
 			entity.getEquipment().setChestplate(itemstack);
 			entity.getEquipment().setChestplateDropChance(f);
-		}
-		else if (getPlugin().getItemAPI()
-				.itemTypeFromMatData(itemstack.getData())
+		} else if (itemType != null && itemType
 				.equalsIgnoreCase("helmet")) {
 			entity.getEquipment().setHelmet(itemstack);
 			entity.getEquipment().setHelmetDropChance(f);
-		}
-		else {
+		} else {
 			entity.getEquipment().setItemInHand(itemstack);
 			entity.getEquipment().setItemInHandDropChance(f);
 		}

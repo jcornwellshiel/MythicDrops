@@ -1,18 +1,17 @@
 package com.conventnunnery.plugins.MythicDrops;
 
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.configuration.ConfigurationSection;
-
-import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
-
 public class PluginSettings {
 
 	private final MythicDrops plugin;
-
 	private String displayItemNameFormat;
 	private double percentageMobSpawnWithItemChance;
 	private double percentageCustomDrop;
@@ -36,7 +35,8 @@ public class PluginSettings {
 	public void debugSettings() {
 		getPlugin().getDebug().debug("Auto Update: " + isAutomaticUpdate(),
 				"Safe Enchants Only: " + isSafeEnchantsOnly(),
-				"Multiworld Support Enabled: " + isWorldsEnabled());
+				"Multiworld Support Enabled: " + isWorldsEnabled(), "Item Name Format: " + getDisplayItemNameFormat(),
+				"Item Types: " + getIDs().keySet().toString().replace("[", "").replace("]", ""));
 		if (isWorldsEnabled()) {
 			getPlugin().getDebug().debug(
 					"Generate Worlds: " + getWorldsGenerate(),
@@ -50,16 +50,33 @@ public class PluginSettings {
 		return advanced_mobSpawnWithItemChance;
 	}
 
+	public void setAdvancedMobSpawnWithItemChanceMap(
+			Map<String, Double> advanced_mobSpawnWithItemChance) {
+		this.advanced_mobSpawnWithItemChance = advanced_mobSpawnWithItemChance;
+	}
+
 	public List<String> getAdvancedToolTipFormat() {
 		return advanced_toolTipFormat;
+	}
+
+	public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
+		this.advanced_toolTipFormat = advanced_toolTipFormat;
 	}
 
 	public String getDisplayItemNameFormat() {
 		return displayItemNameFormat;
 	}
 
+	public void setDisplayItemNameFormat(String displayItemNameFormat) {
+		this.displayItemNameFormat = displayItemNameFormat;
+	}
+
 	public Map<String, List<String>> getIDs() {
 		return ids;
+	}
+
+	public void setIDs(HashMap<String, List<String>> ids) {
+		this.ids = ids;
 	}
 
 	/**
@@ -69,8 +86,20 @@ public class PluginSettings {
 		return percentageCustomDrop;
 	}
 
+	/**
+	 * @param percentageCustomDrop the percentageCustomDrop to set
+	 */
+	public void setPercentageCustomDrop(double percentageCustomDrop) {
+		this.percentageCustomDrop = percentageCustomDrop;
+	}
+
 	public double getPercentageMobSpawnWithItemChance() {
 		return percentageMobSpawnWithItemChance;
+	}
+
+	public void setPercentageMobSpawnWithItemChance(
+			double percentageMobSpawnWithItemChance) {
+		this.percentageMobSpawnWithItemChance = percentageMobSpawnWithItemChance;
 	}
 
 	public MythicDrops getPlugin() {
@@ -81,8 +110,16 @@ public class PluginSettings {
 		return worldsGenerate;
 	}
 
+	public void setWorldsGenerate(List<String> worldsGenerate) {
+		this.worldsGenerate = worldsGenerate;
+	}
+
 	public List<String> getWorldsUse() {
 		return worldsUse;
+	}
+
+	public void setWorldsUse(List<String> worldsUse) {
+		this.worldsUse = worldsUse;
 	}
 
 	/**
@@ -93,10 +130,24 @@ public class PluginSettings {
 	}
 
 	/**
+	 * @param allowCustomToSpawn the allowCustomToSpawn to set
+	 */
+	public void setAllowCustomToSpawn(boolean allowCustomToSpawn) {
+		this.allowCustomToSpawn = allowCustomToSpawn;
+	}
+
+	/**
 	 * @return the automaticUpdate
 	 */
 	public boolean isAutomaticUpdate() {
 		return automaticUpdate;
+	}
+
+	/**
+	 * @param automaticUpdate the automaticUpdate to set
+	 */
+	public void setAutomaticUpdate(boolean automaticUpdate) {
+		this.automaticUpdate = automaticUpdate;
 	}
 
 	/**
@@ -107,10 +158,24 @@ public class PluginSettings {
 	}
 
 	/**
+	 * @param onlyCustomItems the onlyCustomItems to set
+	 */
+	public void setOnlyCustomItems(boolean onlyCustomItems) {
+		this.onlyCustomItems = onlyCustomItems;
+	}
+
+	/**
 	 * @return the preventSpawnEgg
 	 */
 	public boolean isPreventSpawnEgg() {
 		return preventSpawnEgg;
+	}
+
+	/**
+	 * @param preventSpawnEgg the preventSpawnEgg to set
+	 */
+	public void setPreventSpawnEgg(boolean preventSpawnEgg) {
+		this.preventSpawnEgg = preventSpawnEgg;
 	}
 
 	/**
@@ -120,69 +185,89 @@ public class PluginSettings {
 		return preventSpawner;
 	}
 
+	/**
+	 * @param preventSpawner the preventSpawner to set
+	 */
+	public void setPreventSpawner(boolean preventSpawner) {
+		this.preventSpawner = preventSpawner;
+	}
+
 	public boolean isSafeEnchantsOnly() {
 		return safeEnchantsOnly;
+	}
+
+	public void setSafeEnchantsOnly(boolean safeEnchantsOnly) {
+		this.safeEnchantsOnly = safeEnchantsOnly;
 	}
 
 	public boolean isWorldsEnabled() {
 		return worldsEnabled;
 	}
 
+	public void setWorldsEnabled(boolean worldsEnabled) {
+		this.worldsEnabled = worldsEnabled;
+	}
+
 	private void loadIDs() {
-		ConfigurationSection cs = getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getConfigurationSection("ids.toolIDs");
-		for (String toolKind : cs.getKeys(false)) {
-			List<String> idList;
-			idList = cs.getStringList(toolKind);
-			if (idList == null)
-				idList = new ArrayList<String>();
-			ids.put(toolKind.toLowerCase(), idList);
+		FileConfiguration fc = getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG);
+		if (!fc.isConfigurationSection("ids"))
+			return;
+		ConfigurationSection idCS = fc.getConfigurationSection("ids");
+		if (idCS.isConfigurationSection("toolIDs")) {
+			ConfigurationSection toolCS = idCS.getConfigurationSection("toolIDs");
+			for (String toolKind : toolCS.getKeys(false)) {
+				List<String> idList;
+				idList = toolCS.getStringList(toolKind);
+				if (idList == null)
+					idList = new ArrayList<String>();
+				ids.put(toolKind.toLowerCase(), idList);
+			}
 		}
-		cs = getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
-				.getConfigurationSection("ids.armorIDs");
-		for (String armorKind : cs.getKeys(false)) {
-			List<String> idList;
-			idList = cs.getStringList(armorKind);
-			if (idList == null)
-				idList = new ArrayList<String>();
-			ids.put(armorKind.toLowerCase(), idList);
+		if (idCS.isConfigurationSection("armorIDs")) {
+			ConfigurationSection toolCS = idCS.getConfigurationSection("armorIDs");
+			for (String toolKind : toolCS.getKeys(false)) {
+				List<String> idList;
+				idList = toolCS.getStringList(toolKind);
+				if (idList == null)
+					idList = new ArrayList<String>();
+				ids.put(toolKind.toLowerCase(), idList);
+			}
 		}
 	}
 
 	public void loadPluginSettings() {
 		setAutomaticUpdate(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("options.autoUpdate", false));
+				.getBoolean("options.autoUpdate"));
 		setPercentageCustomDrop(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getDouble("options.customDropChance", 0.1));
+				.getDouble("options.customDropChance"));
 		setSafeEnchantsOnly(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("options.safeEnchantsOnly", true));
+				.getBoolean("options.safeEnchantsOnly"));
 		setOnlyCustomItems(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("options.customItemsOnly", false));
+				.getBoolean("options.customItemsOnly"));
 		setAllowCustomToSpawn(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("options.customItemsSpawn", false));
+				.getBoolean("options.customItemsSpawn"));
 		setDisplayItemNameFormat(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getString("display.itemNameFormat", "%material%"));
+				.getString("display.itemNameFormat"));
 		setPreventSpawnEgg(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("spawnPrevention.spawnEgg", true));
+				.getBoolean("spawnPrevention.spawnEgg"));
 		setPreventSpawner(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("spawnPrevention.spawner", true));
+				.getBoolean("spawnPrevention.spawner"));
 		setPercentageMobSpawnWithItemChance(getPlugin()
 				.getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getDouble("percentages.mobSpawnWithItemChance", 0.25));
+				.getDouble("percentages.mobSpawnWithItemChance"));
 		setWorldsEnabled(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
-				.getBoolean("worlds.enabled", false));
+				.getBoolean("worlds.enabled"));
 		setWorldsGenerate(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getStringList("worlds.generate"));
@@ -204,7 +289,7 @@ public class PluginSettings {
 							.getConfigurationManager()
 							.getConfiguration(ConfigurationFile.ADVANCED_CONFIG)
 							.getConfigurationSection("mobs.spawnWithItemChance")
-							.getDouble(creature, 1.0));
+							.getDouble(creature));
 			setAdvancedMobSpawnWithItemChanceMap(map);
 		}
 		List<String> toolTipFormat = getPlugin().getConfigurationManager()
@@ -218,91 +303,5 @@ public class PluginSettings {
 		}
 		setAdvancedToolTipFormat(toolTipFormat);
 		getPlugin().getConfigurationManager().saveConfig();
-	}
-
-	public void setAdvancedMobSpawnWithItemChanceMap(
-			Map<String, Double> advanced_mobSpawnWithItemChance) {
-		this.advanced_mobSpawnWithItemChance = advanced_mobSpawnWithItemChance;
-	}
-
-	public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
-		this.advanced_toolTipFormat = advanced_toolTipFormat;
-	}
-
-	/**
-	 * @param allowCustomToSpawn
-	 *            the allowCustomToSpawn to set
-	 */
-	public void setAllowCustomToSpawn(boolean allowCustomToSpawn) {
-		this.allowCustomToSpawn = allowCustomToSpawn;
-	}
-
-	/**
-	 * @param automaticUpdate
-	 *            the automaticUpdate to set
-	 */
-	public void setAutomaticUpdate(boolean automaticUpdate) {
-		this.automaticUpdate = automaticUpdate;
-	}
-
-	public void setDisplayItemNameFormat(String displayItemNameFormat) {
-		this.displayItemNameFormat = displayItemNameFormat;
-	}
-
-	public void setIDs(HashMap<String, List<String>> ids) {
-		this.ids = ids;
-	}
-
-	/**
-	 * @param onlyCustomItems
-	 *            the onlyCustomItems to set
-	 */
-	public void setOnlyCustomItems(boolean onlyCustomItems) {
-		this.onlyCustomItems = onlyCustomItems;
-	}
-
-	/**
-	 * @param percentageCustomDrop
-	 *            the percentageCustomDrop to set
-	 */
-	public void setPercentageCustomDrop(double percentageCustomDrop) {
-		this.percentageCustomDrop = percentageCustomDrop;
-	}
-
-	public void setPercentageMobSpawnWithItemChance(
-			double percentageMobSpawnWithItemChance) {
-		this.percentageMobSpawnWithItemChance = percentageMobSpawnWithItemChance;
-	}
-
-	/**
-	 * @param preventSpawnEgg
-	 *            the preventSpawnEgg to set
-	 */
-	public void setPreventSpawnEgg(boolean preventSpawnEgg) {
-		this.preventSpawnEgg = preventSpawnEgg;
-	}
-
-	/**
-	 * @param preventSpawner
-	 *            the preventSpawner to set
-	 */
-	public void setPreventSpawner(boolean preventSpawner) {
-		this.preventSpawner = preventSpawner;
-	}
-
-	public void setSafeEnchantsOnly(boolean safeEnchantsOnly) {
-		this.safeEnchantsOnly = safeEnchantsOnly;
-	}
-
-	public void setWorldsEnabled(boolean worldsEnabled) {
-		this.worldsEnabled = worldsEnabled;
-	}
-
-	public void setWorldsGenerate(List<String> worldsGenerate) {
-		this.worldsGenerate = worldsGenerate;
-	}
-
-	public void setWorldsUse(List<String> worldsUse) {
-		this.worldsUse = worldsUse;
 	}
 }
