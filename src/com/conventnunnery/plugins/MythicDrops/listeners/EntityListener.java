@@ -41,7 +41,7 @@ public class EntityListener implements Listener {
 			Tier t = getPlugin().getTierAPI().getTierFromItemStack(is);
 			if (t == null)
 				continue;
-			is.setDurability((short) getPlugin().getRandom().nextInt((short) Math.abs((is.getType().getMaxDurability() * Math.min(Math.max(1.0 - t.getDurability(), 0.0), 1.0))) + 1));
+			is.setDurability((short) getPlugin().getRandom().nextInt((short) Math.abs(is.getType().getMaxDurability() - (is.getType().getMaxDurability() * Math.min(Math.max(1.0 - t.getDurability(), 0.0), 1.0))) + 1));
 			event.getDrops().add(is);
 		}
 	}
