@@ -59,6 +59,9 @@ public class DropAPI {
 				|| matData.getItemType() == Material.AIR)
 			return itemstack;
 		itemstack = matData.toItemStack(1);
+		short ranSize = (short) (itemstack.getType().getMaxDurability() * (1.0 - tier.getDurability()));
+		short dura = (short) getPlugin().getRandom().nextInt(ranSize);
+		itemstack.setDurability(dura);
 		ItemMeta im;
 		if (itemstack.hasItemMeta())
 			im = itemstack.getItemMeta();
@@ -154,6 +157,10 @@ public class DropAPI {
 		return customItems;
 	}
 
+	public void setCustomItems(List<CustomItem> customItemStacks) {
+		this.customItems = customItemStacks;
+	}
+
 	public List<Enchantment> getEnchantStack(final ItemStack ci) {
 		List<Enchantment> set = new ArrayList<Enchantment>();
 		boolean bln = getPlugin().getPluginSettings().isSafeEnchantsOnly();
@@ -211,9 +218,5 @@ public class DropAPI {
 			}
 		}
 		getPlugin().getConfigurationManager().saveConfig();
-	}
-
-	public void setCustomItems(List<CustomItem> customItemStacks) {
-		this.customItems = customItemStacks;
 	}
 }

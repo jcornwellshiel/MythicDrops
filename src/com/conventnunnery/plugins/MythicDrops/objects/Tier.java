@@ -1,10 +1,10 @@
 package com.conventnunnery.plugins.MythicDrops.objects;
 
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
+
+import java.util.List;
+import java.util.Map;
 
 public class Tier {
 	private final String name;
@@ -20,14 +20,15 @@ public class Tier {
 	private final List<String> itemIDs;
 	private final double chanceToBeGiven;
 	private final float chanceToDrop;
+	private final double durability;
 
 	public Tier(String name, String displayName, ChatColor color,
-			ChatColor identifier, int maxNumberOfRandomEnchantments,
-			int maxLevelOfRandomEnchantments,
-			Map<Enchantment, Integer> automaticEnchantments,
-			Map<Enchantment, Integer> naturalEnchantments,
-			List<Enchantment> allowedEnchantments, List<String> itemTypes,
-			List<String> itemIDs, double chanceToBeGiven, float chanceToDrop) {
+	            ChatColor identifier, int maxNumberOfRandomEnchantments,
+	            int maxLevelOfRandomEnchantments,
+	            Map<Enchantment, Integer> automaticEnchantments,
+	            Map<Enchantment, Integer> naturalEnchantments,
+	            List<Enchantment> allowedEnchantments, List<String> itemTypes,
+	            List<String> itemIDs, double chanceToBeGiven, float chanceToDrop, double durability) {
 		this.name = name;
 		this.displayName = displayName;
 		this.color = color;
@@ -41,6 +42,11 @@ public class Tier {
 		this.itemIDs = itemIDs;
 		this.chanceToBeGiven = chanceToBeGiven;
 		this.chanceToDrop = chanceToDrop;
+		this.durability = durability;
+	}
+
+	public double getDurability() {
+		return durability;
 	}
 
 	/**

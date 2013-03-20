@@ -3,8 +3,11 @@ package com.conventnunnery.plugins.MythicDrops.api;
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +82,35 @@ public class TierAPI {
 		return tier;
 	}
 
+	public Tier getTierFromItemStack(ItemStack itemStack) {
+		Tier tier = null;
+		ItemMeta im;
+		if (itemStack.hasItemMeta())
+			im = itemStack.getItemMeta();
+		else
+			return null;
+		String name = null;
+		if (im.hasDisplayName())
+			name = im.getDisplayName();
+		else
+			return null;
+		ChatColor initColor = findColor(name);
+		ChatColor endColor = ChatColor.valueOf(ChatColor.getLastColors(name));
+		for (Tier t : tiers) {
+			if (t.getColor() == initColor && t.getIdentifier() == endColor)
+				return t;
+		}
+		return null;
+	}
+
+	public ChatColor findColor(final String s) {
+		char[] c = s.toCharArray();
+		for (int i = 0; i < c.length; i++)
+			if ((c[i] == new Character((char) 167)) && ((i + 1) < c.length))
+				return ChatColor.getByChar(c[i + 1]);
+		return null;
+	}
+
 	public void removeTier(Tier tier) {
 		if (tiers.contains(tier))
 			tiers.remove(tier);
@@ -93,7 +125,7 @@ public class TierAPI {
 			for (Enchantment ench : t.getAllowedEnchantments()) {
 				allowedEnchs.add(ench.getName());
 			}
-			fc.set(t.getName() + ".enchantment.allowed", allowedEnchs);
+			fc.set(t.getName() + ".enchantment.allowedEnchants", allowedEnchs);
 			for (Entry<Enchantment, Integer> e : t.getAutomaticEnchantments()
 					.entrySet()) {
 				fc.set(t + ".enchantment.automatic." + e.getKey().getName(),

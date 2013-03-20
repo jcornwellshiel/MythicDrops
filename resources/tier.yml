@@ -7,6 +7,7 @@ common:
     level: 0
   chanceToBeGiven: 0.8
   chanceToDrop: 1.0
+  durability: .25
 uncommon:
   displayName: Uncommon
   color: BLUE
@@ -16,6 +17,7 @@ uncommon:
     level: 1
   chanceToBeGiven: 0.6
   chanceToDrop: 1.0
+  durability: .4
 rare:
   displayName: Rare
   color: LIGHT_PURPLE
@@ -25,6 +27,7 @@ rare:
     level: 2
   chanceToBeGiven: 0.4
   chanceToDrop: 1.0
+  durability: .5
 terric:
   displayName: Terric
   color: GREEN
@@ -34,6 +37,7 @@ terric:
     level: 3
   chanceToBeGiven: 0.3
   chanceToDrop: 1.0
+  durability: .75
 netheric:
   displayName: Netheric
   color: RED
@@ -43,6 +47,7 @@ netheric:
     level: 4
   chanceToBeGiven: 0.25
   chanceToDrop: 1.0
+  durability: .9
 endric:
   displayName: Endric
   color: YELLOW
@@ -52,3 +57,4 @@ endric:
     level: 5
   chanceToBeGiven: 0.2
   chanceToDrop: 1.0
+  durability: 1.0

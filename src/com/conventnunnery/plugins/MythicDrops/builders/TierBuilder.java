@@ -1,18 +1,17 @@
 package com.conventnunnery.plugins.MythicDrops.builders;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
+import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
+import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 
-import com.conventnunnery.plugins.MythicDrops.MythicDrops;
-import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
-import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class TierBuilder {
 
@@ -29,21 +28,22 @@ public class TierBuilder {
 			if (!fc.isConfigurationSection(tierName))
 				continue;
 			ConfigurationSection cs = fc.getConfigurationSection(tierName);
-			String displayName = cs.getString("displayName", tierName);
+			String displayName = cs.getString("displayName");
+			if (displayName == null)
+				displayName = tierName;
 			ChatColor color;
 			try {
-				color = ChatColor.valueOf(cs.getString("color", "RESET")
+				String s = cs.getString("color");
+				color = ChatColor.valueOf(s
 						.toUpperCase());
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				color = ChatColor.RESET;
 			}
 			ChatColor identifier;
 			try {
-				identifier = ChatColor.valueOf(cs.getString("identifier",
-						"RESET").toUpperCase());
-			}
-			catch (Exception e) {
+				String s = cs.getString("identifier");
+				identifier = ChatColor.valueOf(s.toUpperCase());
+			} catch (Exception e) {
 				identifier = ChatColor.RESET;
 			}
 
@@ -53,8 +53,8 @@ public class TierBuilder {
 			}
 			ConfigurationSection enchCS = cs
 					.getConfigurationSection("enchantment");
-			int maxNumberOfRandomEnchantments = enchCS.getInt("amount", 0);
-			int maxLevelOfRandomEnchantments = enchCS.getInt("level", 0);
+			int maxNumberOfRandomEnchantments = enchCS.getInt("amount");
+			int maxLevelOfRandomEnchantments = enchCS.getInt("level");
 
 			HashMap<Enchantment, Integer> automaticEnchantments = new HashMap<Enchantment, Integer>();
 			if (enchCS.isConfigurationSection("automatic")) {
@@ -70,11 +70,10 @@ public class TierBuilder {
 					}
 					if (ench == null)
 						continue;
-					int level = autoCS.getInt(enchantmentName, 0);
+					int level = autoCS.getInt(enchantmentName);
 					automaticEnchantments.put(ench, level);
 				}
-			}
-			else {
+			} else {
 				enchCS.createSection("automatic");
 			}
 			HashMap<Enchantment, Integer> naturalEnchantments = new HashMap<Enchantment, Integer>();
@@ -86,15 +85,13 @@ public class TierBuilder {
 					try {
 						ench = Enchantment.getByName(enchantmentName
 								.toUpperCase());
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						continue;
 					}
 					int level = naturalCS.getInt(enchantmentName, 0);
 					naturalEnchantments.put(ench, level);
 				}
-			}
-			else {
+			} else {
 				enchCS.createSection("natural");
 			}
 			List<Enchantment> allowedEnchantments = new ArrayList<Enchantment>();
@@ -105,14 +102,12 @@ public class TierBuilder {
 					try {
 						ench = Enchantment.getByName(enchantmentName
 								.toUpperCase());
-					}
-					catch (Exception e) {
+					} catch (Exception e) {
 						continue;
 					}
 					allowedEnchantments.add(ench);
 				}
-			}
-			else {
+			} else {
 				List<String> enchs = new ArrayList<String>();
 				for (Enchantment ench : Enchantment.values()) {
 					enchs.add(ench.getName());
@@ -125,8 +120,7 @@ public class TierBuilder {
 			List<String> itemTypes = new ArrayList<String>();
 			if (fc.contains(tierName + ".items.types")) {
 				itemTypes = fc.getStringList(tierName + ".items.types");
-			}
-			else {
+			} else {
 				itemTypes.addAll(getPlugin().getPluginSettings().getIDs()
 						.keySet());
 				fc.set(tierName + ".items.types", itemTypes);
@@ -134,19 +128,19 @@ public class TierBuilder {
 			List<String> itemIDs = new ArrayList<String>();
 			if (fc.contains(tierName + ".items.ids")) {
 				itemIDs = fc.getStringList(tierName + ".items.ids");
-			}
-			else {
+			} else {
 				fc.set(tierName + ".items.ids", itemIDs);
 			}
 			double chanceToBeGiven = fc.getDouble(
-					tierName + ".chanceToBeGiven", 0.0);
+					tierName + ".chanceToBeGiven");
 			float chanceToDrop = (float) fc.getDouble(tierName
-					+ ".chanceToDrop", 1.0);
+					+ ".chanceToDrop");
+			double durability = fc.getDouble(tierName + ".durability");
 			Tier tier = new Tier(tierName, displayName, color, identifier,
 					maxNumberOfRandomEnchantments,
 					maxLevelOfRandomEnchantments, automaticEnchantments,
 					naturalEnchantments, allowedEnchantments, itemTypes,
-					itemIDs, chanceToBeGiven, chanceToDrop);
+					itemIDs, chanceToBeGiven, chanceToDrop, durability);
 			getPlugin().getTierAPI().addTier(tier);
 		}
 		getPlugin().getConfigurationManager().saveConfig();
