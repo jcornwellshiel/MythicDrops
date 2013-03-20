@@ -1,21 +1,16 @@
 package com.conventnunnery.plugins.MythicDrops;
 
-import java.io.IOException;
-import java.util.Random;
-
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.BukkitMetricsLite;
-
-import com.conventnunnery.plugins.MythicDrops.api.DropAPI;
-import com.conventnunnery.plugins.MythicDrops.api.EntityAPI;
-import com.conventnunnery.plugins.MythicDrops.api.ItemAPI;
-import com.conventnunnery.plugins.MythicDrops.api.NameAPI;
-import com.conventnunnery.plugins.MythicDrops.api.TierAPI;
+import com.conventnunnery.plugins.MythicDrops.api.*;
 import com.conventnunnery.plugins.MythicDrops.builders.TierBuilder;
 import com.conventnunnery.plugins.MythicDrops.command.MythicDropsCommand;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
 import com.conventnunnery.plugins.MythicDrops.listeners.EntityListener;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.BukkitMetricsLite;
+
+import java.io.IOException;
+import java.util.Random;
 
 public class MythicDrops extends JavaPlugin implements Listener {
 
@@ -28,8 +23,11 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	private EntityAPI entityAPI;
 	private Debugger debug;
 	private Updater updater;
+	private Random random = new Random();
 
-	public Random random = new Random();
+	public Random getRandom() {
+		return random;
+	}
 
 	public ConfigurationManager getConfigurationManager() {
 		return configurationManager;
@@ -120,10 +118,10 @@ public class MythicDrops extends JavaPlugin implements Listener {
 
 	private void startStatistics() {
 		try {
-			BukkitMetricsLite metrics = new BukkitMetricsLite(this);
+			BukkitMetricsLite metrics;
+			metrics = new BukkitMetricsLite(this);
 			metrics.start();
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 		}
 	}
 

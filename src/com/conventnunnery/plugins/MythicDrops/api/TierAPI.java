@@ -1,15 +1,14 @@
 package com.conventnunnery.plugins.MythicDrops.api;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
-
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class TierAPI {
 
@@ -34,7 +33,7 @@ public class TierAPI {
 		getPlugin().getDebug().debug(
 				"Loaded tier names: "
 						+ tierNames.toString().replace("[", "")
-								.replace("]", ""));
+						.replace("]", ""));
 	}
 
 	/**
@@ -61,7 +60,7 @@ public class TierAPI {
 	}
 
 	public Tier randomTier() {
-		return tiers.get(getPlugin().random.nextInt(tiers.size()));
+		return tiers.get(getPlugin().getRandom().nextInt(tiers.size()));
 	}
 
 	public Tier randomTierWithChance() {
@@ -70,7 +69,7 @@ public class TierAPI {
 			return tier;
 		while (tier == null) {
 			for (Tier t : tiers) {
-				double d = plugin.random.nextDouble();
+				double d = plugin.getRandom().nextDouble();
 				if (d <= t.getChanceToBeGiven()) {
 					tier = t;
 					break;

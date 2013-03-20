@@ -1,14 +1,13 @@
 package com.conventnunnery.plugins.MythicDrops.listeners;
 
+import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.inventory.ItemStack;
-
-import com.conventnunnery.plugins.MythicDrops.MythicDrops;
-import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class EntityListener implements Listener {
 	private final MythicDrops plugin;
@@ -28,17 +27,17 @@ public class EntityListener implements Listener {
 	public void onEntitySpawn(CreatureSpawnEvent event) {
 		if (getPlugin().getPluginSettings().isWorldsEnabled()
 				&& !getPlugin().getPluginSettings().getWorldsGenerate()
-						.contains(event.getEntity().getWorld().getName())) {
+				.contains(event.getEntity().getWorld().getName())) {
 			return;
 		}
 		if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
-				&& (getPlugin().random.nextDouble() < getPlugin()
-						.getPluginSettings().getPercentageCustomDrop())) {
+				&& (getPlugin().getRandom().nextDouble() < getPlugin()
+				.getPluginSettings().getPercentageCustomDrop())) {
 			if (!getPlugin().getDropAPI().getCustomItems().isEmpty()) {
 				getPlugin()
 						.getDropAPI()
 						.getCustomItems()
-						.get(getPlugin().random.nextInt(getPlugin()
+						.get(getPlugin().getRandom().nextInt(getPlugin()
 								.getDropAPI().getCustomItems().size()))
 						.toItemStack();
 
@@ -62,10 +61,10 @@ public class EntityListener implements Listener {
 		}
 		double chance = globalChanceToSpawn * mobChanceToSpawn;
 		for (int i = 0; i < 5; i++) {
-			if (getPlugin().random.nextDouble() < chance) {
+			if (getPlugin().getRandom().nextDouble() < chance) {
 				if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
-						&& (getPlugin().random.nextDouble() < getPlugin()
-								.getPluginSettings().getPercentageCustomDrop())) {
+						&& (getPlugin().getRandom().nextDouble() < getPlugin()
+						.getPluginSettings().getPercentageCustomDrop())) {
 					if (!getPlugin().getDropAPI().getCustomItems().isEmpty()) {
 						getPlugin()
 								.getEntityAPI()
@@ -74,7 +73,7 @@ public class EntityListener implements Listener {
 										getPlugin()
 												.getDropAPI()
 												.getCustomItems()
-												.get(getPlugin().random
+												.get(getPlugin().getRandom()
 														.nextInt(getPlugin()
 																.getDropAPI()
 																.getCustomItems()

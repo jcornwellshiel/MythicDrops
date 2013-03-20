@@ -1,16 +1,15 @@
 package com.conventnunnery.plugins.MythicDrops.api;
 
+import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.NumberUtils;
+import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import org.bukkit.material.MaterialData;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.bukkit.material.MaterialData;
-
-import com.conventnunnery.plugins.MythicDrops.MythicDrops;
-import com.conventnunnery.plugins.MythicDrops.NumberUtils;
-import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 
 public class ItemAPI {
 	private final MythicDrops plugin;
@@ -20,7 +19,7 @@ public class ItemAPI {
 	}
 
 	public boolean containsIgnoreCase(Collection<String> collection,
-			String string) {
+	                                  String string) {
 		for (String s : collection) {
 			if (s.equalsIgnoreCase(string))
 				return true;
@@ -37,7 +36,7 @@ public class ItemAPI {
 		List<String> idList = ids.get(itemType.toLowerCase());
 		if (idList == null || idList.isEmpty())
 			return null;
-		String s = idList.get(getPlugin().random.nextInt(idList.size()));
+		String s = idList.get(getPlugin().getRandom().nextInt(idList.size()));
 		MaterialData matData = null;
 		if (s == null)
 			return null;
@@ -48,8 +47,7 @@ public class ItemAPI {
 			if (id == 0)
 				return null;
 			matData = new MaterialData(id, (byte) data);
-		}
-		else {
+		} else {
 			int id = NumberUtils.getInt(s, 0);
 			if (id == 0)
 				return null;
@@ -63,7 +61,7 @@ public class ItemAPI {
 		for (String itemType : tier.getItemTypes()) {
 			idList.addAll(getMaterialIDsForItemType(itemType.toLowerCase()));
 		}
-		String s = idList.get(getPlugin().random.nextInt(idList.size()));
+		String s = idList.get(getPlugin().getRandom().nextInt(idList.size()));
 		MaterialData matData = null;
 		if (s == null)
 			return null;
@@ -74,8 +72,7 @@ public class ItemAPI {
 			if (id == 0)
 				return null;
 			matData = new MaterialData(id, (byte) data);
-		}
-		else {
+		} else {
 			int id = NumberUtils.getInt(s, 0);
 			if (id == 0)
 				return null;
@@ -112,8 +109,7 @@ public class ItemAPI {
 		String comb2;
 		if (matData.getData() == (byte) 0) {
 			comb2 = String.valueOf(matData.getItemTypeId());
-		}
-		else {
+		} else {
 			comb2 = comb;
 		}
 		Map<String, List<String>> ids = getPlugin().getPluginSettings()
@@ -133,8 +129,7 @@ public class ItemAPI {
 		String comb2;
 		if (matData.getData() == (byte) 0) {
 			comb2 = String.valueOf(matData.getItemTypeId());
-		}
-		else {
+		} else {
 			comb2 = comb;
 		}
 		Map<String, List<String>> ids = getPlugin().getPluginSettings()

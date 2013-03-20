@@ -1,15 +1,14 @@
 package com.conventnunnery.plugins.MythicDrops.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.material.MaterialData;
-
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import com.conventnunnery.plugins.MythicDrops.utilites.NameLoader;
+import org.bukkit.Material;
+import org.bukkit.material.MaterialData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NameAPI {
 	private final MythicDrops plugin;
@@ -61,12 +60,11 @@ public class NameAPI {
 			if (s.equals(split[split.length - 1])) {
 				prettyMaterialName = prettyMaterialName
 						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
-								s.length()).toLowerCase()) + " ";
-			}
-			else {
+						s.length()).toLowerCase()) + " ";
+			} else {
 				prettyMaterialName = prettyMaterialName
 						+ (s.substring(0, 1).toUpperCase() + s.substring(1,
-								s.length()).toLowerCase());
+						s.length()).toLowerCase());
 			}
 		}
 		return prettyMaterialName;
@@ -78,8 +76,7 @@ public class NameAPI {
 		String comb2;
 		if (matData.getData() == (byte) 0) {
 			comb2 = String.valueOf(matData.getItemTypeId());
-		}
-		else {
+		} else {
 			comb2 = comb;
 		}
 		String mythicMatName = getPlugin().getConfigurationManager()
@@ -125,12 +122,12 @@ public class NameAPI {
 	}
 
 	public String randomBasicPrefix() {
-		return basicPrefixes.get(getPlugin().random.nextInt(basicPrefixes
+		return basicPrefixes.get(getPlugin().getRandom().nextInt(basicPrefixes
 				.size()));
 	}
 
 	public String randomBasicSuffix() {
-		return basicSuffixes.get(getPlugin().random.nextInt(basicSuffixes
+		return basicSuffixes.get(getPlugin().getRandom().nextInt(basicSuffixes
 				.size()));
 	}
 
@@ -142,7 +139,7 @@ public class NameAPI {
 						"%basematerial%",
 						tier.getColor()
 								+ getMinecraftMaterialName(matData
-										.getItemType()) + tier.getColor())
+								.getItemType()) + tier.getColor())
 				.replace(
 						"%mythicmaterial%",
 						tier.getColor() + getMythicMaterialName(matData)

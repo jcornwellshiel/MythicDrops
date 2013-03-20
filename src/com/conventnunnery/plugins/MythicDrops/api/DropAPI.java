@@ -1,9 +1,9 @@
 package com.conventnunnery.plugins.MythicDrops.api;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
+import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
+import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
+import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,10 +15,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
 import org.bukkit.material.MaterialData;
 
-import com.conventnunnery.plugins.MythicDrops.MythicDrops;
-import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
-import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
-import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 public class DropAPI {
 	private final MythicDrops plugin;
@@ -32,8 +31,8 @@ public class DropAPI {
 	public ItemStack constructItemStack(boolean spawnOnMob) {
 		if (spawnOnMob) {
 			if (getPlugin().getPluginSettings().isAllowCustomToSpawn()
-					&& (getPlugin().random.nextDouble() < getPlugin()
-							.getPluginSettings().getPercentageCustomDrop())) {
+					&& (getPlugin().getRandom().nextDouble() < getPlugin()
+					.getPluginSettings().getPercentageCustomDrop())) {
 				if (!customItems.isEmpty()) {
 					return randomCustomItemWithChance().toItemStack();
 				}
@@ -42,8 +41,7 @@ public class DropAPI {
 				return constructItemStack(getPlugin().getTierAPI()
 						.randomTierWithChance());
 			}
-		}
-		else {
+		} else {
 			return constructItemStack(getPlugin().getTierAPI()
 					.randomTierWithChance());
 		}
@@ -94,8 +92,7 @@ public class DropAPI {
 			Repairable r = (Repairable) im;
 			r.setRepairCost(1000);
 			itemstack.setItemMeta((ItemMeta) r);
-		}
-		else {
+		} else {
 			itemstack.setItemMeta(im);
 		}
 		for (Entry<Enchantment, Integer> e : tier.getAutomaticEnchantments()
@@ -112,10 +109,10 @@ public class DropAPI {
 							(e.getValue() == 0) ? 1 : Math.abs(e.getValue()));
 		}
 		if (tier.getMaxNumberOfRandomEnchantments() > 0) {
-			int randEnchs = getPlugin().random.nextInt(Math.abs(tier
+			int randEnchs = getPlugin().getRandom().nextInt(Math.abs(tier
 					.getMaxNumberOfRandomEnchantments()) + 1);
 			for (int i = 0; i < randEnchs; i++) {
-				int lev = Math.abs(getPlugin().random.nextInt(tier
+				int lev = Math.abs(getPlugin().getRandom().nextInt(tier
 						.getMaxLevelOfRandomEnchantments() + 1)) + 1;
 				List<Enchantment> allowEnchs = tier.getAllowedEnchantments();
 				List<Enchantment> stackEnchs = getEnchantStack(itemstack);
@@ -126,15 +123,14 @@ public class DropAPI {
 					}
 				}
 				if (actual.size() > 0) {
-					Enchantment ench = actual.get(getPlugin().random
+					Enchantment ench = actual.get(getPlugin().getRandom()
 							.nextInt(actual.size()));
 					if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
 						itemstack.addEnchantment(
 								ench,
 								getAcceptableEnchantmentLevel(ench,
 										(lev == 0) ? 1 : Math.abs(lev)));
-					}
-					else
+					} else
 						itemstack.addUnsafeEnchantment(ench, (lev == 0) ? 1
 								: Math.abs(lev));
 				}
@@ -148,8 +144,7 @@ public class DropAPI {
 		int i = level;
 		if (i > ew.getMaxLevel()) {
 			i = ew.getMaxLevel();
-		}
-		else if (i < ew.getStartLevel()) {
+		} else if (i < ew.getStartLevel()) {
 			i = ew.getStartLevel();
 		}
 		return i;
@@ -167,8 +162,7 @@ public class DropAPI {
 				if (e.canEnchantItem(ci)) {
 					set.add(e);
 				}
-			}
-			else {
+			} else {
 				set.add(e);
 			}
 		}
@@ -183,7 +177,7 @@ public class DropAPI {
 	}
 
 	public CustomItem randomCustomItem() {
-		return customItems.get(getPlugin().random.nextInt(customItems.size()));
+		return customItems.get(getPlugin().getRandom().nextInt(customItems.size()));
 	}
 
 	public CustomItem randomCustomItemWithChance() {
@@ -192,7 +186,7 @@ public class DropAPI {
 			return ci;
 		while (ci == null) {
 			for (CustomItem c : customItems) {
-				double d = plugin.random.nextDouble();
+				double d = plugin.getRandom().nextDouble();
 				if (d <= c.getChance()) {
 					ci = c;
 					break;
