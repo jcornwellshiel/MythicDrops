@@ -68,7 +68,7 @@ public class DropAPI {
 		itemstack = matData.toItemStack(1);
 		if (reason != null && reason != GenerationReason.COMMAND) {
 			short ranSize = (short) (itemstack.getType().getMaxDurability() * Math.min(Math.max(1.0 - tier.getDurability(), 0.0), 1.0));
-			short dura = (short) getPlugin().getRandom().nextInt(Math.abs(ranSize) + 1);
+			short dura = (short) getPlugin().getRandom().nextInt(Math.abs(itemstack.getType().getMaxDurability() - ranSize) + 1);
 			itemstack.setDurability(dura);
 		}
 		ItemMeta im;
@@ -230,6 +230,6 @@ public class DropAPI {
 	}
 
 	public enum GenerationReason {
-		MOB_SPAWN, COMMAND, EXTERNAL;
+		MOB_SPAWN, COMMAND, EXTERNAL
 	}
 }
