@@ -82,3 +82,4 @@ tooltips:
   format:
     lines:
     - 'Type: %mythicmaterial%'
+version: 0.1-pre

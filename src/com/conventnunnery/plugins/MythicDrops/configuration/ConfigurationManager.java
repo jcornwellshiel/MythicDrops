@@ -1,31 +1,16 @@
 package com.conventnunnery.plugins.MythicDrops.configuration;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
-
 public class ConfigurationManager {
 
-	public enum ConfigurationFile {
-
-		CONFIG("config.yml"), ADVANCED_CONFIG("advanced_config.yml"), LANGUAGE(
-				"language.yml"), TIER("tier.yml"), CUSTOM_ITEM(
-				"custom_items.yml");
-
-		public final String filename;
-
-		private ConfigurationFile(String path) {
-			this.filename = path;
-		}
-
-	}
-
 	private final HashMap<ConfigurationFile, CommentedYamlConfiguration> configurations;
-
 	private final Plugin plugin;
 
 	public ConfigurationManager(Plugin plugin) {
@@ -95,14 +80,11 @@ public class ConfigurationManager {
 				CommentedYamlConfiguration config = new CommentedYamlConfiguration(
 						confFile);
 				config.load();
-				if (!plugin.getDescription().getVersion()
-						.equals(config.getString("version"))) {
-					config.set("version", plugin.getDescription().getVersion());
+				if (needToUpdate(config, file)) {
 					saveDefaults(config, file);
 				}
 				configurations.put(file, config);
-			}
-			else {
+			} else {
 				File parentFile = confFile.getParentFile();
 				if (!parentFile.exists()) {
 					parentFile.mkdirs();
@@ -121,8 +103,7 @@ public class ConfigurationManager {
 				try {
 					configurations.get(file).save(
 							new File(plugin.getDataFolder(), file.filename));
-				}
-				catch (IOException e) {
+				} catch (IOException e) {
 					plugin.getLogger().log(Level.WARNING,
 							"Could not save " + file.filename, e);
 				}
@@ -130,12 +111,33 @@ public class ConfigurationManager {
 		}
 	}
 
+	private boolean needToUpdate(CommentedYamlConfiguration config, ConfigurationFile file) {
+		YamlConfiguration inPlugin = YamlConfiguration.loadConfiguration(plugin
+				.getResource(file.filename));
+		String configVersion = config.getString("version");
+		String currentVersion = inPlugin.getString("version");
+		return configVersion.equalsIgnoreCase(currentVersion);
+	}
+
 	private void saveDefaults(CommentedYamlConfiguration config,
-			ConfigurationFile file) {
+	                          ConfigurationFile file) {
 		config.setDefaults(YamlConfiguration.loadConfiguration(plugin
 				.getResource(file.filename)));
 		config.options().copyDefaults(true);
 		config.save();
+	}
+
+	public enum ConfigurationFile {
+
+		CONFIG("config.yml"), ADVANCED_CONFIG("advanced_config.yml"), LANGUAGE(
+				"language.yml"), TIER("tier.yml"), CUSTOM_ITEM(
+				"custom_items.yml");
+		public final String filename;
+
+		private ConfigurationFile(String path) {
+			this.filename = path;
+		}
+
 	}
 
 }

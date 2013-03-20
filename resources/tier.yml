@@ -58,3 +58,4 @@ endric:
   chanceToBeGiven: 0.2
   chanceToDrop: 1.0
   durability: 1.0
+version: 0.1-pre
