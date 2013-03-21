@@ -5,13 +5,28 @@ import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * The type EntityAPI.
+ */
 public class EntityAPI {
 	private final MythicDrops plugin;
 
+	/**
+	 * Instantiates a new EntityAPI.
+	 *
+	 * @param plugin the plugin
+	 */
 	public EntityAPI(MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
+	/**
+	 * Equip entity.
+	 *
+	 * @param entity    the entity
+	 * @param itemstack the itemstack
+	 * @param tier      the tier
+	 */
 	public void equipEntity(LivingEntity entity, ItemStack itemstack, Tier tier) {
 		float f = 1.0F;
 		if (tier != null)
@@ -39,6 +54,8 @@ public class EntityAPI {
 	}
 
 	/**
+	 * Gets plugin.
+	 *
 	 * @return the plugin
 	 */
 	public MythicDrops getPlugin() {

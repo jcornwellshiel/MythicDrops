@@ -11,13 +11,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * The type ItemAPI.
+ */
 public class ItemAPI {
 	private final MythicDrops plugin;
 
+	/**
+	 * Instantiates a new ItemAPI.
+	 *
+	 * @param plugin the plugin
+	 */
 	public ItemAPI(MythicDrops plugin) {
 		this.plugin = plugin;
 	}
 
+	/**
+	 * Checks if a collection contains a string in any case.
+	 *
+	 * @param collection the collection
+	 * @param string     the string
+	 * @return if it contains it
+	 */
 	public boolean containsIgnoreCase(Collection<String> collection,
 	                                  String string) {
 		for (String s : collection) {
@@ -27,6 +42,12 @@ public class ItemAPI {
 		return false;
 	}
 
+	/**
+	 * Gets MaterialData from item type.
+	 *
+	 * @param itemType the item type
+	 * @return the mat data from item type
+	 */
 	public MaterialData getMatDataFromItemType(String itemType) {
 		Map<String, List<String>> ids = getPlugin().getPluginSettings()
 				.getIDs();
@@ -56,6 +77,12 @@ public class ItemAPI {
 		return matData;
 	}
 
+	/**
+	 * Gets MaterialData from tier.
+	 *
+	 * @param tier the tier
+	 * @return the mat data from tier
+	 */
 	public MaterialData getMatDataFromTier(Tier tier) {
 		List<String> itemIDs = tier.getItemIDs();
 		List<String> idList = new ArrayList<String>(itemIDs);
@@ -82,6 +109,12 @@ public class ItemAPI {
 		return matData;
 	}
 
+	/**
+	 * Gets material IDs for item type.
+	 *
+	 * @param itemType the item type
+	 * @return the material IDs for item type
+	 */
 	public List<String> getMaterialIDsForItemType(String itemType) {
 		List<String> materialIds = new ArrayList<String>();
 		Map<String, List<String>> map = getPlugin().getPluginSettings()
@@ -98,12 +131,21 @@ public class ItemAPI {
 	}
 
 	/**
+	 * Gets plugin.
+	 *
 	 * @return the plugin
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
 
+	/**
+	 * Is MaterialData part of an item type?
+	 *
+	 * @param itemType the item type
+	 * @param matData  the mat data
+	 * @return if it does
+	 */
 	public boolean isItemType(String itemType, MaterialData matData) {
 		String comb = String.valueOf(matData.getItemTypeId()) + ";"
 				+ String.valueOf(matData.getData());
@@ -124,6 +166,12 @@ public class ItemAPI {
 		return false;
 	}
 
+	/**
+	 * Item type from MaterialData.
+	 *
+	 * @param matData the mat data
+	 * @return the string
+	 */
 	public String itemTypeFromMatData(MaterialData matData) {
 		String comb = String.valueOf(matData.getItemTypeId()) + ";"
 				+ String.valueOf(matData.getData());

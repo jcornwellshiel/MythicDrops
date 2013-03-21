@@ -19,15 +19,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+/**
+ * A class that handles all of the plugin's drop creation.
+ */
 public class DropAPI {
 	private final MythicDrops plugin;
 	private List<CustomItem> customItems;
 
+	/**
+	 * Instantiates a new Drop API.
+	 *
+	 * @param plugin the plugin
+	 */
 	public DropAPI(MythicDrops plugin) {
 		this.plugin = plugin;
 		customItems = new ArrayList<CustomItem>();
 	}
 
+	/**
+	 * Construct a random ItemStack.
+	 *
+	 * @param reason the reason
+	 * @return random ItemStack
+	 */
 	public ItemStack constructItemStack(GenerationReason reason) {
 		switch (reason) {
 			case MOB_SPAWN:
@@ -55,6 +69,13 @@ public class DropAPI {
 		}
 	}
 
+	/**
+	 * Construct an ItemStack based on a Tier.
+	 *
+	 * @param tier   Tier to base the ItemStack on
+	 * @param reason reason to generate the ItemStack
+	 * @return constructed ItemStack
+	 */
 	public ItemStack constructItemStack(Tier tier, GenerationReason reason) {
 		ItemStack itemstack = null;
 		MaterialData matData = null;
@@ -151,6 +172,13 @@ public class DropAPI {
 		return itemstack;
 	}
 
+	/**
+	 * Gets acceptable Enchantment level.
+	 *
+	 * @param ench  the Enchantment
+	 * @param level the level
+	 * @return the acceptable Enchantment level
+	 */
 	public int getAcceptableEnchantmentLevel(Enchantment ench, int level) {
 		EnchantmentWrapper ew = new EnchantmentWrapper(ench.getId());
 		int i = level;
@@ -162,14 +190,30 @@ public class DropAPI {
 		return i;
 	}
 
+	/**
+	 * Gets custom items.
+	 *
+	 * @return the custom items
+	 */
 	public List<CustomItem> getCustomItems() {
 		return customItems;
 	}
 
+	/**
+	 * Sets custom items.
+	 *
+	 * @param customItemStacks the custom item stacks
+	 */
 	public void setCustomItems(List<CustomItem> customItemStacks) {
 		this.customItems = customItemStacks;
 	}
 
+	/**
+	 * Gets a list of Enchantments that can go on an ItemStack.
+	 *
+	 * @param ci ItemStack to check
+	 * @return list of possible Enchantments
+	 */
 	public List<Enchantment> getEnchantStack(final ItemStack ci) {
 		List<Enchantment> set = new ArrayList<Enchantment>();
 		boolean bln = getPlugin().getPluginSettings().isSafeEnchantsOnly();
@@ -186,16 +230,28 @@ public class DropAPI {
 	}
 
 	/**
+	 * Gets plugin.
+	 *
 	 * @return the plugin
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
 
+	/**
+	 * Random custom item.
+	 *
+	 * @return the custom item
+	 */
 	public CustomItem randomCustomItem() {
 		return customItems.get(getPlugin().getRandom().nextInt(customItems.size()));
 	}
 
+	/**
+	 * Random custom item with chance.
+	 *
+	 * @return the custom item
+	 */
 	public CustomItem randomCustomItemWithChance() {
 		CustomItem ci = null;
 		if (customItems == null || customItems.isEmpty())
@@ -212,6 +268,9 @@ public class DropAPI {
 		return ci;
 	}
 
+	/**
+	 * Save custom items.
+	 */
 	public void saveCustomItems() {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.TIER);
@@ -229,7 +288,16 @@ public class DropAPI {
 		getPlugin().getConfigurationManager().saveConfig();
 	}
 
+	/**
+	 * Enum of GenerationReasons.
+	 */
 	public enum GenerationReason {
-		MOB_SPAWN, COMMAND, EXTERNAL
+		/**
+		 * Use when spawning a mob
+		 */MOB_SPAWN, /**
+		 * Use for commands
+		 */COMMAND, /**
+		 * Use for anything else
+		 */EXTERNAL
 	}
 }

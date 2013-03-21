@@ -10,12 +10,20 @@ import org.bukkit.material.MaterialData;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type NameAPI.
+ */
 public class NameAPI {
 	private final MythicDrops plugin;
 	private final List<String> basicPrefixes;
 	private final List<String> basicSuffixes;
 	private final NameLoader nameLoader;
 
+	/**
+	 * Instantiates a new NameAPI.
+	 *
+	 * @param plugin the plugin
+	 */
 	public NameAPI(MythicDrops plugin) {
 		this.plugin = plugin;
 		basicPrefixes = new ArrayList<String>();
@@ -26,6 +34,8 @@ public class NameAPI {
 	}
 
 	/**
+	 * Gets basic prefixes.
+	 *
 	 * @return the basicPrefixes
 	 */
 	public List<String> getBasicPrefixes() {
@@ -33,12 +43,20 @@ public class NameAPI {
 	}
 
 	/**
+	 * Gets basic suffixes.
+	 *
 	 * @return the basicSuffixes
 	 */
 	public List<String> getBasicSuffixes() {
 		return basicSuffixes;
 	}
 
+	/**
+	 * Gets item type name.
+	 *
+	 * @param matData the mat data
+	 * @return the item type name
+	 */
 	public String getItemTypeName(MaterialData matData) {
 		String itemType = getPlugin().getItemAPI().itemTypeFromMatData(matData);
 		if (itemType == null)
@@ -52,6 +70,12 @@ public class NameAPI {
 				+ itemType.substring(1, itemType.length()).toLowerCase();
 	}
 
+	/**
+	 * Gets Minecraft material name.
+	 *
+	 * @param material the material
+	 * @return the minecraft material name
+	 */
 	public String getMinecraftMaterialName(Material material) {
 		String prettyMaterialName = "";
 		String matName = material.name();
@@ -70,6 +94,12 @@ public class NameAPI {
 		return prettyMaterialName;
 	}
 
+	/**
+	 * Gets mythic material name.
+	 *
+	 * @param matData the mat data
+	 * @return the mythic material name
+	 */
 	public String getMythicMaterialName(MaterialData matData) {
 		String comb = String.valueOf(matData.getItemTypeId()) + ";"
 				+ String.valueOf(matData.getData());
@@ -92,6 +122,8 @@ public class NameAPI {
 	}
 
 	/**
+	 * Gets name loader.
+	 *
 	 * @return the nameLoader
 	 */
 	public NameLoader getNameLoader() {
@@ -99,12 +131,17 @@ public class NameAPI {
 	}
 
 	/**
+	 * Gets plugin.
+	 *
 	 * @return the plugin
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
 
+	/**
+	 * Load prefixes.
+	 */
 	public void loadPrefixes() {
 		basicPrefixes.clear();
 		nameLoader.writeDefault("resources/prefix.txt", false);
@@ -113,6 +150,9 @@ public class NameAPI {
 				"Loaded basic prefixes: " + basicPrefixes.size());
 	}
 
+	/**
+	 * Load suffixes.
+	 */
 	public void loadSuffixes() {
 		basicSuffixes.clear();
 		nameLoader.writeDefault("resources/suffix.txt", false);
@@ -121,16 +161,33 @@ public class NameAPI {
 				"Loaded basic suffixes: " + basicSuffixes.size());
 	}
 
+	/**
+	 * Random basic prefix.
+	 *
+	 * @return the string
+	 */
 	public String randomBasicPrefix() {
 		return basicPrefixes.get(getPlugin().getRandom().nextInt(basicPrefixes
 				.size()));
 	}
 
+	/**
+	 * Random basic suffix.
+	 *
+	 * @return the string
+	 */
 	public String randomBasicSuffix() {
 		return basicSuffixes.get(getPlugin().getRandom().nextInt(basicSuffixes
 				.size()));
 	}
 
+	/**
+	 * Random formatted name.
+	 *
+	 * @param matData the mat data
+	 * @param tier    the tier
+	 * @return the string
+	 */
 	public String randomFormattedName(MaterialData matData, Tier tier) {
 		String format = getPlugin().getPluginSettings()
 				.getDisplayItemNameFormat();

@@ -13,20 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+/**
+ * The type TierAPI.
+ */
 public class TierAPI {
 
 	private final List<Tier> tiers;
 	private final MythicDrops plugin;
 
+	/**
+	 * Instantiates a new TierAPI.
+	 *
+	 * @param plugin the plugin
+	 */
 	public TierAPI(MythicDrops plugin) {
 		this.plugin = plugin;
 		tiers = new ArrayList<Tier>();
 	}
 
+	/**
+	 * Add tier.
+	 *
+	 * @param tier the tier
+	 */
 	public void addTier(Tier tier) {
 		tiers.add(tier);
 	}
 
+	/**
+	 * Debug tiers.
+	 */
 	public void debugTiers() {
 		getPlugin().getDebug().debug("Amount of loaded tiers: " + tiers.size());
 		List<String> tierNames = new ArrayList<String>();
@@ -40,12 +56,20 @@ public class TierAPI {
 	}
 
 	/**
+	 * Gets plugin.
+	 *
 	 * @return the plugin
 	 */
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
 
+	/**
+	 * Gets tier from name.
+	 *
+	 * @param name the name
+	 * @return the tier from name
+	 */
 	public Tier getTierFromName(String name) {
 		for (Tier t : tiers) {
 			if (t.getName().equalsIgnoreCase(name)) {
@@ -56,16 +80,28 @@ public class TierAPI {
 	}
 
 	/**
+	 * Gets tiers.
+	 *
 	 * @return the tiers
 	 */
 	public List<Tier> getTiers() {
 		return tiers;
 	}
 
+	/**
+	 * Random tier.
+	 *
+	 * @return the tier
+	 */
 	public Tier randomTier() {
 		return tiers.get(getPlugin().getRandom().nextInt(tiers.size()));
 	}
 
+	/**
+	 * Random tier with chance.
+	 *
+	 * @return the tier
+	 */
 	public Tier randomTierWithChance() {
 		Tier tier = null;
 		if (tiers == null || tiers.isEmpty())
@@ -82,6 +118,12 @@ public class TierAPI {
 		return tier;
 	}
 
+	/**
+	 * Gets tier from ItemStack.
+	 *
+	 * @param itemStack the item stack
+	 * @return the tier from item stack
+	 */
 	public Tier getTierFromItemStack(ItemStack itemStack) {
 		ItemMeta im;
 		if (itemStack.hasItemMeta()) {
@@ -104,6 +146,12 @@ public class TierAPI {
 		return null;
 	}
 
+	/**
+	 * Find color.
+	 *
+	 * @param s the s
+	 * @return the chat color
+	 */
 	public ChatColor findColor(final String s) {
 		char[] c = s.toCharArray();
 		for (int i = 0; i < c.length; i++)
@@ -112,11 +160,19 @@ public class TierAPI {
 		return null;
 	}
 
+	/**
+	 * Remove tier.
+	 *
+	 * @param tier the tier
+	 */
 	public void removeTier(Tier tier) {
 		if (tiers.contains(tier))
 			tiers.remove(tier);
 	}
 
+	/**
+	 * Save tiers.
+	 */
 	public void saveTiers() {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.TIER);
