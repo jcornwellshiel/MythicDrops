@@ -87,22 +87,18 @@ public class TierAPI {
 		if (itemStack.hasItemMeta()) {
 			im = itemStack.getItemMeta();
 		} else {
-			System.out.println(itemStack.getType().name() + ": ItemMeta is null");
 			return null;
 		}
 		String name = null;
 		if (im.hasDisplayName()) {
 			name = im.getDisplayName();
 		} else {
-			System.out.println(itemStack.getType().name() + ": Display name is null");
 			return null;
 		}
 		ChatColor initColor = findColor(name);
-		System.out.println("initColor: " + initColor.name());
-		ChatColor endColor = ChatColor.valueOf(ChatColor.getLastColors(name));
-		System.out.println("endColor: " + endColor.name());
+		ChatColor endColor = ChatColor.getByChar(ChatColor.getLastColors(name).substring(1));
 		for (Tier t : tiers) {
-			if (t.getColor() == initColor && t.getIdentifier() == endColor)
+			if (t.getColor() != null && t.getIdentifier() != null && t.getColor() == initColor && t.getIdentifier() == endColor)
 				return t;
 		}
 		return null;

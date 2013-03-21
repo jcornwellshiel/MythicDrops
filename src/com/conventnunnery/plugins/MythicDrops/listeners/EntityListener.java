@@ -3,6 +3,7 @@ package com.conventnunnery.plugins.MythicDrops.listeners;
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
 import com.conventnunnery.plugins.MythicDrops.api.DropAPI;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,15 +34,23 @@ public class EntityListener implements Listener {
 				.contains(event.getEntity().getWorld().getName())) {
 			return;
 		}
-		for (ItemStack is : event.getDrops()) {
+		for (ItemStack is : event.getEntity().getEquipment().getArmorContents()) {
+			if (is == null || is.getType() == Material.AIR)
+				continue;
 			Tier t = getPlugin().getTierAPI().getTierFromItemStack(is);
 			if (t == null) {
-				System.out.println(is.getType().name() + ": Tier is null");
 				continue;
 			}
-			System.out.println(is.getType().name() + ": Tier is not null");
 			is.setDurability((short) getPlugin().getRandom().nextInt((short) Math.abs(is.getType().getMaxDurability() - (is.getType().getMaxDurability() * Math.min(Math.max(1.0 - t.getDurability(), 0.0), 1.0))) + 1));
 		}
+		ItemStack is = event.getEntity().getEquipment().getItemInHand();
+		if (is == null)
+			return;
+		Tier t = getPlugin().getTierAPI().getTierFromItemStack(is);
+		if (t == null) {
+			return;
+		}
+		is.setDurability((short) getPlugin().getRandom().nextInt((short) Math.abs(is.getType().getMaxDurability() - (is.getType().getMaxDurability() * Math.min(Math.max(1.0 - t.getDurability(), 0.0), 1.0))) + 1));
 	}
 
 	@EventHandler
