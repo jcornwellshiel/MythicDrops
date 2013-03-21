@@ -57,7 +57,8 @@ public class ItemAPI {
 	}
 
 	public MaterialData getMatDataFromTier(Tier tier) {
-		List<String> idList = tier.getItemIDs();
+		List<String> itemIDs = tier.getItemIDs();
+		List<String> idList = new ArrayList<String>(itemIDs);
 		for (String itemType : tier.getItemTypes()) {
 			idList.addAll(getMaterialIDsForItemType(itemType.toLowerCase()));
 		}

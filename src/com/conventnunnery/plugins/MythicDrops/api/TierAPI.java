@@ -83,19 +83,24 @@ public class TierAPI {
 	}
 
 	public Tier getTierFromItemStack(ItemStack itemStack) {
-		Tier tier = null;
 		ItemMeta im;
-		if (itemStack.hasItemMeta())
+		if (itemStack.hasItemMeta()) {
 			im = itemStack.getItemMeta();
-		else
+		} else {
+			System.out.println(itemStack.getType().name() + ": ItemMeta is null");
 			return null;
+		}
 		String name = null;
-		if (im.hasDisplayName())
+		if (im.hasDisplayName()) {
 			name = im.getDisplayName();
-		else
+		} else {
+			System.out.println(itemStack.getType().name() + ": Display name is null");
 			return null;
+		}
 		ChatColor initColor = findColor(name);
+		System.out.println("initColor: " + initColor.name());
 		ChatColor endColor = ChatColor.valueOf(ChatColor.getLastColors(name));
+		System.out.println("endColor: " + endColor.name());
 		for (Tier t : tiers) {
 			if (t.getColor() == initColor && t.getIdentifier() == endColor)
 				return t;
@@ -141,6 +146,8 @@ public class TierAPI {
 			fc.set(t.getName() + ".chanceToBeGiven", t.getChanceToBeGiven());
 			fc.set(t.getName() + ".chanceToDrop",
 					Float.valueOf(t.getChanceToDrop()).doubleValue());
+			fc.set(t.getName() + ".items.types", t.getItemTypes());
+			fc.set(t.getName() + ".items.ids", t.getItemIDs());
 		}
 		getPlugin().getConfigurationManager().saveConfig();
 	}

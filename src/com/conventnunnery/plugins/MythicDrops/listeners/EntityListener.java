@@ -12,8 +12,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-
 public class EntityListener implements Listener {
 	private final MythicDrops plugin;
 
@@ -35,14 +33,14 @@ public class EntityListener implements Listener {
 				.contains(event.getEntity().getWorld().getName())) {
 			return;
 		}
-		List<ItemStack> itemStackList = event.getDrops();
-		event.getDrops().clear();
-		for (ItemStack is : itemStackList) {
+		for (ItemStack is : event.getDrops()) {
 			Tier t = getPlugin().getTierAPI().getTierFromItemStack(is);
-			if (t == null)
+			if (t == null) {
+				System.out.println(is.getType().name() + ": Tier is null");
 				continue;
+			}
+			System.out.println(is.getType().name() + ": Tier is not null");
 			is.setDurability((short) getPlugin().getRandom().nextInt((short) Math.abs(is.getType().getMaxDurability() - (is.getType().getMaxDurability() * Math.min(Math.max(1.0 - t.getDurability(), 0.0), 1.0))) + 1));
-			event.getDrops().add(is);
 		}
 	}
 
