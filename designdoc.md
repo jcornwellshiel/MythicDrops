@@ -23,8 +23,8 @@ Development builds are available here: [MythicDrops Jenkins](https://topplethenu
 Below is a general idea of what is planned to be done in each stage.
 
 - [x] Pre-Alpha: The base coding for the system, as outlined in this design document. Configuration and randomization are the focus.
-- [ ] Alpha: A fully customizable system of drops, including support for mod items. Abilities will be designed and created during this phase.
-- [ ] Beta: This phase will be dedicated to testing the plugin thoroughly.
+- [x] Alpha: A fully customizable system of drops, including support for mod items.
+- [ ] Beta: Abilities will be designed and created during this phase. This phase will be dedicated to testing the plugin thoroughly.
 - [ ] Release: This phase involves the release of the project to the general public. Any products released will be fully usable and tested.
 
 ## Important Concepts for Items
