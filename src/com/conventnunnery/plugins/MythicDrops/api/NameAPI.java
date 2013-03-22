@@ -66,8 +66,19 @@ public class NameAPI {
 				.getString(itemType.toLowerCase());
 		if (mythicMatName == null)
 			mythicMatName = itemType;
-		return mythicMatName.substring(0, 1).toUpperCase()
-				+ itemType.substring(1, itemType.length()).toLowerCase();
+		return getInitCappedString(mythicMatName.split(" "));
+	}
+	
+	public String getInitCappedString(String... args){
+		String endResult = "";
+		for (int i = 0; i < args.length; i++){
+			String s = args[i];
+			if (i == args.length-1){
+				endResult = endResult + s.substring(0,1).toUpperCase() + s.substring(1,s.length()).toLowerCase();
+			} else {
+				endResult = endResult + s.substring(0,1).toUpperCase() + s.substring(1,s.length()).toLowerCase() + " ";
+			}
+		}
 	}
 
 	/**
@@ -91,7 +102,7 @@ public class NameAPI {
 						s.length()).toLowerCase()) + " ";
 			}
 		}
-		return prettyMaterialName;
+		return getInitCappedString(prettyMaterialName.split(" "));
 	}
 
 	/**
@@ -118,7 +129,7 @@ public class NameAPI {
 			if (mythicMatName == null)
 				mythicMatName = getMinecraftMaterialName(matData.getItemType());
 		}
-		return mythicMatName;
+		return getInitCappedString(mythicMatName.split(" "));
 	}
 
 	/**
