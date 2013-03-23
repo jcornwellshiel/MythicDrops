@@ -3,6 +3,7 @@ package com.conventnunnery.plugins.MythicDrops.command;
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
 import com.conventnunnery.plugins.MythicDrops.NumberUtils;
 import com.conventnunnery.plugins.MythicDrops.api.DropAPI;
+import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class MythicDropsCommand implements CommandExecutor {
 
@@ -44,6 +46,29 @@ public class MythicDropsCommand implements CommandExecutor {
 										DropAPI.GenerationReason.COMMAND));
 						player.sendMessage(ChatColor.GREEN
 								+ "You were given a random MythicDrops item.");
+						break;
+					} else {
+						sender.sendMessage(ChatColor.RED
+								+ "You don't have access to this command.");
+						break;
+					}
+				} else if (args[0].equalsIgnoreCase("custom")) {
+					if (sender.hasPermission("mythicdrops.command.spawn")) {
+						if (!(sender instanceof Player)) {
+							sender.sendMessage(ChatColor.RED
+									+ "Only players can run this command.");
+							break;
+						}
+						Player player = (Player) sender;
+						ItemStack is = getPlugin().getDropAPI().randomCustomItemWithChance().toItemStack();
+						if (is != null) {
+							player.getInventory().addItem(is);
+							player.sendMessage(ChatColor.GREEN
+									+ "You were given a custom MythicDrops item.");
+						} else {
+							player.sendMessage(ChatColor.GREEN
+									+ "Could not give you a custom MythicDrops item.");
+						}
 						break;
 					} else {
 						sender.sendMessage(ChatColor.RED
@@ -98,6 +123,50 @@ public class MythicDropsCommand implements CommandExecutor {
 									+ " MythicDrops item.");
 							break;
 						}
+					} else {
+						sender.sendMessage(ChatColor.RED
+								+ "You don't have access to this command.");
+						break;
+					}
+				}
+				if (args[0].equalsIgnoreCase("custom")) {
+					if (sender.hasPermission("mythicdrops.command.spawn")) {
+						if (!(sender instanceof Player)) {
+							sender.sendMessage(ChatColor.RED
+									+ "Only players can run this command.");
+							break;
+						}
+						Player player;
+						if (args[1].equalsIgnoreCase("self")) {
+							player = (Player) sender;
+						} else {
+							player = Bukkit.getPlayer(args[1]);
+						}
+						if (player == null) {
+							sender.sendMessage(ChatColor.RED
+									+ "That player does not exist.");
+							break;
+						}
+						CustomItem ci = getPlugin().getDropAPI().randomCustomItemWithChance();
+						if (ci == null) {
+							sender.sendMessage(
+									ChatColor.RED + "You were unable to give " + ChatColor.WHITE + player.getName() +
+											ChatColor.RED + " a custom MythicDrops item.");
+							break;
+						}
+						ItemStack is = ci.toItemStack();
+						if (is != null) {
+							player.getInventory().addItem(is);
+							player.sendMessage(ChatColor.GREEN
+									+ "You were given a custom MythicDrops item.");
+							sender.sendMessage(ChatColor.GREEN + "You gave " + ChatColor.WHITE + player.getName() +
+									ChatColor.GREEN + " a custom MythicDrops item.");
+							break;
+						}
+						sender.sendMessage(
+								ChatColor.RED + "You were unable to give " + ChatColor.WHITE + player.getName() +
+										ChatColor.RED + " a custom MythicDrops item.");
+						break;
 					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
@@ -217,6 +286,49 @@ public class MythicDropsCommand implements CommandExecutor {
 								+ "You don't have access to this command.");
 						break;
 					}
+				} else if (args[0].equalsIgnoreCase("custom")) {
+					if (sender.hasPermission("mythicdrops.command.spawn")) {
+						if (!(sender instanceof Player)) {
+							sender.sendMessage(ChatColor.RED
+									+ "Only players can run this command.");
+							break;
+						}
+						Player player;
+						if (args[1].equalsIgnoreCase("self")) {
+							player = (Player) sender;
+						} else {
+							player = Bukkit.getPlayer(args[1]);
+						}
+						if (player == null) {
+							sender.sendMessage(ChatColor.RED
+									+ "That player does not exist.");
+							break;
+						}
+						CustomItem ci = getPlugin().getDropAPI().getCustomItemByName(args[2]);
+						if (ci == null) {
+							sender.sendMessage(
+									ChatColor.RED + "You were unable to give " + ChatColor.WHITE + player.getName() +
+											ChatColor.RED + " a custom MythicDrops item.");
+							break;
+						}
+						ItemStack is = ci.toItemStack();
+						if (is != null) {
+							player.getInventory().addItem(is);
+							player.sendMessage(ChatColor.GREEN
+									+ "You were given a custom MythicDrops item.");
+							sender.sendMessage(ChatColor.GREEN + "You gave " + ChatColor.WHITE + player.getName() +
+									ChatColor.GREEN + " a custom MythicDrops item.");
+							break;
+						}
+						sender.sendMessage(
+								ChatColor.RED + "You were unable to give " + ChatColor.WHITE + player.getName() +
+										ChatColor.RED + " a custom MythicDrops item.");
+						break;
+					} else {
+						sender.sendMessage(ChatColor.RED
+								+ "You don't have access to this command.");
+						break;
+					}
 				} else {
 					showHelp(sender);
 					break;
@@ -267,6 +379,53 @@ public class MythicDropsCommand implements CommandExecutor {
 									+ " MythicDrops item.");
 							break;
 						}
+					} else if (args[0].equalsIgnoreCase("custom")) {
+						if (sender.hasPermission("mythicdrops.command.spawn")) {
+							if (!(sender instanceof Player)) {
+								sender.sendMessage(ChatColor.RED
+										+ "Only players can run this command.");
+								break;
+							}
+							Player player;
+							if (args[1].equalsIgnoreCase("self")) {
+								player = (Player) sender;
+							} else {
+								player = Bukkit.getPlayer(args[1]);
+							}
+							if (player == null) {
+								sender.sendMessage(ChatColor.RED
+										+ "That player does not exist.");
+								break;
+							}
+							int amt = NumberUtils.getInt(args[3], 1);
+							CustomItem ci = getPlugin().getDropAPI().getCustomItemByName(args[2]);
+							if (ci == null) {
+								sender.sendMessage(
+										ChatColor.RED + "You were unable to give " + ChatColor.WHITE +
+												player.getName() +
+												ChatColor.RED + " a custom MythicDrops item.");
+								break;
+							}
+							ItemStack is = ci.toItemStack();
+							if (is != null) {
+								for (int i = 0; i < amt; i++) {
+									player.getInventory().addItem(is);
+								}
+								player.sendMessage(ChatColor.GREEN
+										+ "You were given " + amt + " custom MythicDrops item.");
+								sender.sendMessage(ChatColor.GREEN + "You gave " + ChatColor.WHITE + player.getName() +
+										ChatColor.GREEN + " " + amt + " custom MythicDrops items.");
+								break;
+							}
+							sender.sendMessage(
+									ChatColor.RED + "You were unable to give " + ChatColor.WHITE + player.getName() +
+											ChatColor.RED + " a custom MythicDrops item.");
+							break;
+						} else {
+							sender.sendMessage(ChatColor.RED
+									+ "You don't have access to this command.");
+							break;
+						}
 					} else {
 						sender.sendMessage(ChatColor.RED
 								+ "You don't have access to this command.");
@@ -289,13 +448,19 @@ public class MythicDropsCommand implements CommandExecutor {
 		sender.sendMessage(ChatColor.BLUE + "MythicDrops v"
 				+ getPlugin().getDescription().getVersion() + " Help");
 		sender.sendMessage(ChatColor.BLUE + "[ ] - Optional | < > - Mandatory");
-		sender.sendMessage(ChatColor.DARK_BLUE + "/md " + ChatColor.AQUA
+		sender.sendMessage(ChatColor.DARK_BLUE + "/md" + ChatColor.AQUA
 				+ " - " + ChatColor.GRAY + "Shows plugin help.");
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
 			sender.sendMessage(ChatColor.DARK_BLUE
 					+ "/md spawn [tier|*] [amount]" + ChatColor.AQUA + " - "
 					+ ChatColor.GRAY
 					+ "Gives the sender [amount] MythicDrops of [tier].");
+		}
+		if (sender.hasPermission("mythicdrops.command.custom")) {
+			sender.sendMessage(ChatColor.DARK_BLUE
+					+ "/md custom [player|self] [name] [amount]" + ChatColor.AQUA + " - "
+					+ ChatColor.GRAY
+					+ "Gives the [player|sender] an [amount] of custom items with name [name].");
 		}
 		if (sender.hasPermission("mythicdrops.command.give")) {
 			sender.sendMessage(ChatColor.DARK_BLUE

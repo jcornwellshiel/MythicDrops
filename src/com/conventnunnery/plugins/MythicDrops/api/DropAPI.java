@@ -247,6 +247,15 @@ public class DropAPI {
 		return customItems.get(getPlugin().getRandom().nextInt(customItems.size()));
 	}
 
+	public CustomItem getCustomItemByName(String name) {
+		for (CustomItem i : customItems) {
+			if (name.equalsIgnoreCase(i.getName())) {
+				return i;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Random custom item with chance.
 	 *
