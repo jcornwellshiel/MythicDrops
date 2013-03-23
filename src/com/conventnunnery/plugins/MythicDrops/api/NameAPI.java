@@ -119,7 +119,7 @@ public class NameAPI {
 				level = e.getValue();
 			}
 		}
-		return getPlugin().getConfigurationManager()
+		return enchantment == null ? "Ordinary" : getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.LANGUAGE).getString(enchantment.getName());
 	}
 
