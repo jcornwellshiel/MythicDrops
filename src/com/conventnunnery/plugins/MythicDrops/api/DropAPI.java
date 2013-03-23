@@ -146,8 +146,9 @@ public class DropAPI {
 							(e.getValue() == 0) ? 1 : Math.abs(e.getValue()));
 		}
 		if (tier.getMaxNumberOfRandomEnchantments() > 0) {
-			int randEnchs = getPlugin().getRandom().nextInt(Math.abs(tier
-					.getMaxNumberOfRandomEnchantments()) + 1);
+			int randEnchs = getPlugin().getRandom().nextInt(
+					Math.abs(tier.getMaxNumberOfRandomEnchantments() - tier.getMinNumberOfRandomEnchantments() + 1)) +
+					tier.getMinNumberOfRandomEnchantments();
 			for (int i = 0; i < randEnchs; i++) {
 				int lev = Math.abs(getPlugin().getRandom().nextInt(tier
 						.getMaxLevelOfRandomEnchantments() + 1)) + 1;
@@ -163,10 +164,14 @@ public class DropAPI {
 					Enchantment ench = actual.get(getPlugin().getRandom()
 							.nextInt(actual.size()));
 					if (getPlugin().getPluginSettings().isSafeEnchantsOnly()) {
-						itemstack.addEnchantment(
-								ench,
-								getAcceptableEnchantmentLevel(ench,
-										(lev == 0) ? 1 : Math.abs(lev)));
+						if (!getPlugin().getPluginSettings().isAllowEnchantsPastNormalLevel()) {
+							itemstack.addEnchantment(
+									ench,
+									getAcceptableEnchantmentLevel(ench,
+											(lev == 0) ? 1 : Math.abs(lev)));
+						} else {
+							itemstack.addUnsafeEnchantment(ench, (lev == 0) ? 1 : Math.abs(lev));
+						}
 					} else
 						itemstack.addUnsafeEnchantment(ench, (lev == 0) ? 1
 								: Math.abs(lev));
