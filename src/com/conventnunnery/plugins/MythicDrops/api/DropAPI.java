@@ -88,8 +88,10 @@ public class DropAPI {
 			return itemstack;
 		itemstack = matData.toItemStack(1);
 		if (reason != null && reason != GenerationReason.COMMAND) {
-			short ranSize = (short) (itemstack.getType().getMaxDurability() * Math.min(Math.max(1.0 - tier.getDurability(), 0.0), 1.0));
-			short dura = (short) getPlugin().getRandom().nextInt(Math.abs(itemstack.getType().getMaxDurability() - ranSize) + 1);
+			short ranSize = (short) (itemstack.getType().getMaxDurability() *
+					Math.min(Math.max(1.0 - tier.getDurability(), 0.0), 1.0));
+			short dura = (short) getPlugin().getRandom()
+					.nextInt(Math.abs(itemstack.getType().getMaxDurability() - ranSize) + 1);
 			itemstack.setDurability(dura);
 		}
 		ItemMeta im;
@@ -98,7 +100,7 @@ public class DropAPI {
 		else
 			im = Bukkit.getItemFactory().getItemMeta(matData.getItemType());
 		im.setDisplayName(getPlugin().getNameAPI().randomFormattedName(
-				itemstack.getData(), tier));
+				itemstack, tier));
 		List<String> toolTips = getPlugin().getPluginSettings()
 				.getAdvancedToolTipFormat();
 		List<String> tt = new ArrayList<String>();
@@ -118,7 +120,9 @@ public class DropAPI {
 									"%mythicmaterial%",
 									getPlugin().getNameAPI()
 											.getMythicMaterialName(
-													itemstack.getData()))));
+													itemstack.getData())).replace("%enchantment%",
+							tier.getColor() + getPlugin().getNameAPI().getEnchantmentTypeName(itemstack) +
+									tier.getColor())));
 		}
 		im.setLore(tt);
 		if (im instanceof Repairable) {
@@ -197,15 +201,6 @@ public class DropAPI {
 	 */
 	public List<CustomItem> getCustomItems() {
 		return customItems;
-	}
-
-	/**
-	 * Sets custom items.
-	 *
-	 * @param customItemStacks the custom item stacks
-	 */
-	public void setCustomItems(List<CustomItem> customItemStacks) {
-		this.customItems = customItemStacks;
 	}
 
 	/**

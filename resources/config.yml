@@ -7,6 +7,7 @@
 # %basicprefix% - A random basic prefix from prefix.txt
 # %basicsuffix% - A random basic suffix from suffix.txt
 # %tiername% - The name of the item's tier.
+# %enchantment% - The name of the highest enchantment on the item defined in language.yml
 #
 ####################################################
 options:
@@ -32,4 +33,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 0.1-pre
+version: 0.2-pre

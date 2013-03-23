@@ -5,10 +5,13 @@ import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager
 import com.conventnunnery.plugins.MythicDrops.objects.Tier;
 import com.conventnunnery.plugins.MythicDrops.utilites.NameLoader;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type NameAPI.
@@ -68,15 +71,16 @@ public class NameAPI {
 			mythicMatName = itemType;
 		return getInitCappedString(mythicMatName.split(" "));
 	}
-	
-	public String getInitCappedString(String... args){
+
+	public String getInitCappedString(String... args) {
 		String endResult = "";
-		for (int i = 0; i < args.length; i++){
+		for (int i = 0; i < args.length; i++) {
 			String s = args[i];
-			if (i == args.length-1){
-				endResult = endResult + s.substring(0,1).toUpperCase() + s.substring(1,s.length()).toLowerCase();
+			if (i == args.length - 1) {
+				endResult = endResult + s.substring(0, 1).toUpperCase() + s.substring(1, s.length()).toLowerCase();
 			} else {
-				endResult = endResult + s.substring(0,1).toUpperCase() + s.substring(1,s.length()).toLowerCase() + " ";
+				endResult =
+						endResult + s.substring(0, 1).toUpperCase() + s.substring(1, s.length()).toLowerCase() + " ";
 			}
 		}
 		return endResult;
@@ -104,6 +108,19 @@ public class NameAPI {
 			}
 		}
 		return getInitCappedString(prettyMaterialName.split(" "));
+	}
+
+	public String getEnchantmentTypeName(ItemStack itemStack) {
+		Enchantment enchantment = null;
+		Integer level = 0;
+		for (Map.Entry<Enchantment, Integer> e : itemStack.getEnchantments().entrySet()) {
+			if (e.getValue() > level) {
+				enchantment = e.getKey();
+				level = e.getValue();
+			}
+		}
+		return getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.LANGUAGE).getString(enchantment.getName());
 	}
 
 	/**
@@ -196,22 +213,22 @@ public class NameAPI {
 	/**
 	 * Random formatted name.
 	 *
-	 * @param matData the mat data
-	 * @param tier    the tier
+	 * @param itemStack the mat data
+	 * @param tier      the tier
 	 * @return the string
 	 */
-	public String randomFormattedName(MaterialData matData, Tier tier) {
+	public String randomFormattedName(ItemStack itemStack, Tier tier) {
 		String format = getPlugin().getPluginSettings()
 				.getDisplayItemNameFormat();
 		String name = format
 				.replace(
 						"%basematerial%",
 						tier.getColor()
-								+ getMinecraftMaterialName(matData
+								+ getMinecraftMaterialName(itemStack.getData()
 								.getItemType()) + tier.getColor())
 				.replace(
 						"%mythicmaterial%",
-						tier.getColor() + getMythicMaterialName(matData)
+						tier.getColor() + getMythicMaterialName(itemStack.getData())
 								+ tier.getColor())
 				.replace("%basicprefix%",
 						tier.getColor() + randomBasicPrefix() + tier.getColor())
@@ -219,12 +236,13 @@ public class NameAPI {
 						tier.getColor() + randomBasicSuffix() + tier.getColor())
 				.replace(
 						"%itemtype%",
-						tier.getColor() + getItemTypeName(matData)
+						tier.getColor() + getItemTypeName(itemStack.getData())
 								+ tier.getColor())
 				.replace(
 						"%tiername%",
 						tier.getColor() + tier.getDisplayName()
 								+ tier.getColor()).replace('&', '\u00A7')
+				.replace("%enchantment%", tier.getColor() + getEnchantmentTypeName(itemStack) + tier.getColor())
 				.replace("\u00A7\u00A7", "&");
 		return tier.getColor() + name + tier.getIdentifier();
 	}
