@@ -454,7 +454,7 @@ public class MythicDropsCommand implements CommandExecutor {
 		sender.sendMessage(ChatColor.BLUE + "MythicDrops v"
 				+ getPlugin().getDescription().getVersion() + " Help");
 		sender.sendMessage(ChatColor.BLUE + "[ ] - Optional | < > - Mandatory");
-		sender.sendMessage(ChatColor.DARK_BLUE + "/md" + ChatColor.AQUA
+		sender.sendMessage(ChatColor.BLUE + "/md" + ChatColor.AQUA
 				+ " - " + ChatColor.GRAY + "Shows plugin help.");
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
 			sender.sendMessage(ChatColor.BLUE

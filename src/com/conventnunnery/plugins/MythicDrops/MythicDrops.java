@@ -11,6 +11,7 @@
 package com.conventnunnery.plugins.MythicDrops;
 
 import com.conventnunnery.plugins.MythicDrops.api.*;
+import com.conventnunnery.plugins.MythicDrops.builders.CustomBuilder;
 import com.conventnunnery.plugins.MythicDrops.builders.TierBuilder;
 import com.conventnunnery.plugins.MythicDrops.command.MythicDropsCommand;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
@@ -115,6 +116,7 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		dropAPI = new DropAPI(this);
 		entityAPI = new EntityAPI(this);
 		new TierBuilder(this).build();
+		new CustomBuilder(this).build();
 		getTierAPI().debugTiers();
 		getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
 		getServer().getPluginManager().registerEvents(new EntityListener(this),
