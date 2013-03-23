@@ -22,14 +22,39 @@ public class PluginSettings {
 	private boolean preventSpawner;
 	private boolean allowCustomToSpawn;
 	private boolean onlyCustomItems;
+	private boolean allowEnchantsPastNormalLevel;
 	private List<String> worldsGenerate = new ArrayList<String>();
 	private List<String> worldsUse = new ArrayList<String>();
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
-	private Map<String, Double> advanced_mobSpawnWithItemChance = new HashMap<String, Double>();
-	private List<String> advanced_toolTipFormat = new ArrayList<String>();
+	private Map<String, Double> advancedMobSpawnWithItemChance = new HashMap<String, Double>();
+	private List<String> advancedToolTipFormat = new ArrayList<String>();
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
+	}
+
+	public boolean isAllowEnchantsPastNormalLevel() {
+		return allowEnchantsPastNormalLevel;
+	}
+
+	public void setAllowEnchantsPastNormalLevel(boolean allowEnchantsPastNormalLevel) {
+		this.allowEnchantsPastNormalLevel = allowEnchantsPastNormalLevel;
+	}
+
+	public Map<String, List<String>> getIds() {
+		return ids;
+	}
+
+	public void setIds(Map<String, List<String>> ids) {
+		this.ids = ids;
+	}
+
+	public Map<String, Double> getAdvancedMobSpawnWithItemChance() {
+		return advancedMobSpawnWithItemChance;
+	}
+
+	public void setAdvancedMobSpawnWithItemChance(Map<String, Double> advancedMobSpawnWithItemChance) {
+		this.advancedMobSpawnWithItemChance = advancedMobSpawnWithItemChance;
 	}
 
 	public void debugSettings() {
@@ -46,20 +71,20 @@ public class PluginSettings {
 	}
 
 	public Map<String, Double> getAdvancedMobSpawnWithItemChanceMap() {
-		return advanced_mobSpawnWithItemChance;
+		return advancedMobSpawnWithItemChance;
 	}
 
 	public void setAdvancedMobSpawnWithItemChanceMap(
 			Map<String, Double> advanced_mobSpawnWithItemChance) {
-		this.advanced_mobSpawnWithItemChance = advanced_mobSpawnWithItemChance;
+		this.advancedMobSpawnWithItemChance = advanced_mobSpawnWithItemChance;
 	}
 
 	public List<String> getAdvancedToolTipFormat() {
-		return advanced_toolTipFormat;
+		return advancedToolTipFormat;
 	}
 
 	public void setAdvancedToolTipFormat(List<String> advanced_toolTipFormat) {
-		this.advanced_toolTipFormat = advanced_toolTipFormat;
+		this.advancedToolTipFormat = advanced_toolTipFormat;
 	}
 
 	public String getDisplayItemNameFormat() {
@@ -245,6 +270,9 @@ public class PluginSettings {
 		setSafeEnchantsOnly(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getBoolean("options.safeEnchantsOnly"));
+		setAllowEnchantsPastNormalLevel(getPlugin().getConfigurationManager()
+				.getConfiguration(ConfigurationFile.CONFIG)
+				.getBoolean("options.allowEnchantsPastNormalLevel"));
 		setOnlyCustomItems(getPlugin().getConfigurationManager()
 				.getConfiguration(ConfigurationFile.CONFIG)
 				.getBoolean("options.customItemsOnly"));

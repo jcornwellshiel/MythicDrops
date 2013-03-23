@@ -11,6 +11,7 @@ public class Tier {
 	private final String displayName;
 	private final ChatColor color;
 	private final ChatColor identifier;
+	private final int minNumberOfRandomEnchantments;
 	private final int maxNumberOfRandomEnchantments;
 	private final int maxLevelOfRandomEnchantments;
 	private final Map<Enchantment, Integer> automaticEnchantments;
@@ -23,7 +24,7 @@ public class Tier {
 	private final double durability;
 
 	public Tier(String name, String displayName, ChatColor color,
-	            ChatColor identifier, int maxNumberOfRandomEnchantments,
+	            ChatColor identifier, int minNumberOfRandomEnchantments, int maxNumberOfRandomEnchantments,
 	            int maxLevelOfRandomEnchantments,
 	            Map<Enchantment, Integer> automaticEnchantments,
 	            Map<Enchantment, Integer> naturalEnchantments,
@@ -33,6 +34,7 @@ public class Tier {
 		this.displayName = displayName;
 		this.color = color;
 		this.identifier = identifier;
+		this.minNumberOfRandomEnchantments = minNumberOfRandomEnchantments;
 		this.maxNumberOfRandomEnchantments = maxNumberOfRandomEnchantments;
 		this.maxLevelOfRandomEnchantments = maxLevelOfRandomEnchantments;
 		this.automaticEnchantments = automaticEnchantments;
@@ -43,6 +45,10 @@ public class Tier {
 		this.chanceToBeGiven = chanceToBeGiven;
 		this.chanceToDrop = chanceToDrop;
 		this.durability = durability;
+	}
+
+	public int getMinNumberOfRandomEnchantments() {
+		return minNumberOfRandomEnchantments;
 	}
 
 	public double getDurability() {

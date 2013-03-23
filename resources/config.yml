@@ -12,6 +12,7 @@
 ####################################################
 options:
   safeEnchantsOnly: true
+  allowEnchantsPastNormalLevel: true
   customItemsSpawn: false
   customItemsOnly: false
   customDropChance: 0.1
@@ -33,4 +34,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 0.2-pre
+version: 0.3-pre

@@ -53,7 +53,14 @@ public class TierBuilder {
 			}
 			ConfigurationSection enchCS = cs
 					.getConfigurationSection("enchantment");
-			int maxNumberOfRandomEnchantments = enchCS.getInt("amount");
+			int minNumberOfRandomEnchantments = enchCS.getInt("minAmount");
+			int maxNumberOfRandomEnchantments = enchCS.getInt("maxAmount");
+			if (minNumberOfRandomEnchantments == 0 && maxNumberOfRandomEnchantments == 0) {
+				if (enchCS.contains("amount")) {
+					minNumberOfRandomEnchantments = enchCS.getInt("amount");
+					maxNumberOfRandomEnchantments = enchCS.getInt("amount");
+				}
+			}
 			int maxLevelOfRandomEnchantments = enchCS.getInt("level");
 
 			HashMap<Enchantment, Integer> automaticEnchantments = new HashMap<Enchantment, Integer>();
@@ -137,7 +144,7 @@ public class TierBuilder {
 					+ ".chanceToDrop");
 			double durability = fc.getDouble(tierName + ".durability");
 			Tier tier = new Tier(tierName, displayName, color, identifier,
-					maxNumberOfRandomEnchantments,
+					minNumberOfRandomEnchantments, maxNumberOfRandomEnchantments,
 					maxLevelOfRandomEnchantments, automaticEnchantments,
 					naturalEnchantments, allowedEnchantments, itemTypes,
 					itemIDs, chanceToBeGiven, chanceToDrop, durability);
