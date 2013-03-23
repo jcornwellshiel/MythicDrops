@@ -60,13 +60,19 @@ public class MythicDropsCommand implements CommandExecutor {
 							break;
 						}
 						Player player = (Player) sender;
-						ItemStack is = getPlugin().getDropAPI().randomCustomItemWithChance().toItemStack();
+						CustomItem ci = getPlugin().getDropAPI().randomCustomItemWithChance();
+						if (ci == null) {
+							player.sendMessage(ChatColor.RED
+									+ "Could not give you a custom MythicDrops item.");
+							break;
+						}
+						ItemStack is = ci.toItemStack();
 						if (is != null) {
 							player.getInventory().addItem(is);
 							player.sendMessage(ChatColor.GREEN
 									+ "You were given a custom MythicDrops item.");
 						} else {
-							player.sendMessage(ChatColor.GREEN
+							player.sendMessage(ChatColor.RED
 									+ "Could not give you a custom MythicDrops item.");
 						}
 						break;
@@ -451,25 +457,25 @@ public class MythicDropsCommand implements CommandExecutor {
 		sender.sendMessage(ChatColor.DARK_BLUE + "/md" + ChatColor.AQUA
 				+ " - " + ChatColor.GRAY + "Shows plugin help.");
 		if (sender.hasPermission("mythicdrops.command.spawn")) {
-			sender.sendMessage(ChatColor.DARK_BLUE
+			sender.sendMessage(ChatColor.BLUE
 					+ "/md spawn [tier|*] [amount]" + ChatColor.AQUA + " - "
 					+ ChatColor.GRAY
 					+ "Gives the sender [amount] MythicDrops of [tier].");
 		}
 		if (sender.hasPermission("mythicdrops.command.custom")) {
-			sender.sendMessage(ChatColor.DARK_BLUE
+			sender.sendMessage(ChatColor.BLUE
 					+ "/md custom [player|self] [name] [amount]" + ChatColor.AQUA + " - "
 					+ ChatColor.GRAY
 					+ "Gives the [player|sender] an [amount] of custom items with name [name].");
 		}
 		if (sender.hasPermission("mythicdrops.command.give")) {
-			sender.sendMessage(ChatColor.DARK_BLUE
+			sender.sendMessage(ChatColor.BLUE
 					+ "/md give <player> [tier|*] [amount]" + ChatColor.AQUA
 					+ " - " + ChatColor.GRAY
 					+ "Gives the <player> [amount] MythicDrops of [tier].");
 		}
 		if (sender.hasPermission("mythicdrops.command.reload")) {
-			sender.sendMessage(ChatColor.DARK_BLUE + "/md reload"
+			sender.sendMessage(ChatColor.BLUE + "/md reload"
 					+ ChatColor.AQUA + " - " + ChatColor.GRAY
 					+ "Reloads the plugin's configuration files.");
 		}
