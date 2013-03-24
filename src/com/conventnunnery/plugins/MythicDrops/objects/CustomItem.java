@@ -33,7 +33,9 @@ public class CustomItem {
 	}
 
 	public String getDisplayName() {
-		return (displayName != null) ? displayName : name;
+		if (displayName != null)
+			return displayName;
+		return name;
 	}
 
 	public Map<Enchantment, Integer> getEnchantments() {
