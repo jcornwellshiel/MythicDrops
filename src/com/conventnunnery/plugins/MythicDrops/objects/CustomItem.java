@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,12 +56,22 @@ public class CustomItem {
 	}
 
 	public ItemStack toItemStack() {
-		ItemStack is = matData.toItemStack(1);
-		ItemMeta im = Bukkit.getItemFactory()
-				.getItemMeta(matData.getItemType());
-		im.setDisplayName(getDisplayName().replace('&', '\u00A7').replace(
-				"\u00A7\u00A7", "&"));
-		im.setLore(getLore());
+		ItemStack is = getMatData().toItemStack(1);
+		ItemMeta im;
+		if (is.hasItemMeta())
+			im = is.getItemMeta();
+		else
+			im = Bukkit.getItemFactory().getItemMeta(is.getType());
+		String displayName = getDisplayName();
+		if (displayName.contains("&")) {
+			displayName = displayName.replace('&', '\u00A7').replace("\u00A7\u00A7", "&");
+		}
+		im.setDisplayName(displayName);
+		List<String> lore = new ArrayList<String>();
+		for (String s : getLore()) {
+			lore.add(s.replace('&', '\u00A7').replace("\u00A7\u00A7", "&"));
+		}
+		im.setLore(lore);
 		is.setItemMeta(im);
 		is.addUnsafeEnchantments(getEnchantments());
 		return is;

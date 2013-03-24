@@ -8,9 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CustomBuilder {
@@ -28,10 +26,10 @@ public class CustomBuilder {
 			if (!fc.isConfigurationSection(s))
 				continue;
 			ConfigurationSection cs = fc.getConfigurationSection(s);
-			String name = s;
 			String displayName = cs.getString("displayName");
-			List<String> lore = new ArrayList<String>();
-			lore = cs.getStringList("lore");
+			if (displayName == null) {
+				displayName = s;
+			}
 			Map<Enchantment, Integer> map = new HashMap<Enchantment, Integer>();
 			if (cs.isConfigurationSection("enchantments")) {
 				ConfigurationSection enchCS = cs
@@ -50,14 +48,13 @@ public class CustomBuilder {
 					map.put(ench, level);
 				}
 			}
-			int matId = cs.getInt("materialId");
-			byte matData = (byte) cs.getInt("materialData");
-			double chance = cs.getDouble("chance");
+			CustomItem ci = new CustomItem(s, displayName, cs.getStringList("lore"), map,
+					new MaterialData(cs.getInt("materialID"), (byte) cs.getInt("materialData")),
+					cs.getDouble("chance"));
 			getPlugin()
 					.getDropAPI()
 					.getCustomItems()
-					.add(new CustomItem(name, displayName, lore, map,
-							new MaterialData(matId, matData), chance));
+					.add(ci);
 		}
 	}
 
