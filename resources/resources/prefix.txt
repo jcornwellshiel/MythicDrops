@@ -1,5 +1,8 @@
+Acid Touch
 Acrobat's
+Admiral's
 Amber
+Ancestral
 Angel's
 Arcadian
 Archangel's
@@ -11,6 +14,7 @@ Astral
 Athlete's
 Azure
 Bahamut's
+Bear's
 Berserker
 Beryl
 Blackguard's
@@ -18,12 +22,14 @@ Blazing
 Blessed
 Blighting
 Boreal
+Bowman's
 Boywer's
 Bronze
 Brutal
 Burgundy
 Burning
 Buzzing
+Captain's
 Captain's
 Caretaker's
 Celestial
@@ -32,9 +38,11 @@ Chilling
 Chromatic
 Cleric's
 Cobalt
+Cold Touch
 Commander's
 Communal
 Compact
+Condemned
 Condensing
 Consecrated
 Coral
@@ -43,8 +51,10 @@ Crimson
 Cruel
 Cunning
 Cursing
+Damned
 Deadly
 Dense
+Devilish
 Devious
 Divine
 Doomed
@@ -55,6 +65,8 @@ Echoing
 Elysian
 Emerald
 Entrapping
+Evoker's
+Evoking
 Expert's
 Faithful
 Fanatic
@@ -62,10 +74,12 @@ Felicitous
 Feral
 Ferocious
 Fine
+Fire Touch
 Firey
 Flaming
 Fletcher
 Fool's
+Forbidden
 Fortified
 Fortuitous
 Foul
@@ -74,17 +88,22 @@ Fungal
 Furious
 Gaea's
 Garnet
+General's
+Gilded
 Glacial
 Glimmering
 Glorious
 Glowing
+Goblin's
 Godly
 Gold
+Golden
 Golemlord's
 Grandmaster's
 Graverobber's
 Great Wyrm's
 Grinding
+Gross
 Guardian's
 Gymnast's
 Hallowed
@@ -96,9 +115,13 @@ Hibernal
 Hierophant's
 Holy
 Howling
+Inverted
+Invoker's
+Invoking
 Iron
 Jade
 Jagged
+Jester's
 Jeweler's
 Keeper's
 Kenshi's
@@ -112,6 +135,7 @@ Lord's
 Lunar
 Magekiller's
 Maiden's
+Major
 Marshall's
 Massive
 Master's
@@ -119,9 +143,12 @@ Mechanist's
 Mentalist's
 Merciless
 Meteoric
+Miner's
+Minor
 Mnemonic
 Mojo
 Monk's
+Motley
 Nature's
 Necromancer's
 Noxious
@@ -152,6 +179,7 @@ Scintillating
 Screaming
 Sensei's
 Septic
+Sergeant's
 Serpent's
 Shadow
 Shaman's
@@ -162,6 +190,7 @@ Shocking
 Shogukusha's
 Silver
 Slayer
+Sly
 Smoking
 Smoldering
 Snake's
@@ -173,10 +202,13 @@ Spearmaiden's
 Spiritual
 Static
 Steel
+Sticky
 Strange
 Strong
+Studious
 Sturdy
 Summoner's
+Swallower
 Tangerine
 Terrene
 Thin
@@ -192,6 +224,7 @@ Veteran's
 Vicious
 Victorious
 Vigorous
+Viper's
 Viridian
 Visionary
 Vodoun
