@@ -1,18 +1,17 @@
 package com.conventnunnery.plugins.MythicDrops.builders;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
+import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.material.MaterialData;
 
-import com.conventnunnery.plugins.MythicDrops.MythicDrops;
-import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager.ConfigurationFile;
-import com.conventnunnery.plugins.MythicDrops.objects.CustomItem;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomBuilder {
 	private final MythicDrops plugin;
@@ -30,7 +29,7 @@ public class CustomBuilder {
 				continue;
 			ConfigurationSection cs = fc.getConfigurationSection(s);
 			String name = s;
-			String displayName = cs.getString("displayName", name);
+			String displayName = cs.getString("displayName");
 			List<String> lore = new ArrayList<String>();
 			lore = cs.getStringList("lore");
 			Map<Enchantment, Integer> map = new HashMap<Enchantment, Integer>();
@@ -47,13 +46,13 @@ public class CustomBuilder {
 					}
 					if (ench == null)
 						continue;
-					int level = enchCS.getInt(s2, 0);
+					int level = enchCS.getInt(s2);
 					map.put(ench, level);
 				}
 			}
-			int matId = cs.getInt("materialId", 0);
-			byte matData = (byte) cs.getInt("materialData", 0);
-			double chance = cs.getDouble("chance",0.0);
+			int matId = cs.getInt("materialId");
+			byte matData = (byte) cs.getInt("materialData");
+			double chance = cs.getDouble("chance");
 			getPlugin()
 					.getDropAPI()
 					.getCustomItems()

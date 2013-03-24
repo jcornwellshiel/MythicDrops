@@ -1,13 +1,13 @@
 package com.conventnunnery.plugins.MythicDrops.objects;
 
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
+
+import java.util.List;
+import java.util.Map;
 
 public class CustomItem {
 
@@ -19,7 +19,7 @@ public class CustomItem {
 	private final double chance;
 
 	public CustomItem(String name, String displayName, List<String> lore,
-			Map<Enchantment, Integer> enchantments, MaterialData matData, double chance) {
+	                  Map<Enchantment, Integer> enchantments, MaterialData matData, double chance) {
 		this.name = name;
 		this.displayName = displayName;
 		this.lore = lore;
@@ -27,13 +27,13 @@ public class CustomItem {
 		this.matData = matData;
 		this.chance = chance;
 	}
-	
+
 	public double getChance() {
 		return chance;
 	}
 
 	public String getDisplayName() {
-		return displayName;
+		return (displayName != null) ? displayName : name;
 	}
 
 	public Map<Enchantment, Integer> getEnchantments() {
