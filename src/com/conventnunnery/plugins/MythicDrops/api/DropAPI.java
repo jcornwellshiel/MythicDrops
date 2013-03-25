@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2013. ToppleTheNun
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package com.conventnunnery.plugins.MythicDrops.api;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
@@ -238,6 +248,17 @@ public class DropAPI {
 		return plugin;
 	}
 
+	public void debugCustomItems() {
+		List<String> customItemNames = new ArrayList<String>();
+		for (CustomItem ci : customItems) {
+			customItemNames.add(ci.getName());
+		}
+		getPlugin().getDebug().debug(
+				"Loaded custom items: "
+						+ customItemNames.toString().replace("[", "")
+						.replace("]", ""));
+	}
+
 	/**
 	 * Random custom item.
 	 *
@@ -282,7 +303,7 @@ public class DropAPI {
 	 */
 	public void saveCustomItems() {
 		FileConfiguration fc = getPlugin().getConfigurationManager()
-				.getConfiguration(ConfigurationFile.TIER);
+				.getConfiguration(ConfigurationFile.CUSTOM_ITEM);
 		for (CustomItem c : customItems) {
 			fc.set(c.getName() + ".displayName", c.getDisplayName());
 			fc.set(c.getName() + ".lore", c.getLore());

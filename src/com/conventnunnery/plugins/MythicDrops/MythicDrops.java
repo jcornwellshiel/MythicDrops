@@ -12,6 +12,7 @@ package com.conventnunnery.plugins.MythicDrops;
 
 import com.conventnunnery.plugins.MythicDrops.api.*;
 import com.conventnunnery.plugins.MythicDrops.builders.CustomBuilder;
+import com.conventnunnery.plugins.MythicDrops.builders.EffectBuilder;
 import com.conventnunnery.plugins.MythicDrops.builders.TierBuilder;
 import com.conventnunnery.plugins.MythicDrops.command.MythicDropsCommand;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
@@ -32,9 +33,14 @@ public class MythicDrops extends JavaPlugin implements Listener {
 	private ItemAPI itemAPI;
 	private DropAPI dropAPI;
 	private EntityAPI entityAPI;
+	private EffectAPI effectAPI;
 	private Debugger debug;
 	private Updater updater;
 	private Random random = new Random();
+
+	public EffectAPI getEffectAPI() {
+		return effectAPI;
+	}
 
 	public Random getRandom() {
 		return random;
@@ -109,15 +115,21 @@ public class MythicDrops extends JavaPlugin implements Listener {
 		configurationManager = new ConfigurationManager(this);
 		pluginSettings = new PluginSettings(this);
 		pluginSettings.loadPluginSettings();
-		pluginSettings.debugSettings();
 		tierAPI = new TierAPI(this);
 		nameAPI = new NameAPI(this);
 		itemAPI = new ItemAPI(this);
 		dropAPI = new DropAPI(this);
 		entityAPI = new EntityAPI(this);
+		effectAPI = new EffectAPI(this);
 		new TierBuilder(this).build();
 		new CustomBuilder(this).build();
-		getTierAPI().debugTiers();
+		new EffectBuilder(this).build();
+		if (pluginSettings.isDebugOnStartup()) {
+			pluginSettings.debugSettings();
+			getTierAPI().debugTiers();
+			getDropAPI().debugCustomItems();
+			getEffectAPI().debugItemEffects();
+		}
 		getCommand("mythicdrops").setExecutor(new MythicDropsCommand(this));
 		getServer().getPluginManager().registerEvents(new EntityListener(this),
 				this);

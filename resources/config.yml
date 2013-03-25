@@ -17,6 +17,7 @@ options:
   customItemsOnly: false
   customDropChance: 0.1
   autoUpdate: false
+  debugOnStartup: false
 spawnPrevention:
   spawnEgg: true
   spawner: true
@@ -34,4 +35,4 @@ worlds:
   - world
   - world_nether
   - world_the_end
-version: 0.3-pre
+version: 0.4-pre
