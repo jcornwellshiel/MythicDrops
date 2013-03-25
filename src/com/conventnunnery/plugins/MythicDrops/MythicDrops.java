@@ -11,12 +11,12 @@
 package com.conventnunnery.plugins.MythicDrops;
 
 import com.conventnunnery.plugins.MythicDrops.api.*;
-import com.conventnunnery.plugins.MythicDrops.builders.CustomBuilder;
 import com.conventnunnery.plugins.MythicDrops.builders.EffectBuilder;
-import com.conventnunnery.plugins.MythicDrops.builders.TierBuilder;
 import com.conventnunnery.plugins.MythicDrops.command.MythicDropsCommand;
 import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
 import com.conventnunnery.plugins.MythicDrops.listeners.EntityListener;
+import com.modcrafting.diablodrops.builders.CustomBuilder;
+import com.modcrafting.diablodrops.builders.TierBuilder;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.BukkitMetricsLite;
