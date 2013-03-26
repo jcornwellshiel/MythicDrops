@@ -77,6 +77,20 @@ public class ConfigurationManager {
 				configurations.put(config, effects);
 				break;
 
+			case REPAIR:
+				CommentedYamlConfiguration repair = new CommentedYamlConfiguration(
+						new File(plugin.getDataFolder(), config.filename));
+				saveDefaults(repair, config);
+				configurations.put(config, repair);
+				break;
+
+			case REPAIR_ITEMS:
+				CommentedYamlConfiguration repairItems = new CommentedYamlConfiguration(
+						new File(plugin.getDataFolder(), config.filename));
+				saveDefaults(repairItems, config);
+				configurations.put(config, repairItems);
+				break;
+
 			default:
 				break;
 		}
@@ -148,7 +162,7 @@ public class ConfigurationManager {
 
 		CONFIG("config.yml"), ADVANCED_CONFIG("advanced_config.yml"), LANGUAGE(
 				"language.yml"), TIER("tier.yml"), CUSTOM_ITEM(
-				"custom_items.yml"), EFFECTS("effects.yml");
+				"custom_items.yml"), EFFECTS("effects.yml"), REPAIR("repair.yml"), REPAIR_ITEMS("repair_items.yml");
 		public final String filename;
 
 		private ConfigurationFile(String path) {

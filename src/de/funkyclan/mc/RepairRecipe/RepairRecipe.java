@@ -1,20 +1,13 @@
-/*
- * Copyright (c) 2013. ToppleTheNun
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 package de.funkyclan.mc.RepairRecipe;
 
 import com.conventnunnery.plugins.MythicDrops.MythicDrops;
+import com.conventnunnery.plugins.MythicDrops.configuration.ConfigurationManager;
 import de.funkyclan.mc.RepairRecipe.Listener.CraftingListener;
 import de.funkyclan.mc.RepairRecipe.Recipe.ShapelessRepairRecipe;
 import net.minecraft.server.v1_5_R2.Packet103SetSlot;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_5_R2.inventory.CraftItemStack;
 import org.bukkit.entity.HumanEntity;
@@ -30,27 +23,23 @@ public class RepairRecipe {
 
 	public RepairRecipe(MythicDrops plugin) {
 		this.plugin = plugin;
+
+		getPlugin().getServer().getPluginManager().registerEvents(new CraftingListener(this), getPlugin());
+
+		repairRecipes = new HashSet<ShapelessRepairRecipe>();
+		addRecipes();
+
+		if (repairRecipes.size() == 0) {
+			return;
+		}
 	}
 
 	public MythicDrops getPlugin() {
 		return plugin;
 	}
 
-	public Set<ShapelessRepairRecipe> getRepairRecipes() {
+	public Set<ShapelessRepairRecipe> getRecipes() {
 		return repairRecipes;
-	}
-
-	public void onEnable() {
-
-		getPlugin().getServer().getPluginManager().registerEvents(new CraftingListener(this), getPlugin());
-
-
-		repairRecipes = new HashSet<ShapelessRepairRecipe>();
-
-		if (repairRecipes.size() == 0) {
-			return;
-		}
-
 	}
 
 	public ShapelessRepairRecipe getRepairRecipeFor(ItemStack itemStack) {
@@ -80,5 +69,31 @@ public class RepairRecipe {
 		}
 	}
 
+	private void addRecipes() {
+		FileConfiguration fc = getPlugin().getConfigurationManager().getConfiguration(
+				ConfigurationManager.ConfigurationFile.REPAIR_ITEMS);
+		for (String key : fc.getKeys(false)) {
+			if (!fc.isConfigurationSection(key))
+				continue;
+			ConfigurationSection cs = fc.getConfigurationSection(key);
+			Material item = Material.matchMaterial(key);
+			if (item == null) {
+				continue;
+			}
+
+			Material baseItem = Material.matchMaterial(cs.getString("base_item"));
+			if (baseItem == null) {
+				continue;
+			}
+
+			int baseAmount = cs.getInt("base_amount");
+
+			ShapelessRepairRecipe recipe = new ShapelessRepairRecipe(item, baseItem, baseAmount, this);
+
+			repairRecipes.add(recipe);
+
+			getPlugin().getServer().addRecipe(recipe);
+		}
+	}
 
 }

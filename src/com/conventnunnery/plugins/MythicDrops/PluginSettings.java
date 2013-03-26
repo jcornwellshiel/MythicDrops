@@ -39,9 +39,63 @@ public class PluginSettings {
 	private Map<String, List<String>> ids = new HashMap<String, List<String>>();
 	private Map<String, Double> advancedMobSpawnWithItemChance = new HashMap<String, Double>();
 	private List<String> advancedToolTipFormat = new ArrayList<String>();
+	private boolean repair_allowOverRepair;
+	private int repair_keepEnchantmentsChance;
+	private int repair_enchantMultiplier;
+	private double repair_discount;
+	private boolean repair_useHighestEnchant;
+	private boolean repair_enabled;
 
 	public PluginSettings(MythicDrops plugin) {
 		this.plugin = plugin;
+	}
+
+	public boolean isRepairEnabled() {
+		return repair_enabled;
+	}
+
+	public void setRepairEnabled(boolean repair_enabled) {
+		this.repair_enabled = repair_enabled;
+	}
+
+	public boolean isRepairAllowOverRepair() {
+		return repair_allowOverRepair;
+	}
+
+	public void setRepairAllowOverRepair(boolean repair_allowOverRepair) {
+		this.repair_allowOverRepair = repair_allowOverRepair;
+	}
+
+	public int getRepairKeepEnchantmentsChance() {
+		return repair_keepEnchantmentsChance;
+	}
+
+	public void setRepairKeepEnchantmentsChance(int repair_keepEnchantmentsChance) {
+		this.repair_keepEnchantmentsChance = repair_keepEnchantmentsChance;
+	}
+
+	public int getRepairEnchantMultiplier() {
+		return repair_enchantMultiplier;
+	}
+
+	public void setRepairEnchantMultiplier(int repair_enchantMultiplier) {
+		this.repair_enchantMultiplier = repair_enchantMultiplier;
+	}
+
+	public double getRepairDiscount() {
+		return repair_discount;
+	}
+
+	public void setRepairDiscount(double repair_discount) {
+		this.repair_discount = repair_discount;
+	}
+
+	public boolean getRepairUseHighestEnchant() {
+		return repair_useHighestEnchant;
+	}
+
+	public void setRepairUseHighestEnchant(boolean repair_useHighestEnchant) {
+		this.repair_useHighestEnchant = repair_useHighestEnchant;
 	}
 
 	public boolean isDebugOnStartup() {
@@ -351,6 +405,19 @@ public class PluginSettings {
 					.set("tooltips.format.lines", toolTipFormat);
 		}
 		setAdvancedToolTipFormat(toolTipFormat);
+		setRepairEnabled(getPlugin().getConfigurationManager().getConfiguration(ConfigurationFile.REPAIR)
+				.getBoolean("repair-enabled"));
+		setRepairAllowOverRepair(getPlugin().getConfigurationManager().getConfiguration(ConfigurationFile.REPAIR)
+				.getBoolean("allow-over-repair"));
+		setRepairKeepEnchantmentsChance(
+				getPlugin().getConfigurationManager().getConfiguration(ConfigurationFile.REPAIR)
+						.getInt("keep-enchantments-chance"));
+		setRepairEnchantMultiplier(getPlugin().getConfigurationManager().getConfiguration(ConfigurationFile.REPAIR)
+				.getInt("enchant-multiplier"));
+		setRepairDiscount(getPlugin().getConfigurationManager().getConfiguration(ConfigurationFile.REPAIR)
+				.getInt("discount"));
+		setRepairUseHighestEnchant(getPlugin().getConfigurationManager().getConfiguration(ConfigurationFile.REPAIR)
+				.getBoolean("use-highest-enchant"));
 		getPlugin().getConfigurationManager().saveConfig();
 	}
 }

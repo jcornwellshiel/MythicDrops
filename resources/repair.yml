@@ -1,0 +1,7 @@
+repair-enabled: true
+allow-over-repair: false
+keep-enchantments-chance: 100
+enchant-multiplier: 100
+discount: 10
+use-highest-enchant: false
+version: 0.1-pre
